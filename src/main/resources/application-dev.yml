@@ -1,10 +1,11 @@
 spring:
   datasource:
     username:
-    password:
+    password: 
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/MYBLOG
 
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.root2z.model.entity
