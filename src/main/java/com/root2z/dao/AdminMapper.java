@@ -1,7 +1,10 @@
 package com.root2z.dao;
 
 import com.root2z.model.entity.Admin;
+import io.lettuce.core.dynamic.annotation.Param;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface AdminMapper {
   int deleteByPrimaryKey(Integer id);
 
@@ -29,4 +32,13 @@ public interface AdminMapper {
    * @return
    */
   Integer totalCount();
+
+  /**
+   * 根据用户ID更新密码
+   * @param ReNewPassword
+   * @param loginUserId
+   * @return
+   */
+  int updateById(
+      @Param("ReNewPassword") String ReNewPassword, @Param("loginUserId") Integer loginUserId);
 }

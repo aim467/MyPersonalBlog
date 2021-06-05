@@ -11,4 +11,13 @@ public interface AdminService {
    * @return
    */
   int countUser();
+
+  /**
+   * 根据用户ID更新密码
+   *
+   * @param ReNewPassword
+   * @param loginUserId
+   * @return
+   */
+  int updatePassword(String ReNewPassword, Integer loginUserId);
 }

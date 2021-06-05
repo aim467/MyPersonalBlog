@@ -27,4 +27,10 @@ public class AdminServiceImpl implements AdminService {
   public int countUser() {
     return adminMapper.totalCount();
   }
+
+  @Override
+  public int updatePassword(String RewNewPassword, Integer loginUserId) {
+    String ReNewPasswordHash = MD5Utils.MD5Encode(RewNewPassword, "");
+    return adminMapper.updateById(ReNewPasswordHash, loginUserId);
+  }
 }

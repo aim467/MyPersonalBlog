@@ -89,4 +89,30 @@ public class AdminController extends BaseController {
     session.invalidate();
     return "redirect:/admin/login";
   }
+
+  @RequestMapping("/password")
+  public String password() {
+    return "admin/editPass";
+  }
+
+  @RequestMapping(value = "/password", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultVO updatePassword(
+      @RequestParam("newPassword") String newPassword,
+      @RequestParam("ReNewPassword") String reNewPassword,
+      @RequestParam("oldPassword") String oldPassword) {
+    if (newPassword.equals("") || reNewPassword.equals("") || oldPassword.equals("")) {
+      return ResultUtil.error(400, "没有填写数据");
+    } else if (newPassword != reNewPassword) {
+      return ResultUtil.error(400, "密码不一致");
+    }
+
+    Integer loginUserId = (Integer) session.getAttribute("loginUserId");
+
+    int result = adminService.updatePassword(reNewPassword, loginUserId);
+    if (result == 0) {
+      return ResultUtil.error(400, "更新失败");
+    }
+    return ResultUtil.success("更新成功", "");
+  }
 }
