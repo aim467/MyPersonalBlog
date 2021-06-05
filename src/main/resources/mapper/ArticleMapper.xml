@@ -20,7 +20,7 @@
     content
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -32,11 +32,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.root2z.model.entity.Article">
-    insert into article (id, title, introduce, 
-      author, publish_time, update_time, 
+    insert into article (id, title, introduce,
+      author, publish_time, update_time,
       status, content)
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{introduce,jdbcType=VARCHAR}, 
-      #{author,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{introduce,jdbcType=VARCHAR},
+      #{author,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
       #{status,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.root2z.model.entity.Article">
@@ -142,4 +142,8 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <select id="totalCount" resultType="java.lang.Integer">
+        select count(*) from article
+    </select>
 </mapper>

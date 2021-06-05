@@ -14,4 +14,10 @@ public interface MessageMapper {
     int updateByPrimaryKeySelective(Message record);
 
     int updateByPrimaryKey(Message record);
+
+    /**
+     * 留言统计
+     * @return
+     */
+    int totalCount();
 }

@@ -90,4 +90,8 @@
       description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="totalCount" resultType="java.lang.Integer">
+    select count(*) from friend
+  </select>
 </mapper>

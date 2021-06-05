@@ -26,4 +26,9 @@ public class LogServiceImpl implements LogService {
     log.setLoginTime(new Date());
     logMapper.insert(log);
   }
+
+  @Override
+  public int countLog() {
+    return logMapper.totalCount();
+  }
 }

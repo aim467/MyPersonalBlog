@@ -103,4 +103,7 @@
       parent_id = #{parentId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="totalCount" resultType="java.lang.Integer">
+    select count(*) from comment
+  </select>
 </mapper>

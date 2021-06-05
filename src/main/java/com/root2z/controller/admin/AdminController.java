@@ -1,35 +1,21 @@
 package com.root2z.controller.admin;
 
+import com.root2z.controller.BaseController;
 import com.root2z.model.entity.Admin;
 import com.root2z.model.vo.ResultVO;
-import com.root2z.service.AdminService;
-import com.root2z.service.LogService;
 import com.root2z.utils.IPUtils;
 import com.root2z.utils.ResultUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value = "/admin")
-public class AdminController {
-
-  private final AdminService userService;
-
-  private final LogService logService;
-
-  @Autowired
-  public AdminController(AdminService userService, LogService logService) {
-    this.userService = userService;
-    this.logService = logService;
-  }
+public class AdminController extends BaseController {
 
   @RequestMapping("/login")
   public String login() {
@@ -37,12 +23,11 @@ public class AdminController {
   }
 
   /**
-   * 进行登录动作 允许登录的时候进行跨域
+   * 正真的登录动作
    *
    * @param username
    * @param password
    * @param verifyCode
-   * @param session
    * @return
    */
   @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -50,9 +35,7 @@ public class AdminController {
   public ResultVO doLogin(
       @RequestParam("username") String username,
       @RequestParam("password") String password,
-      @RequestParam("verifyCode") String verifyCode,
-      HttpSession session,
-      HttpServletRequest request) {
+      @RequestParam("verifyCode") String verifyCode) {
     // 构造器
     if (StringUtils.isEmpty(verifyCode)) {
       return ResultUtil.error(400, "验证码不能为空");
@@ -66,7 +49,7 @@ public class AdminController {
       return ResultUtil.error(400, "验证码错误");
     }
 
-    Admin adminUser = userService.login(username, password);
+    Admin adminUser = adminService.login(username, password);
     if (adminUser != null) {
       session.setAttribute("loginUser", adminUser.getUsername());
       session.setAttribute("loginUserId", adminUser.getId());
@@ -87,7 +70,23 @@ public class AdminController {
   }
 
   @RequestMapping("/index")
-  public String index() {
-    return "admin/index";
+  public ModelAndView index() {
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.addObject("userCount", adminService.countUser());
+    modelAndView.addObject("articleCount", articleService.countArticle());
+    modelAndView.addObject("tagCount", tagService.countTag());
+    modelAndView.addObject("categoryCount", categoryService.countCategory());
+    modelAndView.addObject("commentCount", commentService.countComment());
+    modelAndView.addObject("friendCount", friendService.countFriend());
+    modelAndView.addObject("logCount", logService.countLog());
+    modelAndView.addObject("messageCount", messageService.countMessage());
+    modelAndView.setViewName("admin/index");
+    return modelAndView;
+  }
+
+  @RequestMapping("/logout")
+  public String logout() {
+    session.invalidate();
+    return "redirect:/admin/login";
   }
 }

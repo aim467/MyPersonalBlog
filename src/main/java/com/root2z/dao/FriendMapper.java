@@ -14,4 +14,10 @@ public interface FriendMapper {
     int updateByPrimaryKeySelective(Friend record);
 
     int updateByPrimaryKey(Friend record);
+
+    /**
+     * 统计友链数
+     * @return
+     */
+    int totalCount();
 }

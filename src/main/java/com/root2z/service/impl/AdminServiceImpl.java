@@ -22,4 +22,9 @@ public class AdminServiceImpl implements AdminService {
     String passwordHash = MD5Utils.MD5Encode(password, "");
     return adminMapper.selectByUserNameAndPassword(username, passwordHash);
   }
+
+  @Override
+  public int countUser() {
+    return adminMapper.totalCount();
+  }
 }

@@ -136,4 +136,10 @@
         from admin
         where username = #{username,jdbcType=INTEGER} and password = #{password,jdbcType=INTEGER} and status = 1
     </select>
+
+    <select id="totalCount" resultType="java.lang.Integer">
+        select
+        count(*)
+        from admin
+    </select>
 </mapper>

@@ -17,7 +17,6 @@ public class IPUtils {
    * @return
    */
   public static String getIpAddr(HttpServletRequest request) {
-    System.out.println(request);
     String ipAddress;
     try {
       ipAddress = request.getHeader("x-forwarded-for");

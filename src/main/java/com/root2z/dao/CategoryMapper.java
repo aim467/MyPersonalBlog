@@ -3,15 +3,22 @@ package com.root2z.dao;
 import com.root2z.model.entity.Category;
 
 public interface CategoryMapper {
-    int deleteByPrimaryKey(Integer id);
+  int deleteByPrimaryKey(Integer id);
 
-    int insert(Category record);
+  int insert(Category record);
 
-    int insertSelective(Category record);
+  int insertSelective(Category record);
 
-    Category selectByPrimaryKey(Integer id);
+  Category selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Category record);
+  int updateByPrimaryKeySelective(Category record);
 
-    int updateByPrimaryKey(Category record);
+  int updateByPrimaryKey(Category record);
+
+  /**
+   * 统计分类数
+   *
+   * @return
+   */
+  int totalCount();
 }

@@ -8,4 +8,11 @@ public interface LogService {
    * @param username
    */
   void addRecord(String username, String ipaddress);
+
+  /**
+   * 统计日志数
+   *
+   * @return
+   */
+  int countLog();
 }

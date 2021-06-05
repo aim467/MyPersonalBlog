@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+
+<div th:fragment="LeftSide">
+    <!--左侧导航-->
+    <aside class="lyear-layout-sidebar">
+
+        <!-- logo -->
+        <div id="logo" class="sidebar-header">
+            <a href="index.html"><img src="images/logo-sidebar.png" title="LightYear" alt="LightYear"/></a>
+        </div>
+        <div class="lyear-layout-sidebar-scroll">
+
+            <nav class="sidebar-main">
+                <ul class="nav nav-drawer">
+                    <li class="nav-item"><a href="index.html"><i class="mdi mdi-home"></i> 博客后台</a></li>
+                    <li class="nav-item nav-item-has-subnav">
+                        <a href="javascript:void(0)"><i class="mdi mdi-palette"></i> 文章</a>
+                        <ul class="nav nav-subnav">
+                            <li><a href="lyear_ui_buttons.html">按钮</a></li>
+                            <li><a href="lyear_ui_cards.html">卡片</a></li>
+                            <li><a href="lyear_ui_grid.html">格栅</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item nav-item-has-subnav">
+                        <a href="javascript:void(0)"><i class="mdi mdi-format-align-justify"></i> 评论</a>
+                        <ul class="nav nav-subnav">
+                            <li><a href="lyear_forms_elements.html">基本元素</a></li>
+                            <li><a href="lyear_forms_radio.html">单选框</a></li>
+                            <li><a href="lyear_forms_checkbox.html">复选框</a></li>
+                            <li><a href="lyear_forms_switch.html">开关</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item nav-item-has-subnav active open">
+                        <a href="javascript:void(0)"><i class="mdi mdi-file-outline"></i> 友链</a>
+                        <ul class="nav nav-subnav">
+                            <li class="active"><a href="lyear_pages_doc.html">文档列表</a></li>
+                            <li><a href="lyear_pages_gallery.html">图库列表</a></li>
+                            <li><a href="lyear_pages_config.html">网站配置</a></li>
+                            <li><a href="lyear_pages_rabc.html">设置权限</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item nav-item-has-subnav">
+                        <a href="javascript:void(0)"><i class="mdi mdi-language-javascript"></i> 标签</a>
+                        <ul class="nav nav-subnav">
+                            <li><a href="lyear_js_datepicker.html">日期选取器</a></li>
+                            <li><a href="lyear_js_sliders.html">滑块</a></li>
+                            <li><a href="lyear_js_colorpicker.html">选色器</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item nav-item-has-subnav">
+                        <a href="javascript:void(0)"><i class="mdi mdi-language-javascript"></i> 分类</a>
+                        <ul class="nav nav-subnav">
+                            <li><a href="lyear_js_datepicker.html">日期选取器</a></li>
+                            <li><a href="lyear_js_sliders.html">滑块</a></li>
+                            <li><a href="lyear_js_colorpicker.html">选色器</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item nav-item-has-subnav">
+                        <a href="javascript:void(0)"><i class="mdi mdi-language-javascript"></i> 用户</a>
+                        <ul class="nav nav-subnav">
+                            <li><a href="lyear_js_datepicker.html">日期选取器</a></li>
+                            <li><a href="lyear_js_sliders.html">滑块</a></li>
+                            <li><a href="lyear_js_colorpicker.html">选色器</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <p class="copyright">Copyright &copy; 2019. <a target="_blank" href="http://lyear.itshubao.com">IT书包</a>
+                    All
+                    rights reserved.</p>
+            </div>
+        </div>
+
+    </aside>
+    <!--End 左侧导航-->
+</div>
+
+</body>
+</html>

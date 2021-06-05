@@ -18,8 +18,15 @@ public interface AdminMapper {
   /**
    * 根据用户名查询用户，并且是查询已激活的
    *
-   * @param userName
+   * @param username
    * @return
    */
   Admin selectByUserNameAndPassword(String username, String password);
+
+  /**
+   * 统计用户数
+   *
+   * @return
+   */
+  Integer totalCount();
 }

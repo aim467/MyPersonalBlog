@@ -14,4 +14,10 @@ public interface CommentMapper {
     int updateByPrimaryKeySelective(Comment record);
 
     int updateByPrimaryKey(Comment record);
+
+    /**
+     * 统计评论数
+     * @return
+     */
+    int totalCount();
 }
