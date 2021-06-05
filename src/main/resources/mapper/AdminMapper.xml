@@ -128,8 +128,6 @@
             status      = #{status,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
     </update>
-
-
     <select id="selectByUserNameAndPassword" resultType="com.root2z.model.entity.Admin">
         select
         <include refid="Base_Column_List"/>
@@ -138,8 +136,17 @@
     </select>
 
     <select id="totalCount" resultType="java.lang.Integer">
-        select
-        count(*)
+        select count(*)
         from admin
     </select>
+
+
+    <!--
+    根据用户ID更新密码
+    -->
+    <update id="updateById">
+        update admin
+        set password = #{ReNewPassword,jdbcType=VARCHAR}
+        where id = #{loginUserId,jdbcType=INTEGER}
+    </update>
 </mapper>
