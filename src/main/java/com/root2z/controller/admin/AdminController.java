@@ -2,7 +2,9 @@ package com.root2z.controller.admin;
 
 import com.root2z.controller.BaseController;
 import com.root2z.model.entity.Admin;
+import com.root2z.model.vo.AdminVO;
 import com.root2z.model.vo.ResultVO;
+import com.root2z.utils.FileUtils;
 import com.root2z.utils.IPUtils;
 import com.root2z.utils.ResultUtil;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -23,7 +26,7 @@ public class AdminController extends BaseController {
   }
 
   /**
-   * 正真的登录动作
+   * 真正的登录动作
    *
    * @param username
    * @param password
@@ -53,14 +56,13 @@ public class AdminController extends BaseController {
     if (adminUser != null) {
       session.setAttribute("loginUser", adminUser.getUsername());
       session.setAttribute("loginUserId", adminUser.getId());
-      session.setAttribute("loginNickName", adminUser.getNickname());
       session.setAttribute("avatar", adminUser.getAvatar());
       // session过期时间设置为7200秒 即两小时
       session.setMaxInactiveInterval(60 * 60 * 2);
 
       String ipaddress = IPUtils.getIpAddr(request);
 
-      // 在查询出记录之后再擦入登录日志
+      // 在查询出记录之后再插入登录日志
       logService.addRecord(adminUser.getUsername(), ipaddress);
 
       return ResultUtil.success("登录成功", null);
@@ -107,12 +109,69 @@ public class AdminController extends BaseController {
       return ResultUtil.error(400, "密码不一致");
     }
 
-    Integer loginUserId = (Integer) session.getAttribute("loginUserId");
+    String loginUser = (String) session.getAttribute("loginUser");
 
-    int result = adminService.updatePassword(reNewPassword, loginUserId);
+    int result = adminService.updatePassword(reNewPassword, loginUser);
     if (result == 0) {
       return ResultUtil.error(400, "更新失败");
     }
     return ResultUtil.success("更新成功", "");
+  }
+
+  @RequestMapping("/profile")
+  public ModelAndView profile() {
+    ModelAndView mv = new ModelAndView();
+    mv.setViewName("admin/profile");
+    String loginUser = (String) session.getAttribute("loginUser");
+    mv.addObject("currentUser", adminService.getCurrentUser(loginUser));
+    return mv;
+  }
+
+  /**
+   * ` 更新管理员信息 头像上传和信息分两个视图 头像使用 ajax上传时 返回结果赋值到 value 里面 同时，如果进入 profile页面的时候 填充好表单信息
+   *
+   * @return
+   */
+  @RequestMapping(value = "/profile", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultVO updateProfile(AdminVO adminVO) {
+    System.out.println(adminVO);
+    int result = adminService.updateAdmin(adminVO);
+    if (result == 0) {
+      return ResultUtil.error(400, "更新失败");
+    }
+    return ResultUtil.success("更新成功", null);
+  }
+
+  /**
+   * 上传完图片再回显图片地址
+   *
+   * @return
+   */
+  @RequestMapping(value = "/picture", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultVO uploadPicture(@RequestParam("fileName") MultipartFile file) {
+
+    // 获取单文件名
+    String fileName = file.getOriginalFilename();
+
+    // 判断文件类型
+    String fileType = file.getContentType();
+
+    // 判断文件类型
+    if (fileType.equals("image/jpeg")
+        || fileType.equals("image/png")
+        || fileType.equals("image/jpeg")) {
+
+      String randomFileName = FileUtils.upload(file, fileName);
+
+      if (randomFileName.equals("")) {
+        return ResultUtil.error("上传失败", null);
+      } else {
+        String relativePath = "/Image/" + randomFileName;
+        return ResultUtil.success("图片上传成功!", relativePath);
+      }
+    }
+    return ResultUtil.error("文件类型不支持", null);
   }
 }

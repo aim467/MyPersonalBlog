@@ -2960,6 +2960,14 @@ dd, dt {
     align-self: center;
     margin: 0px 20px;
 }
+.avatar-divider.display-flex{
+    display: flex;
+}
+.edit-avatar.item-center,
+.avatar-divider.item-center{
+    align-items: center;
+}
+
 .edit-avatar-content {
     display: inline-block;
 }

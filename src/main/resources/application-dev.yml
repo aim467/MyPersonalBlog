@@ -1,7 +1,7 @@
 spring:
   datasource:
     username:
-    password:
+    password: 
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/MYBLOG
   thymeleaf:
@@ -10,7 +10,15 @@ spring:
     restart:
       enabled: true
       additional-paths: scr/main/java
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 40MB
+
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.root2z.model.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

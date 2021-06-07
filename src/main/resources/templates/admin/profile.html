@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>后台管理</title>
+    <link rel="icon" href="favicon.ico" type="image/ico">
+    <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
+    <meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
+    <meta name="author" content="yinqi">
+    <link th:href="@{/admin/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/admin/css/materialdesignicons.min.css}" rel="stylesheet">
+    <link th:href="@{/admin/css/style.min.css}" rel="stylesheet">
+</head>
+
+<body>
+<div class="lyear-layout-web">
+    <div class="lyear-layout-container">
+
+
+        <!--
+        侧边栏
+        -->
+        <div th:insert="@{admin/leftSide} :: LeftSide">
+
+        </div>
+
+        <!--
+        顶部头部
+        -->
+        <div th:insert="@{admin/header} :: Header">
+
+        </div>
+
+
+        <!--页面主要内容-->
+        <main class="lyear-layout-content">
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <hr>
+                                <form class="site-form">
+
+                                    <div class="form-group-lg p-b-10">
+                                        <div class="edit-avatar item-center">
+                                            <img th:src="${currentUser.avatar}" alt="..." class="img-avatar">
+                                            <div class="avatar-divider display-flex item-center">
+                                                <input type="file" id="fileName" name="fileName" class="p-r-10"/>
+                                                <button type="button" class="btn btn-primary" id="uploadImage">上传新照片
+                                                </button>
+                                            </div>
+                                            <input type="url" name="avatar" id="avatar" hidden="hidden"
+                                                   th:value="${currentUser.avatar}"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="text" name="id" id="id"
+                                               th:value="${currentUser.getId()}" hidden="hidden">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="username">用户名</label>
+                                        <input type="text" class="form-control" name="username" id="username"
+                                               th:value="${currentUser.username}"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nickname">昵称</label>
+                                        <input type="text" class="form-control" name="nickname" id="nickname"
+                                               placeholder="输入您的昵称" th:value="${currentUser.nickname}">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="email">邮箱</label>
+                                        <input type="email" class="form-control" name="email" id="email"
+                                               placeholder="请输入你的邮箱" th:value="${currentUser.email}">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="intro">自我简介</label>
+                                        <textarea placeholder="这个人很懒，什么都没留下" class="form-control" id="intro" rows="3"
+                                                  name="intro" th:text="${currentUser.intro}">
+
+                                        </textarea>
+                                    </div>
+
+
+                                    <button type="button" class="btn btn-primary" id="update">保存</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+        <!--End 页面主要内容-->
+    </div>
+</div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+<script type="text/javascript" th:src="@{/admin/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/perfect-scrollbar.min.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/main.min.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/utils.js}"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/limonte-sweetalert2/10.16.6/sweetalert2.all.js"></script>
+<script>
+    /**
+     * 上传新头像
+     */
+    $('#uploadImage').click(function () {
+        let formData = new FormData();
+        formData.append("fileName", $('#fileName').get(0).files[0]);
+        $.ajax({
+            url: "/admin/picture",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.hasOwnProperty("data") && data.code === 200) {
+                    $('.img-avatar').attr("src", data.data);
+                    $('.uploadImage').attr("disabled", true).css("cursor", "not-allowed");
+                    $('#avatar').attr("value", data.data);
+                } else if (data.code === 400) {
+                    Swal.fire({
+                        title: data.message,
+                        icon: 'error'
+                    })
+                    $('#fileName').val("");
+                }
+            }
+        })
+    });
+
+
+    /**
+     * 更新用户信息
+     */
+    $('#update').click(function () {
+        $.ajax({
+            async: true,
+            type: "POST",
+            url: "/admin/profile",
+            data: $('.site-form').serialize(),
+            success: function (data) {
+                if (data.code === 200) {
+                    Swal.fire({
+                        title: data.message,
+                        icon: 'success'
+                    });
+                    setTimeout(function () {
+                    }, 1000);
+                    window.location.href = "/admin/logout";
+                } else if (data.code == 400) {
+                    Swal.fire({
+                        title: data.message,
+                        icon: 'error'
+                    });
+                    $('.site-form').trigger("reset");
+                }
+            }
+        });
+    });
+</script>
+<script>
+</script>
+</body>
+</html>

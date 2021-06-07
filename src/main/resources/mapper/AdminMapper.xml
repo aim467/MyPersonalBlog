@@ -7,19 +7,26 @@
         <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="intro" jdbcType="VARCHAR" property="intro"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
     </resultMap>
     <sql id="Base_Column_List">
         id
-        , nickname, avatar, username, password, create_time, update_time, status
+        , nickname, avatar, username, password, email, intro, create_time, update_time, status
     </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
+    <select id="selectByUserName" parameterType="java.lang.String" resultType="com.root2z.model.vo.AdminVO">
+        select id,
+               nickname,
+               username,
+               avatar,
+               email,
+               intro
         from admin
-        where id = #{id,jdbcType=INTEGER}
+        where username = #{loginUser,jdbcType=VARCHAR}
+          and status = 1
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -29,10 +36,11 @@
     </delete>
     <insert id="insert" parameterType="com.root2z.model.entity.Admin">
         insert into admin (id, nickname, avatar,
-                           username, password, create_time,
+                           username, password, email, intro, create_time,
                            update_time, status)
         values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR},
-                #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+                #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+                #{email,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
                 #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" parameterType="com.root2z.model.entity.Admin">
@@ -52,6 +60,12 @@
             </if>
             <if test="password != null">
                 password,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="intro != null">
+                intro,
             </if>
             <if test="createTime != null">
                 create_time,
@@ -79,6 +93,12 @@
             <if test="password != null">
                 #{password,jdbcType=VARCHAR},
             </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="intro != null">
+                #{intro,jdbcType=VARCHAR},
+            </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
             </if>
@@ -105,6 +125,12 @@
             <if test="password != null">
                 password = #{password,jdbcType=VARCHAR},
             </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                intro = #{intro,jdbcType=VARCHAR},
+            </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
@@ -123,6 +149,8 @@
             avatar      = #{avatar,jdbcType=VARCHAR},
             username    = #{username,jdbcType=VARCHAR},
             password    = #{password,jdbcType=VARCHAR},
+            email       = #{email,jdbcType=VARCHAR},
+            intro       = #{intro,jdbcType=VARCHAR},
             create_time = #{createTime,jdbcType=TIMESTAMP},
             update_time = #{updateTime,jdbcType=TIMESTAMP},
             status      = #{status,jdbcType=INTEGER}
@@ -142,11 +170,24 @@
 
 
     <!--
-    根据用户ID更新密码
+    根据用户名更新密码
     -->
-    <update id="updateById">
+    <update id="updateByUserName">
         update admin
         set password = #{ReNewPassword,jdbcType=VARCHAR}
-        where id = #{loginUserId,jdbcType=INTEGER}
+        where username = #{username,jdbcType=VARCHAR}
+    </update>
+
+    <!--
+    根据ID更新用户信息
+    -->
+    <update id="updateUserById" parameterType="com.root2z.model.vo.AdminVO">
+        update admin
+        set nickname = #{nickname,jdbcType=VARCHAR},
+            avatar   = #{avatar,jdbcType=VARCHAR},
+            username = #{username,jdbcType=VARCHAR},
+            email    = #{email,jdbcType=VARCHAR},
+            intro    = #{intro,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
     </update>
 </mapper>

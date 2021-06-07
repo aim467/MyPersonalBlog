@@ -3,83 +3,119 @@ package com.root2z.model.entity;
 import java.util.Date;
 
 public class Admin {
-    private Integer id;
+  private Integer id;
 
-    private String nickname;
+  private String nickname;
 
-    private String avatar;
+  private String avatar;
 
-    private String username;
+  private String username;
 
-    private String password;
+  private String password;
 
-    private Date createTime;
+  private String email;
 
-    private Date updateTime;
+  private String intro;
 
-    private Integer status;
+  private Date createTime;
 
-    public Integer getId() {
-        return id;
-    }
+  private Date updateTime;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  private Integer status;
 
-    public String getNickname() {
-        return nickname;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : nickname.trim();
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public String getAvatar() {
-        return avatar;
-    }
+  public String getNickname() {
+    return nickname;
+  }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar == null ? null : avatar.trim();
-    }
+  public void setNickname(String nickname) {
+    this.nickname = nickname == null ? null : nickname.trim();
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public String getAvatar() {
+    return avatar;
+  }
 
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
-    }
+  public void setAvatar(String avatar) {
+    this.avatar = avatar == null ? null : avatar.trim();
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
+  public void setUsername(String username) {
+    this.username = username == null ? null : username.trim();
+  }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+  public void setPassword(String password) {
+    this.password = password == null ? null : password.trim();
+  }
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public Integer getStatus() {
-        return status;
-    }
+  public String getIntro() {
+    return intro;
+  }
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+  public void setIntro(String intro) {
+    this.intro = intro;
+  }
+
+  public Date getCreateTime() {
+    return createTime;
+  }
+
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
+
+  public Date getUpdateTime() {
+    return updateTime;
+  }
+
+  public void setUpdateTime(Date updateTime) {
+    this.updateTime = updateTime;
+  }
+
+  public Integer getStatus() {
+    return status;
+  }
+
+  public void setStatus(Integer status) {
+    this.status = status;
+  }
+
+  @Override
+  public String toString() {
+    return "Admin{" +
+            "id=" + id +
+            ", nickname='" + nickname + '\'' +
+            ", avatar='" + avatar + '\'' +
+            ", username='" + username + '\'' +
+            ", password='" + password + '\'' +
+            ", email='" + email + '\'' +
+            ", intro='" + intro + '\'' +
+            ", createTime=" + createTime +
+            ", updateTime=" + updateTime +
+            ", status=" + status +
+            '}';
+  }
 }

@@ -1,6 +1,7 @@
 package com.root2z.dao;
 
 import com.root2z.model.entity.Admin;
+import com.root2z.model.vo.AdminVO;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,7 +13,7 @@ public interface AdminMapper {
 
   int insertSelective(Admin record);
 
-  Admin selectByPrimaryKey(Integer id);
+  AdminVO selectByUserName(String loginUser);
 
   int updateByPrimaryKeySelective(Admin record);
 
@@ -35,10 +36,19 @@ public interface AdminMapper {
 
   /**
    * 根据用户ID更新密码
+   *
    * @param ReNewPassword
-   * @param loginUserId
+   * @param username
    * @return
    */
-  int updateById(
-      @Param("ReNewPassword") String ReNewPassword, @Param("loginUserId") Integer loginUserId);
+  int updateByUserName(
+      @Param("ReNewPassword") String ReNewPassword, @Param("username") String username);
+
+  /**
+   * 更新用户信息
+   *
+   * @param adminVO
+   * @return
+   */
+  int updateUserById(AdminVO adminVO);
 }
