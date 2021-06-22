@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>编辑友链</title>
+    <link rel="icon" href="favicon.ico" type="image/ico">
+    <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
+    <meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
+    <meta name="author" content="yinqi">
+    <link th:href="@{/admin/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/admin/css/materialdesignicons.min.css}" rel="stylesheet">
+    <link th:href="@{/admin/css/style.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="lyear-layout-web">
+    <div class="lyear-layout-container">
+
+
+        <!--
+        侧边栏
+        -->
+        <div th:insert="@{admin/leftSide} :: LeftSide">
+
+        </div>
+
+        <!--
+        顶部头部
+        -->
+        <div th:insert="@{admin/header} :: Header">
+
+        </div>
+
+
+        <!--页面主要内容-->
+        <main class="lyear-layout-content">
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <hr>
+                                <form class="form-horizontal" id="update_link">
+
+
+                                    <div class="form-group">
+
+                                        <input type="hidden" class="form-control" name="id" th:value="${friend.id}"/>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="name" class="col-md-3 control-label">请输入友链名字</label>
+                                        <div class="col-md-7 ">
+                                            <input type="text" class="form-control" name="name" id="name"
+                                                   placeholder="请输入友链名字" th:value="${friend.name}"/>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group ">
+                                        <label for="url" class="col-md-3 control-label">请输入友链链接</label>
+                                        <div class="col-md-7">
+                                            <input type="text" class="form-control col-xs-9" name="url" id="url"
+                                                   placeholder="输入友情链接" th:value="${friend.url}">
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="form-group ">
+                                        <label for="avatar" class="col-md-3 control-label">请输入友链头像url</label>
+                                        <div class="col-md-7">
+                                            <input type="url" class="form-control" name="avatar" id="avatar"
+                                                   placeholder="请输入友链头像" th:value="${friend.avatar}">
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="description" class="col-md-3 control-label">请输入友情链接描述</label>
+                                        <div class="col-md-7">
+                                            <textarea placeholder="请输入友情链接描述" class="form-control" id="description"
+                                                      rows="3"
+                                                      name="description" th:text="${friend.description}">
+                                        </textarea>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-md-offset-3">
+                                            <button type="button" class="btn btn-primary" id="update">保存</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+        <!--End 页面主要内容-->
+    </div>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+<script type="text/javascript" th:src="@{/admin/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/perfect-scrollbar.min.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/main.min.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/utils.js}"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/limonte-sweetalert2/10.16.6/sweetalert2.all.js"></script>
+<script>
+    $('#update').click(function () {
+        $.ajax({
+            url: "/admin/links/update",
+            type: "POST",
+            data: $('#update_link').serialize(),
+            success: function (data) {
+                Swal.fire({
+                    title: data.message,
+                    icon: "success"
+                })
+                setTimeout(function () {
+                }, 3000);
+                window.location.href = "/admin/links";
+            }
+        })
+    });
+</script>
+</body>
+</html>

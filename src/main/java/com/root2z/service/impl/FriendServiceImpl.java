@@ -28,8 +28,46 @@ public class FriendServiceImpl implements FriendService {
   @Override
   public PageInfo<Friend> pageQueryFriend(int pageNum, int pageSize) {
     PageHelper.startPage(pageNum, pageSize);
+    // 第二次分页就无效了
     List<Friend> friendList = friendMapper.findAll();
-    PageInfo pageInfo = new PageInfo<>(friendList);
-    return pageInfo;
+    return new PageInfo<Friend>(friendList);
+  }
+
+  /**
+   * 根据友链ID删除友链
+   *
+   * @param id
+   * @return
+   */
+  @Override
+  public boolean deleteFriendById(Integer id) {
+    return friendMapper.deleteByPrimaryKey(id) == 1;
+  }
+
+  /**
+   * 插入一条友情链接记录
+   *
+   * @param friend
+   * @return
+   */
+  @Override
+  public boolean addFriend(Friend friend) {
+    return friendMapper.insertSelective(friend) == 1;
+  }
+
+  /**
+   * 根据友情链接找到ID
+   *
+   * @param id
+   * @return
+   */
+  @Override
+  public Friend getFriendById(Integer id) {
+    return friendMapper.selectByPrimaryKey(id);
+  }
+
+  @Override
+  public boolean updateFriend(Friend friend) {
+    return friendMapper.updateByPrimaryKey(friend) == 1;
   }
 }

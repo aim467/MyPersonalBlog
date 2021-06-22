@@ -1,9 +1,11 @@
 package com.root2z.dao;
 
 import com.root2z.model.entity.Friend;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+@Mapper
 public interface FriendMapper {
   int deleteByPrimaryKey(Integer id);
 
