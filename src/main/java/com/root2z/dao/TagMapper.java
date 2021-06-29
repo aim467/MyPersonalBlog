@@ -1,11 +1,16 @@
 package com.root2z.dao;
 
 import com.root2z.model.entity.Tag;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
+@Mapper
 public interface TagMapper {
   int deleteByPrimaryKey(Integer id);
 
-  int insert(Tag record);
+  int insert(@Param("name") String name);
 
   int insertSelective(Tag record);
 
@@ -21,4 +26,11 @@ public interface TagMapper {
    * @return
    */
   int totalCount();
+
+  /**
+   * 找到所有的标签记录
+   *
+   * @return List<Tag>
+   */
+  List<Tag> findAll();
 }
