@@ -67,4 +67,9 @@
         <include refid="Base_Column_List"/>
         from category
     </select>
+    <select id="selectByName" resultType="com.root2z.model.entity.Category">
+        select
+        <include refid="Base_Column_List"/>
+        from category where name=#{name,jdbcType=VARCHAR}
+    </select>
 </mapper>

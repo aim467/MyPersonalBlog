@@ -3,6 +3,8 @@ package com.root2z.service;
 import com.github.pagehelper.PageInfo;
 import com.root2z.model.entity.Tag;
 
+import java.util.List;
+
 public interface TagService {
 
   /**
@@ -29,7 +31,6 @@ public interface TagService {
    */
   boolean deleteTag(Integer id);
 
-
   Tag getTagById(Integer id);
 
   /**
@@ -40,12 +41,18 @@ public interface TagService {
    */
   boolean addTag(String name);
 
-
   /**
    * 更新Tag
+   *
    * @param tag
    * @return
    */
   boolean updateTag(Tag tag);
 
+  /**
+   * 拿到所有标签
+   *
+   * @return
+   */
+  List<Tag> getAllTags();
 }

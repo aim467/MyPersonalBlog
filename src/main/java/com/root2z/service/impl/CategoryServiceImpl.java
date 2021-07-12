@@ -72,4 +72,9 @@ public class CategoryServiceImpl implements CategoryService {
   public boolean updateCategoryById(Category category) {
     return categoryMapper.updateByPrimaryKey(category) == 1;
   }
+
+  @Override
+  public List<Category> getAllCategories() {
+    return categoryMapper.findAll();
+  }
 }

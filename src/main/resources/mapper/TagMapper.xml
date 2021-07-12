@@ -20,7 +20,7 @@
         from tag
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" parameterType="string">
+    <insert id="insert" parameterType="string" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into tag (`name`)
         values (#{name,jdbcType=VARCHAR})
     </insert>
@@ -67,4 +67,23 @@
         <include refid="Base_Column_List"/>
         from tag
     </select>
+    <!--  批量插入 -->
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into tag (name) values
+        <foreach collection="list" item="tag" separator=",">
+            (#{tag.name},jdbcType=VARCHAR)
+        </foreach>
+    </insert>
+
+    <select id="selectByName" resultType="com.root2z.model.entity.Tag">
+        select
+        <include refid="Base_Column_List"/>
+        from tag where name=#{name,jdbcType=VARCHAR}
+    </select>
+
+
+    <insert id="insertByName">
+        insert into tag (name) value (#(name,jdbcType=VARCHAR))
+    </insert>
+
 </mapper>

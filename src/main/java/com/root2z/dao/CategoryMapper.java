@@ -25,6 +25,8 @@ public interface CategoryMapper {
 
   int updateByPrimaryKey(Category record);
 
+  Category selectByName(String name);
+
   /**
    * 统计分类数
    *

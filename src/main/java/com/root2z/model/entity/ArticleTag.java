@@ -1,23 +1,31 @@
 package com.root2z.model.entity;
 
 public class ArticleTag {
-    private Integer articleId;
 
-    private Integer tagId;
+  public ArticleTag() {}
 
-    public Integer getArticleId() {
-        return articleId;
-    }
+  public ArticleTag(Integer articleId, Integer tagId) {
+    this.articleId = articleId;
+    this.tagId = tagId;
+  }
 
-    public void setArticleId(Integer articleId) {
-        this.articleId = articleId;
-    }
+  private Integer articleId;
 
-    public Integer getTagId() {
-        return tagId;
-    }
+  private Integer tagId;
 
-    public void setTagId(Integer tagId) {
-        this.tagId = tagId;
-    }
+  public Integer getArticleId() {
+    return articleId;
+  }
+
+  public void setArticleId(Integer articleId) {
+    this.articleId = articleId;
+  }
+
+  public Integer getTagId() {
+    return tagId;
+  }
+
+  public void setTagId(Integer tagId) {
+    this.tagId = tagId;
+  }
 }

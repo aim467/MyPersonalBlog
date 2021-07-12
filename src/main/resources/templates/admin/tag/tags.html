@@ -21,7 +21,7 @@
         <!--
                侧边栏
                -->
-        <div th:insert="@{admin/leftSide} :: LeftSide">
+        <div th:insert="@{admin/leftSide} :: LeftSide(active='tag')">
 
         </div>
 
@@ -65,7 +65,7 @@
                                                     </h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form id="tagForm" class="site-form">
+                                                    <form id="addTagForm" class="site-form">
                                                         <div class="form-group">
                                                             <label for="name">标签名字</label>
                                                             <input type="text" id="name" name="name"
@@ -269,7 +269,7 @@
         $.ajax({
             url: '/admin/tag/add',
             method: 'POST',
-            data: $('.site-form').serialize(),
+            data: $('#addTagForm').serialize(),
             success: function (data) {
                 if (data.code === 200) {
                     Swal.fire({
@@ -279,7 +279,7 @@
                     // 关闭模态框
                     $('#newTag').modal('hide');
                     // 清除数据
-                    $('.site-form').trigger('reset');
+                    $('#addTagForm').trigger('reset');
                     // 刷新表格
                     $('#tagTable').bootstrapTable('refresh');
 
@@ -288,7 +288,7 @@
                         title: data.message,
                         icon: "error"
                     })
-                    $('.site-form').trigger('reset');
+                    $('#addTagForm').trigger('reset');
                 }
             }
         })

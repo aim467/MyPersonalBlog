@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<div th:fragment="LeftSide">
+<div th:fragment="LeftSide(active)">
     <!--左侧导航-->
     <aside class="lyear-layout-sidebar">
 
@@ -24,15 +24,10 @@
 
             <nav class="sidebar-main">
                 <ul class="nav nav-drawer">
-                    <li class="nav-item"><a th:href="@{/admin/index}"><i class="mdi mdi-home"></i> 博客后台</a></li>
-                    <li class="nav-item nav-item-has-subnav">
-                        <a href="javascript:void(0)"><i class="mdi mdi-palette"></i> 文章</a>
-                        <ul class="nav nav-subnav">
-                            <li><a href="lyear_ui_buttons.html">按钮</a></li>
-                            <li><a href="lyear_ui_cards.html">卡片</a></li>
-                            <li><a href="lyear_ui_grid.html">格栅</a></li>
-                        </ul>
-                    </li>
+                    <li th:class="${active == 'index' ? 'nav-item active' : 'nav-item'}"><a th:href="@{/admin/index}"><i
+                            class="mdi mdi-home"></i> 博客后台</a></li>
+
+
                     <li class="nav-item nav-item-has-subnav">
                         <a href="javascript:void(0)"><i class="mdi mdi-format-align-justify"></i> 评论</a>
                         <ul class="nav nav-subnav">
@@ -42,7 +37,7 @@
                             <li><a href="lyear_forms_switch.html">开关</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item nav-item-has-subnav active open">
+                    <li class="nav-item nav-item-has-subnav">
                         <a href="javascript:void(0)"><i class="mdi mdi-file-outline"></i> 友链</a>
                         <ul class="nav nav-subnav">
                             <li class="active"><a href="lyear_pages_doc.html">文档列表</a></li>
@@ -60,15 +55,23 @@
                         </ul>
                     </li>
 
-                    <li class="nav-item">
+                    <li class="nav-item nav-item-has-subnav">
+                        <a href="javascript:void(0)"><i class="mdi mdi-palette"></i> 文章</a>
+                        <ul class="nav nav-subnav">
+                            <li><a th:href="@{/admin/article/add}">新增文章</a></li>
+                        </ul>
+                    </li>
+
+
+                    <li th:class="${active == 'category' ? 'nav-item active' : 'nav-item'}">
                         <a th:href="@{/admin/category}"><i class="mdi mdi-tag-text-outline "></i>分类管理</a>
                     </li>
 
-                    <li class="nav-item">
+                    <li th:class="${active == 'tag' ? 'nav-item active' : 'nav-item'}">
                         <a th:href="@{/admin/tag}"><i class="mdi mdi-tag "></i>标签管理</a>
                     </li>
 
-                    <li class="nav-item">
+                    <li th:class="${active == 'link' ? 'nav-item active' : 'nav-item'}">
                         <a th:href="@{/admin/links}"><i class="mdi mdi-link-variant"></i> 友情管理</a>
                     </li>
                 </ul>

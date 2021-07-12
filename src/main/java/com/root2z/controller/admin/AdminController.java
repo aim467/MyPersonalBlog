@@ -55,6 +55,7 @@ public class AdminController extends BaseController {
     Admin adminUser = adminService.login(username, password);
     if (adminUser != null) {
       session.setAttribute("loginUser", adminUser.getUsername());
+      session.setAttribute("nickName", adminUser.getNickname());
       session.setAttribute("loginUserId", adminUser.getId());
       session.setAttribute("avatar", adminUser.getAvatar());
       // session过期时间设置为7200秒 即两小时

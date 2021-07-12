@@ -3,6 +3,8 @@ package com.root2z.service;
 import com.github.pagehelper.PageInfo;
 import com.root2z.model.entity.Category;
 
+import java.util.List;
+
 public interface CategoryService {
 
   /**
@@ -44,4 +46,11 @@ public interface CategoryService {
    * @return
    */
   boolean updateCategoryById(Category category);
+
+  /**
+   * 拿到所有的分类
+   *
+   * @return
+   */
+  List<Category> getAllCategories();
 }
