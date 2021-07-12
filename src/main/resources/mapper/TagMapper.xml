@@ -81,9 +81,13 @@
         from tag where name=#{name,jdbcType=VARCHAR}
     </select>
 
-
     <insert id="insertByName">
         insert into tag (name) value (#(name,jdbcType=VARCHAR))
     </insert>
 
+    <select id="selectNameByArticleId" resultType="java.lang.String">
+        select tag.name
+        from tag
+        where id in (select tag_id from article_tag where article_id = #{articleId,jdbcType=INTEGER})
+    </select>
 </mapper>

@@ -14,13 +14,13 @@
         <result column="content" jdbcType="LONGVARCHAR" property="content"/>
     </resultMap>
     <sql id="Base_Column_List">
-        idx
+        id
         , title, introduce, author, publish_time, update_time, status
     </sql>
     <sql id="Blob_Column_List">
         content
     </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.root2z.model.vo.ArticleVO">
         select
         <include refid="Base_Column_List"/>
         ,
@@ -96,7 +96,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.root2z.model.entity.Article">
+    <update id="updateByPrimaryKeySelective" parameterType="com.root2z.model.vo.ArticleVO">
         update article
         <set>
             <if test="title != null">

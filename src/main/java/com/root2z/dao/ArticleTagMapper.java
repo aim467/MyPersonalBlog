@@ -1,8 +1,10 @@
 package com.root2z.dao;
 
 import com.root2z.model.entity.ArticleTag;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface ArticleTagMapper {
   int deleteByPrimaryKey(@Param("articleId") Integer articleId, @Param("tagId") Integer tagId);
 

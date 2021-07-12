@@ -2,6 +2,7 @@ package com.root2z.dao;
 
 import com.root2z.model.entity.Category;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -26,6 +27,8 @@ public interface CategoryMapper {
   int updateByPrimaryKey(Category record);
 
   Category selectByName(String name);
+
+  Category selectByArticleId(@Param("articleId") Integer articleId);
 
   /**
    * 统计分类数

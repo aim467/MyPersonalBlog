@@ -45,4 +45,6 @@ public interface TagMapper {
   Tag selectByName(Tag tag);
   
   int insertByName(Tag tag);
+
+  List<String> selectNameByArticleId(@Param("articleId") Integer articleId);
 }

@@ -1,5 +1,7 @@
 package com.root2z.service;
 
+import com.root2z.model.entity.Article;
+import com.root2z.model.entity.ArticleCategory;
 import com.root2z.model.vo.ArticleVO;
 
 public interface ArticleService {
@@ -20,4 +22,8 @@ public interface ArticleService {
   boolean addArticle(ArticleVO articleVO);
 
   boolean deleteArticle(Integer articleId);
+
+  boolean editArticle(ArticleVO articleVO);
+
+  ArticleVO getArticleInfo(Integer articleId);
 }

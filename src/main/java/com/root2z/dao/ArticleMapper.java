@@ -12,9 +12,9 @@ public interface ArticleMapper {
 
   int insertSelective(Article record);
 
-  Article selectByPrimaryKey(Integer id);
+  ArticleVO selectByPrimaryKey(Integer id);
 
-  int updateByPrimaryKeySelective(Article record);
+  int updateByPrimaryKeySelective(ArticleVO articleVO);
 
   int updateByPrimaryKeyWithBLOBs(Article record);
 

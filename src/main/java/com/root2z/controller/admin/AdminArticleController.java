@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.sql.ResultSet;
-
 /** TODO 文章列表的展示，文章的编辑，文章的分类与标签处理 */
 @Controller
 @RequestMapping("/admin")
@@ -79,5 +77,23 @@ public class AdminArticleController {
       return ResultUtil.success("删除文章成功!", null);
     }
     return ResultUtil.error("删除文章失败!", null);
+  }
+
+  /**
+   * 拿到当前的文章，回到编辑文章页面
+   *
+   * @param id
+   * @return
+   */
+  @RequestMapping(value = "/article/edit/{id}")
+  public ModelAndView editArticlePage(@PathVariable Integer id) {
+    ModelAndView mv = new ModelAndView();
+    mv.addObject("categories", categoryService.getAllCategories());
+    ArticleVO articleVO = articleService.getArticleInfo(id);
+    String tags = String.join(",", articleVO.getTags());
+    mv.addObject("tags", tags);
+    mv.addObject("editArticle", articleVO);
+    mv.setViewName("admin/article/edit");
+    return mv;
   }
 }

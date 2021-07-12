@@ -13,4 +13,7 @@ public interface ArticleCategoryMapper {
     int insertSelective(ArticleCategory record);
 
     int deleteByArticleId(@Param("articleId") Integer articleId);
+
+    ArticleCategory selectByArticleId(@Param("articleId") Integer articleId);
+
 }

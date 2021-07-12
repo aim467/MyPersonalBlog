@@ -1,10 +1,7 @@
 package com.root2z.service.impl;
 
 import com.root2z.dao.*;
-import com.root2z.model.entity.ArticleCategory;
-import com.root2z.model.entity.ArticleTag;
-import com.root2z.model.entity.Category;
-import com.root2z.model.entity.Tag;
+import com.root2z.model.entity.*;
 import com.root2z.model.vo.ArticleVO;
 import com.root2z.service.ArticleService;
 import org.slf4j.Logger;
@@ -15,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -134,5 +132,72 @@ public class ArticleServiceImpl implements ArticleService {
       return false;
     }
     return true;
+  }
+
+  @Override
+  public boolean editArticle(ArticleVO articleVO) {
+    HttpSession session = request.getSession();
+    articleVO.setAuthor((String) session.getAttribute("nickName"));
+    // 只需要设置更新时间
+    articleVO.setPublishTime(new Date());
+    // 更新文章，不会更新ID，这时直接就有ID
+    if (articleMapper.updateByPrimaryKeySelective(articleVO) == 0) {
+      return false;
+    }
+
+    // 中间工作，插入分类
+    // 设置新插入的分类列表
+    List<Tag> tags = new ArrayList<>();
+    for (String name : articleVO.getTags()) {
+      Tag tag = new Tag();
+      tag.setName(name);
+      tags.add(tag);
+    }
+
+    // 插入tag表和articleTag表
+    tags.forEach(
+        tag -> {
+          // 遍历每一个tag，确认是否存在
+          // 查到tag，有记录，没查到，没有记录
+          Tag existingTag = tagMapper.selectByName(tag);
+
+          // 说明存在tag
+          if (existingTag != null) {
+            // 往articleTag表插入关联对象
+            articleTagMapper.insert(new ArticleTag(articleVO.getId(), existingTag.getId()));
+
+          } else {
+            // 插入的同时获得主键ID
+            tagMapper.insertByName(tag);
+            articleTagMapper.insert(new ArticleTag(articleVO.getId(), tag.getId()));
+          }
+        });
+
+    // 拿到分类对象
+    Category category = categoryMapper.selectByName(articleVO.getCategory());
+    ArticleCategory articleCategory = new ArticleCategory();
+    // 重新关联文章分类表
+    articleCategory.setArticleId(articleVO.getId());
+    articleCategory.setCategoryId(category.getId());
+
+    if (articleCategoryMapper.insert(articleCategory) == 0) {
+      return false;
+    }
+
+    return true;
+  }
+
+  @Override
+  public ArticleVO getArticleInfo(Integer articleId) {
+    ArticleVO articleVO = articleMapper.selectByPrimaryKey(articleId);
+    // 设置分类
+    Category category = categoryMapper.selectByArticleId(articleId);
+    articleVO.setCategory(category.getName());
+
+    // 设置标签
+    List<String> tags = tagMapper.selectNameByArticleId(articleId);
+    articleVO.setTags(tags);
+
+    return articleVO;
   }
 }
