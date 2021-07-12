@@ -113,4 +113,26 @@ public class ArticleServiceImpl implements ArticleService {
     return true;
   }
 
+  /**
+   * 删除文章表，删除articleTag表，删除articleCategory表
+   *
+   * @param articleId
+   * @return
+   */
+  @Override
+  public boolean deleteArticle(Integer articleId) {
+    // 删除文章表
+    if (articleMapper.deleteByPrimaryKey(articleId) == 0) {
+      return false;
+    }
+    // 删除文章标签表
+    if (articleTagMapper.deleteByArticleId(articleId) == 0) {
+      return false;
+    }
+    // 删除文章分类表
+    if (articleCategoryMapper.deleteByArticleId(articleId) == 0) {
+      return false;
+    }
+    return true;
+  }
 }

@@ -18,4 +18,6 @@ public interface ArticleService {
    * @return
    */
   boolean addArticle(ArticleVO articleVO);
+
+  boolean deleteArticle(Integer articleId);
 }

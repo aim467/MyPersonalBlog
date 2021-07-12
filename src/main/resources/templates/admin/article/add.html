@@ -160,7 +160,6 @@
 
     $('#addArticle').click(function () {
         let article = $('#newArticle').serialize();
-        console.log(article);
         $.ajax({
             url: "/admin/article/add",
             method: "POST",

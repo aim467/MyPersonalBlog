@@ -66,4 +66,18 @@ public class AdminArticleController {
     }
     return ResultUtil.error("新增文章失败", null);
   }
+
+  /**
+   * 根据ID删除文章
+   *
+   * @return
+   */
+  @RequestMapping(value = "/article/delete/{id}", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultVO deleteArticle(@PathVariable Integer id) {
+    if (articleService.deleteArticle(id)) {
+      return ResultUtil.success("删除文章成功!", null);
+    }
+    return ResultUtil.error("删除文章失败!", null);
+  }
 }

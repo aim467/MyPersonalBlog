@@ -1,36 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.root2z.dao.ArticleTagMapper">
-  <resultMap id="BaseResultMap" type="com.root2z.model.entity.ArticleTag">
-    <id column="article_id" jdbcType="INTEGER" property="articleId" />
-    <id column="tag_id" jdbcType="INTEGER" property="tagId" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="map">
-    delete from article_tag
-    where article_id = #{articleId,jdbcType=INTEGER}
-      and tag_id = #{tagId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.root2z.model.entity.ArticleTag">
-    insert into article_tag (article_id, tag_id)
-    values (#{articleId,jdbcType=INTEGER}, #{tagId,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" parameterType="com.root2z.model.entity.ArticleTag">
-    insert into article_tag
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="articleId != null">
-        article_id,
-      </if>
-      <if test="tagId != null">
-        tag_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="articleId != null">
-        #{articleId,jdbcType=INTEGER},
-      </if>
-      <if test="tagId != null">
-        #{tagId,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
+    <resultMap id="BaseResultMap" type="com.root2z.model.entity.ArticleTag">
+        <id column="article_id" jdbcType="INTEGER" property="articleId"/>
+        <id column="tag_id" jdbcType="INTEGER" property="tagId"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="map">
+        delete
+        from article_tag
+        where article_id = #{articleId,jdbcType=INTEGER}
+          and tag_id = #{tagId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.root2z.model.entity.ArticleTag">
+        insert into article_tag (article_id, tag_id)
+        values (#{articleId,jdbcType=INTEGER}, #{tagId,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="com.root2z.model.entity.ArticleTag">
+        insert into article_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">
+                article_id,
+            </if>
+            <if test="tagId != null">
+                tag_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">
+                #{articleId,jdbcType=INTEGER},
+            </if>
+            <if test="tagId != null">
+                #{tagId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteByArticleId" parameterType="java.lang.Integer">
+        delete
+        from article_tag
+        where article_id = #{articleId,jdbcType=INTEGER}
+    </delete>
 </mapper>
