@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>文章列表</title>
+    <link rel="icon" th:href="@{favicon.ico}" type="image/ico">
+    <link th:href="@{/admin/css/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link th:href="@{/admin/css/materialdesignicons.min.css}" rel="stylesheet">
+    <link th:href="@{/admin/css/style.min.css}" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="lyear-layout-web">
+    <div class="lyear-layout-container">
+        <!--
+           侧边栏
+       -->
+        <div th:insert="@{admin/leftSide} :: LeftSide(active='add')">
+
+        </div>
+
+        <!--
+             顶部头部
+         -->
+        <div th:insert="@{admin/header} :: Header">
+
+        </div>
+
+
+        <!--页面主要内容-->
+        <main class="lyear-layout-content">
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div>
+                                        <a th:href="@{/admin/article/add}" class="btn btn-round btn-primary">新增文章</a>
+                                    </div>
+                                    <table id="articleTable"></table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+        <!--End 页面主要内容-->
+    </div>
+</div>
+<script type="text/javascript" th:src="@{/admin/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/bootstrap.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.18.3/dist/locale/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" th:src="@{/admin/js/perfect-scrollbar.min.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/main.min.js}"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/limonte-sweetalert2/10.16.6/sweetalert2.all.js"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script type="text/javascript">
+
+    let $table = $('#articleTable');
+    let index = '';
+
+    $table.bootstrapTable({
+        url: "/admin/articles", // 请求地址
+        method: 'POST',      // 请求方式
+        showColumns: false,  // 是否显示列操作按钮
+        striped: true,      // 设置为true会有隔行变色效果
+        pagination: true,   // 设置为true会在底部显示分页条
+        singleSelect: true, // 设置为true将禁止多选
+        clickToSelect: true, // 是否启用点击选中行
+        pageSize: 3, // 如果设置了分页，每页数据条数
+        pageNumber: 1, // 如果设置了分布，首页页码
+        pageList: [5, 10, 15], // 每页显示多少条数据
+        sidePagination: "server", // 设置在哪里进行分页，可选值为"client" 或者 "server"
+        idField: 'id', // 设置选择行的字段
+        locale: 'zh_CN', // 中文支持
+        sortOrder: "asc", // 排序方式为升序
+        showRefresh: "false", // 显示刷新按钮
+        uniqueId: "id", // 根据行的主键字段更新数据
+        // 设置自定义查询参数
+        queryParams: function (params) {
+            return {
+                // 说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
+                pageNum: (params.offset / params.limit) + 1,
+                pageSize: params.limit
+            };
+        },
+        // 双击点出编辑事件
+        onDbClickRow: function (row, $element) {
+            let id = row.id;
+            EditViewById(id, 'view');
+        },
+        // 定义列
+        columns: [{checkbox: true}, {
+            field: 'id',
+            title: 'id',
+            sortable: true,
+        }, {
+            field: 'title',
+            title: '文章标题',
+            sortable: true,
+        }, {
+            field: 'author',
+            title: '作者',
+            sortable: true,
+        }, {
+            field: 'status',
+            title: '文章状态',
+            sortable: true,
+            formatter: formatStatus
+        }, {
+            field: "id",
+            title: "操作",
+            width: 600,
+            align: "center",
+            // formatter为格式化表格事件
+            formatter: actionFormatter
+        }]
+    });
+
+    // 操作栏的格式化
+    function actionFormatter(value, row, index) {
+        let id = value;
+        let result = "";
+        result += "<a href='javascript:;' class='btn btn-round btn-brown m-r-5' onclick=\"EditViewById('" + id + "', view='view')\" title='编辑'><span>编辑</span></a>";
+        result += "<a href='javascript:;' class='btn btn-round btn-danger' onclick=\"DeleteByIds('" + id + "')\" title='删除'><span>删除</span></a>";
+        return result;
+    }
+
+    function EditViewById(id) {
+        location.href = "/admin/article/edit/" + id;
+    }
+
+    /**
+     * 根据ID删除文章
+     */
+    function DeleteByIds(id) {
+        $.ajax({
+            url: "/admin/article/delete/" + id,
+            method: 'POST',
+            success: function (data) {
+                if (data.code === 200) {
+                    Swal.fire({
+                        title: data.message,
+                        icon: "success"
+                    });
+                    $("#articleTable").bootstrapTable('refresh');
+                } else {
+                    Swal.fire({
+                        title: data.message,
+                        icon: "error"
+                    })
+                }
+            }
+        })
+    }
+
+
+    /**
+     * 格式化状态
+     * @param value 要赋值的东西
+     * @param row 当前行
+     * @param index 索引
+     * @returns {string}
+     */
+    function formatStatus(value, row, index) {
+        let id = row.id;
+        if (row.status === 1) {
+            let status = row.status;
+            return "<button onclick=\"save(" + id + "," + status + ")\" class='btn btn-primary btn-sm' id='status' type='button'>已发布</button>"
+        } else if (row.status === 0) {
+            let status = row.status;
+            return "<button onclick=\"save(" + id + "," + status + ")\" class='btn btn-grey btn-sm' id='status' type='button'>未发布</button>"
+        }
+    }
+
+    function save(id, status) {
+        let articleStatus = status === 1 ? 0 : 1;
+
+        $.ajax({
+            url: "/admin/article/status",
+            data: {"articleId": id, "status": articleStatus},
+            method: 'POST',
+            success: function (data) {
+                if (data.code === 200) {
+                    Swal.fire({
+                        title: data.message,
+                        icon: "success"
+                    });
+                    $("#articleTable").bootstrapTable('refresh');
+                } else {
+                    Swal.fire({
+                        title: data.message,
+                        icon: "error"
+                    })
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

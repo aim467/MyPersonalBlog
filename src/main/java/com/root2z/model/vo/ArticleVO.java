@@ -11,20 +11,21 @@ public class ArticleVO {
 
   private String author;
 
-  private String category;
-
   private String introduce;
-
-  private List<String> tags;
 
   private Integer status;
 
-  /** 存放Markdown内容 */
   private String content;
 
   private Date publishTime;
 
   private Date updateTime;
+
+  /** 非数据库字段 分类 */
+  private String category;
+
+  /** 非数据库字段 标签列表 */
+  private List<String> tags;
 
   public String getAuthor() {
     return author;

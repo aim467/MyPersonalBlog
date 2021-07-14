@@ -19,4 +19,12 @@ public interface ArticleTagMapper {
    * @return
    */
   int deleteByArticleId(@Param("articleId") Integer articleId);
+
+  /**
+   * 通过两个数据判断行是否存在
+   * @param articleId
+   * @param tagId
+   * @return
+   */
+  ArticleTag selectByAll(@Param("articleId") Integer articleId, @Param("tagId") Integer tagId);
 }

@@ -1,7 +1,7 @@
 package com.root2z.service;
 
+import com.github.pagehelper.PageInfo;
 import com.root2z.model.entity.Article;
-import com.root2z.model.entity.ArticleCategory;
 import com.root2z.model.vo.ArticleVO;
 
 public interface ArticleService {
@@ -25,5 +25,15 @@ public interface ArticleService {
 
   boolean editArticle(ArticleVO articleVO);
 
+  /**
+   * 拿到当前文章信息
+   *
+   * @param articleId
+   * @return
+   */
   ArticleVO getArticleInfo(Integer articleId);
+
+  PageInfo<Article> pageQuery(Integer pageNum, Integer pageSize);
+
+  boolean updateArticleStatus(Integer articleId, Integer status);
 }

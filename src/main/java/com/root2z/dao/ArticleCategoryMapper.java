@@ -6,14 +6,17 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface ArticleCategoryMapper {
-    int deleteByPrimaryKey(@Param("articleId") Integer articleId, @Param("categoryId") Integer categoryId);
+  int deleteByPrimaryKey(
+      @Param("articleId") Integer articleId, @Param("categoryId") Integer categoryId);
 
-    int insert(ArticleCategory record);
+  int insert(ArticleCategory record);
 
-    int insertSelective(ArticleCategory record);
+  int insertSelective(ArticleCategory record);
 
-    int deleteByArticleId(@Param("articleId") Integer articleId);
+  int deleteByArticleId(@Param("articleId") Integer articleId);
 
-    ArticleCategory selectByArticleId(@Param("articleId") Integer articleId);
+  ArticleCategory selectByArticleId(@Param("articleId") Integer articleId);
 
+  ArticleCategory selectByAll(
+      @Param("articleId") Integer articleId, @Param("categoryId") Integer categoryId);
 }

@@ -40,4 +40,11 @@
         from article_tag
         where article_id = #{articleId,jdbcType=INTEGER}
     </delete>
+
+    <select id="selectByAll" resultMap="BaseResultMap">
+        select article_id, tag_id
+        from article_tag
+        where article_id = #{articleId,jdbcType=INTEGER}
+          and tag_id = #{tagId,jdbcType=INTEGER}
+    </select>
 </mapper>

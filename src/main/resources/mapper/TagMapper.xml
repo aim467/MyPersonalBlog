@@ -81,8 +81,8 @@
         from tag where name=#{name,jdbcType=VARCHAR}
     </select>
 
-    <insert id="insertByName">
-        insert into tag (name) value (#(name,jdbcType=VARCHAR))
+    <insert id="insertByName" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into tag (name) value (#{name,jdbcType=VARCHAR})
     </insert>
 
     <select id="selectNameByArticleId" resultType="java.lang.String">

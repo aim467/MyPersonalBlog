@@ -138,6 +138,7 @@
 <script type="text/javascript" th:src="@{/admin/js/perfect-scrollbar.min.js}"></script>
 <script type="text/javascript" th:src="@{/admin/js/main.min.js}"></script>
 <script type="text/javascript" th:src="@{/editormd/editormd.min.js}"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/limonte-sweetalert2/10.16.6/sweetalert2.all.js"></script>
 <script>
     // 初始化MarkDown编辑器
     let contentEditor;
@@ -165,7 +166,17 @@
             method: "POST",
             data: article,
             success: function (data) {
-                console.log(data);
+                if (data.code === 200) {
+                    Swal.fire({
+                        title: data.message,
+                        icon: "success"
+                    })
+                } else {
+                    Swal.fire({
+                        title: data.message,
+                        icon: "error"
+                    })
+                }
             }
         })
     });

@@ -10,6 +10,7 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
     </resultMap>
+
     <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.root2z.model.entity.Article">
         <result column="content" jdbcType="LONGVARCHAR" property="content"/>
     </resultMap>
@@ -20,7 +21,7 @@
     <sql id="Blob_Column_List">
         content
     </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.root2z.model.vo.ArticleVO">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         ,
@@ -33,7 +34,7 @@
         from article
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" parameterType="com.root2z.model.vo.ArticleVO" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="com.root2z.model.entity.Article" useGeneratedKeys="true" keyProperty="id">
         insert into article (id, title, introduce,
                              author, publish_time, update_time,
                              status, content)
@@ -96,7 +97,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.root2z.model.vo.ArticleVO">
+    <update id="updateByPrimaryKeySelective" parameterType="com.root2z.model.entity.Article">
         update article
         <set>
             <if test="title != null">
@@ -149,4 +150,15 @@
         select count(*)
         from article
     </select>
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from article
+    </select>
+
+    <update id="updateStatusByPrimaryKey">
+        update article
+        set status=#{status,jdbcType=INTEGER}
+        where id = #{articleId,jdbcType=INTEGER}
+    </update>
 </mapper>
