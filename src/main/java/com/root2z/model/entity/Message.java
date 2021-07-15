@@ -3,73 +3,122 @@ package com.root2z.model.entity;
 import java.util.Date;
 
 public class Message {
-    private Integer id;
+  private Integer id;
 
-    private String author;
+  private String author;
 
-    private String avatar;
+  private String avatar;
 
-    private String url;
+  private String url;
 
-    private String content;
+  private String email;
 
-    private Date createTime;
+  private String content;
 
-    private Integer parentId;
+  private Date createTime;
 
-    public Integer getId() {
-        return id;
-    }
+  private Integer isActive;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  private Integer parentId;
 
-    public String getAuthor() {
-        return author;
-    }
+  public Integer getIsActive() {
+    return isActive;
+  }
 
-    public void setAuthor(String author) {
-        this.author = author == null ? null : author.trim();
-    }
+  public void setIsActive(Integer isActive) {
+    this.isActive = isActive;
+  }
 
-    public String getAvatar() {
-        return avatar;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar == null ? null : avatar.trim();
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public String getUrl() {
-        return url;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public String getContent() {
-        return content;
-    }
+  public String getAuthor() {
+    return author;
+  }
 
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
-    }
+  public void setAuthor(String author) {
+    this.author = author == null ? null : author.trim();
+  }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+  public String getAvatar() {
+    return avatar;
+  }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+  public void setAvatar(String avatar) {
+    this.avatar = avatar == null ? null : avatar.trim();
+  }
 
-    public Integer getParentId() {
-        return parentId;
-    }
+  public String getUrl() {
+    return url;
+  }
 
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
+  public void setUrl(String url) {
+    this.url = url == null ? null : url.trim();
+  }
+
+  public String getContent() {
+    return content;
+  }
+
+  public void setContent(String content) {
+    this.content = content == null ? null : content.trim();
+  }
+
+  public Date getCreateTime() {
+    return createTime;
+  }
+
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
+
+  public Integer getParentId() {
+    return parentId;
+  }
+
+  public void setParentId(Integer parentId) {
+    this.parentId = parentId;
+  }
+
+  @Override
+  public String toString() {
+    return "Message{"
+        + "id="
+        + id
+        + ", author='"
+        + author
+        + '\''
+        + ", avatar='"
+        + avatar
+        + '\''
+        + ", url='"
+        + url
+        + '\''
+        + ", email='"
+        + email
+        + '\''
+        + ", content='"
+        + content
+        + '\''
+        + ", createTime="
+        + createTime
+        + ", isActive="
+        + isActive
+        + ", parentId="
+        + parentId
+        + '}';
+  }
 }

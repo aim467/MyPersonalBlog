@@ -72,6 +72,12 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.11</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.0</version>
+        </dependency>
     </dependencies>
 
     <build>

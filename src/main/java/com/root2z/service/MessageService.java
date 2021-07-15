@@ -1,5 +1,8 @@
 package com.root2z.service;
 
+import com.github.pagehelper.PageInfo;
+import com.root2z.model.entity.Message;
+
 public interface MessageService {
 
   /**
@@ -8,4 +11,10 @@ public interface MessageService {
    * @return
    */
   int countMessage();
+
+  PageInfo<Message> pageQueryMessages(Integer pageNum, Integer pageSize);
+
+  boolean insertMessage(Message message);
+
+  boolean deleteMessage(Integer messageId);
 }

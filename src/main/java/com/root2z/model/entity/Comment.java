@@ -1,63 +1,84 @@
 package com.root2z.model.entity;
 
 public class Comment {
-    private Integer id;
+  private Integer id;
 
-    private String commentator;
+  private String commentator;
 
-    private String avatar;
+  private String avatar;
 
-    private String content;
+  private String content;
 
-    private Integer articleId;
+  private Integer articleId;
 
-    private Integer parentId;
+  private Integer parentId;
 
-    public Integer getId() {
-        return id;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public String getCommentator() {
-        return commentator;
-    }
+  public String getCommentator() {
+    return commentator;
+  }
 
-    public void setCommentator(String commentator) {
-        this.commentator = commentator == null ? null : commentator.trim();
-    }
+  public void setCommentator(String commentator) {
+    this.commentator = commentator == null ? null : commentator.trim();
+  }
 
-    public String getAvatar() {
-        return avatar;
-    }
+  public String getAvatar() {
+    return avatar;
+  }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar == null ? null : avatar.trim();
-    }
+  public void setAvatar(String avatar) {
+    this.avatar = avatar == null ? null : avatar.trim();
+  }
 
-    public String getContent() {
-        return content;
-    }
+  public String getContent() {
+    return content;
+  }
 
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
-    }
+  public void setContent(String content) {
+    this.content = content == null ? null : content.trim();
+  }
 
-    public Integer getArticleId() {
-        return articleId;
-    }
+  public Integer getArticleId() {
+    return articleId;
+  }
 
-    public void setArticleId(Integer articleId) {
-        this.articleId = articleId;
-    }
+  public void setArticleId(Integer articleId) {
+    this.articleId = articleId;
+  }
 
-    public Integer getParentId() {
-        return parentId;
-    }
+  public Integer getParentId() {
+    return parentId;
+  }
 
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
+  public void setParentId(Integer parentId) {
+    this.parentId = parentId;
+  }
+
+  @Override
+  public String toString() {
+    return "Comment{"
+        + "id="
+        + id
+        + ", commentator='"
+        + commentator
+        + '\''
+        + ", avatar='"
+        + avatar
+        + '\''
+        + ", content='"
+        + content
+        + '\''
+        + ", articleId="
+        + articleId
+        + ", parentId="
+        + parentId
+        + '}';
+  }
 }

@@ -46,14 +46,7 @@
                             <li><a href="lyear_pages_rabc.html">设置权限</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item nav-item-has-subnav">
-                        <a href="javascript:void(0)"><i class="mdi mdi-language-javascript"></i> 标签</a>
-                        <ul class="nav nav-subnav">
-                            <li><a href="lyear_js_datepicker.html">日期选取器</a></li>
-                            <li><a href="lyear_js_sliders.html">滑块</a></li>
-                            <li><a href="lyear_js_colorpicker.html">选色器</a></li>
-                        </ul>
-                    </li>
+
 
                     <li class="nav-item nav-item-has-subnav">
                         <a href="javascript:void(0)"><i class="mdi mdi-palette"></i> 文章</a>
@@ -64,6 +57,10 @@
                             <li><a th:href="@{/admin/articles}">文章列表</a></li>
                         </ul>
 
+                    </li>
+
+                    <li th:class="${active == 'message' ? 'nav-item active' : 'nav-item'}">
+                        <a th:href="@{/admin/message}"><i class="mdi mdi-message "></i>留言管理</a>
                     </li>
 
 
