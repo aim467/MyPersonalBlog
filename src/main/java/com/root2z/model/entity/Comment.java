@@ -1,5 +1,7 @@
 package com.root2z.model.entity;
 
+import java.util.Date;
+
 public class Comment {
   private Integer id;
 
@@ -9,9 +11,39 @@ public class Comment {
 
   private String content;
 
+  private Integer isActive;
+
+  private Date createTime;
+
   private Integer articleId;
 
   private Integer parentId;
+
+  private String email;
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public Integer getIsActive() {
+    return isActive;
+  }
+
+  public void setIsActive(Integer isActive) {
+    this.isActive = isActive;
+  }
+
+  public Date getCreateTime() {
+    return createTime;
+  }
+
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
 
   public Integer getId() {
     return id;
@@ -75,10 +107,17 @@ public class Comment {
         + ", content='"
         + content
         + '\''
+        + ", isActive="
+        + isActive
+        + ", createTime="
+        + createTime
         + ", articleId="
         + articleId
         + ", parentId="
         + parentId
+        + ", email='"
+        + email
+        + '\''
         + '}';
   }
 }

@@ -66,8 +66,6 @@ public class MessageServiceImpl implements MessageService {
     messageIds.add(messageId);
     // 然后传入自己的ID递归查询子回复
     recursionDelete(messageId);
-    System.out.println(messageIds);
-    //    return false;
     return messageMapper.deleteAllById(messageIds) > 0;
   }
 

@@ -1,5 +1,8 @@
 package com.root2z.service;
 
+import com.github.pagehelper.PageInfo;
+import com.root2z.model.entity.Comment;
+
 public interface CommentService {
 
   /**
@@ -8,4 +11,21 @@ public interface CommentService {
    * @return
    */
   int countComment();
+
+  PageInfo<Comment> pageQueryComment(Integer pageNum, Integer pageSize);
+
+  /**
+   * 回复评论
+   *
+   * @param comment
+   * @return
+   */
+  boolean replyComment(Comment comment);
+
+  /**
+   * 逻辑删除评论
+   *
+   * @return
+   */
+  boolean deleteComment(Integer commentId);
 }

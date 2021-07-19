@@ -28,28 +28,12 @@
                             class="mdi mdi-home"></i> 博客后台</a></li>
 
 
-                    <li class="nav-item nav-item-has-subnav">
-                        <a href="javascript:void(0)"><i class="mdi mdi-format-align-justify"></i> 评论</a>
-                        <ul class="nav nav-subnav">
-                            <li><a href="lyear_forms_elements.html">基本元素</a></li>
-                            <li><a href="lyear_forms_radio.html">单选框</a></li>
-                            <li><a href="lyear_forms_checkbox.html">复选框</a></li>
-                            <li><a href="lyear_forms_switch.html">开关</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item nav-item-has-subnav">
-                        <a href="javascript:void(0)"><i class="mdi mdi-file-outline"></i> 友链</a>
-                        <ul class="nav nav-subnav">
-                            <li class="active"><a href="lyear_pages_doc.html">文档列表</a></li>
-                            <li><a href="lyear_pages_gallery.html">图库列表</a></li>
-                            <li><a href="lyear_pages_config.html">网站配置</a></li>
-                            <li><a href="lyear_pages_rabc.html">设置权限</a></li>
-                        </ul>
+                    <li th:class="${active == 'comment' ? 'nav-item active' : 'nav-item'}">
+                        <a th:href="@{/admin/comment}"><i class="mdi mdi-format-align-justify"></i> 评论管理</a>
                     </li>
 
-
                     <li class="nav-item nav-item-has-subnav">
-                        <a href="javascript:void(0)"><i class="mdi mdi-palette"></i> 文章</a>
+                        <a href="javascript:void(0)"><i class="mdi mdi-palette"></i>文章管理</a>
                         <ul class="nav nav-subnav">
                             <li><a th:href="@{/admin/article/add}">新增文章</a></li>
                         </ul>
@@ -79,9 +63,8 @@
             </nav>
 
             <div class="sidebar-footer">
-                <p class="copyright">Copyright &copy; 2019. <a target="_blank" href="http://lyear.itshubao.com">IT书包</a>
-                    All
-                    rights reserved.</p>
+                <p class="copyright">Copyright &copy; 2021. <a target="_blank" href="http://localhost:8080">root2z</a>
+                    All rights reserved.</p>
             </div>
         </div>
 
