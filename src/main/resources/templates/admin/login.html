@@ -4,13 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <title>博客后台</title>
-    <link rel="icon" th:href="@{admin/favicon.ico}" type="image/ico">
-    <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
-    <meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
-    <meta name="author" content="yinqi">
-    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{css/materialdesignicons.min.css}" rel="stylesheet">
-    <link th:href="@{css/style.min.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/admin/favicon.ico}" type="image/ico">
+    <link th:href="@{/admin/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/admin/css/materialdesignicons.min.css}" rel="stylesheet">
+    <link th:href="@{/admin/css/style.min.css}" rel="stylesheet">
     <style>
         .lyear-wrapper {
             position: relative;
@@ -137,22 +134,22 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/bootstrap.min.js}"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
+    let contextPath = [[${#httpServletRequest.getContextPath()}]];
     $('#login').click(function () {
         $.ajax({
             type: "POST",
-            url: "/admin/login",
+            url: contextPath + "/admin/login",
             async: true,
             data: $('#loginForm').serialize(),
             success: function (data) {
                 if (data.code === 400) {
-                    $('#showMessage').addClass("alert alert-danger");
-                    $('#showMessage').text(data.message);
+                    $('#showMessage').addClass("alert alert-danger").text(data.message);
                 } else if (data.code === 200) {
-                    window.location.href = "/admin/index";
+                    window.location.href = contextPath + "/admin/index";
                 }
             }
         });

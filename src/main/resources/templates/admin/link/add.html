@@ -4,10 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <title>添加友链</title>
-    <link rel="icon" href="favicon.ico" type="image/ico">
-    <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
-    <meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
-    <meta name="author" content="yinqi">
+    <link rel="icon" href="favicon.ico" th:href="@{/admin/favicon.ico}" type="image/ico">
     <link th:href="@{/admin/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/admin/css/materialdesignicons.min.css}" rel="stylesheet">
     <link th:href="@{/admin/css/style.min.css}" rel="stylesheet">
@@ -94,10 +91,11 @@
 <script type="text/javascript" th:src="@{/admin/js/main.min.js}"></script>
 <script type="text/javascript" th:src="@{/admin/js/utils.js}"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/limonte-sweetalert2/10.16.6/sweetalert2.all.js"></script>
-<script>
+<script type="text/javascript" th:inline="javascript">
+    let contextPath = [[${#httpServletRequest.getContextPath()}]];
     $('#save').click(function () {
         $.ajax({
-            url: "/admin/links/add",
+            url: contextPath + "/admin/links/add",
             type: "POST",
             data: $('.site-form').serialize(),
             success: function (data) {
@@ -107,7 +105,7 @@
                 })
                 setTimeout(function () {
                 }, 3000);
-                window.location.href = "/admin/links";
+                window.location.href = contextPath + "/admin/links";
             }
         })
     });

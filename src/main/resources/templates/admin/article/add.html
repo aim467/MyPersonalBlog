@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <title>新增文章</title>
-    <link rel="icon" th:href="@{favicon.ico}" type="image/ico">
+    <link rel="icon" th:href="@{/admin/favicon.ico}" type="image/ico">
     <link th:href="@{/admin/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/admin/css/style.min.css}" rel="stylesheet">
     <link th:href="@{/admin/css/materialdesignicons.min.css}" rel="stylesheet">
@@ -25,7 +25,7 @@
         <!--
         侧边栏
         -->
-        <div th:insert="@{admin/leftSide} :: LeftSide(active='add')">
+        <div th:insert="@{admin/leftSide} :: LeftSide(active='article')">
         </div>
 
         <!--
@@ -139,7 +139,8 @@
 <script type="text/javascript" th:src="@{/admin/js/main.min.js}"></script>
 <script type="text/javascript" th:src="@{/editormd/editormd.min.js}"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/limonte-sweetalert2/10.16.6/sweetalert2.all.js"></script>
-<script>
+<script th:inline="javascript" type="text/javascript">
+    let contextPath = [[${#httpServletRequest.getContextPath()}]];
     // 初始化MarkDown编辑器
     let contentEditor;
     $(function () {
@@ -147,7 +148,7 @@
             width: "100%", // 宽度
             height: 640, // 高度
             syncScrolling: "single", // 是否单向滚动
-            path: "/editormd/lib/", // 插件路径，如果是多级路径记得加好上下文路径
+            path: contextPath + "/editormd/lib/", // 插件路径，如果是多级路径记得加好上下文路径
             placeholder: "写点什么", // 提示信息
             watch: false, // 是否开启预览
             tex: true, // 开启数学公式
@@ -162,7 +163,7 @@
     $('#addArticle').click(function () {
         let article = $('#newArticle').serialize();
         $.ajax({
-            url: "/admin/article/add",
+            url: contextPath + "/admin/article/add",
             method: "POST",
             data: article,
             success: function (data) {

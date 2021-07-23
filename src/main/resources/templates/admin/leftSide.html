@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>Admin</title>
+    <title th:text="${session.nickName}"></title>
 </head>
 <body>
 
@@ -32,7 +32,8 @@
                         <a th:href="@{/admin/comment}"><i class="mdi mdi-format-align-justify"></i> 评论管理</a>
                     </li>
 
-                    <li class="nav-item nav-item-has-subnav">
+                    <li class="nav-item nav-item-has-subnav"
+                        th:class="${active == 'article' ? 'nav-item nav-item-has-subnav active' : 'nav-item nav-item-has-subnav'}">
                         <a href="javascript:void(0)"><i class="mdi mdi-palette"></i>文章管理</a>
                         <ul class="nav nav-subnav">
                             <li><a th:href="@{/admin/article/add}">新增文章</a></li>

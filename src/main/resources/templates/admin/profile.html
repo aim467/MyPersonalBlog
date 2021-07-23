@@ -4,10 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <title>后台管理</title>
-    <link rel="icon" href="favicon.ico" type="image/ico">
-    <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
-    <meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
-    <meta name="author" content="yinqi">
+    <link rel="icon" href="favicon.ico" th:href="@{/admin/favicon.ico}" type="image/ico">
     <link th:href="@{/admin/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/admin/css/materialdesignicons.min.css}" rel="stylesheet">
     <link th:href="@{/admin/css/style.min.css}" rel="stylesheet">
@@ -43,7 +40,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <hr>
-                                <form class="site-form">
+                                <form class="site-form" id="profile">
 
                                     <div class="form-group-lg p-b-10">
                                         <div class="edit-avatar item-center">
@@ -107,14 +104,14 @@
     </div>
 </div>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
 <script type="text/javascript" th:src="@{/admin/js/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/admin/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/admin/js/perfect-scrollbar.min.js}"></script>
 <script type="text/javascript" th:src="@{/admin/js/main.min.js}"></script>
 <script type="text/javascript" th:src="@{/admin/js/utils.js}"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/limonte-sweetalert2/10.16.6/sweetalert2.all.js"></script>
-<script>
+<script type="text/javascript" th:inline="javascript">
+    let contextPath = [[${#httpServletRequest.getContextPath()}]];
     /**
      * 上传新头像
      */
@@ -122,13 +119,11 @@
         let formData = new FormData();
         formData.append("fileName", $('#fileName').get(0).files[0]);
         $.ajax({
-            url: "/admin/picture",
+            url: contextPath + "/admin/picture",
             type: "POST",
             contentType: false,
             processData: false,
             data: formData,
-            contentType: false,
-            processData: false,
             success: function (data) {
                 if (data.hasOwnProperty("data") && data.code === 200) {
                     $('.img-avatar').attr("src", data.data);
@@ -153,8 +148,8 @@
         $.ajax({
             async: true,
             type: "POST",
-            url: "/admin/profile",
-            data: $('.site-form').serialize(),
+            url: contextPath + "/admin/profile",
+            data: $('#profile').serialize(),
             success: function (data) {
                 if (data.code === 200) {
                     Swal.fire({
@@ -164,12 +159,12 @@
                     setTimeout(function () {
                     }, 1000);
                     window.location.href = "/admin/logout";
-                } else if (data.code == 400) {
+                } else if (data.code === 400) {
                     Swal.fire({
                         title: data.message,
                         icon: 'error'
                     });
-                    $('.site-form').trigger("reset");
+                    $('#profile').trigger("reset");
                 }
             }
         });
