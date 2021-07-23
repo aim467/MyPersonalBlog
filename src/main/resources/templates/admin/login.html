@@ -6,9 +6,20 @@
     <title>博客后台</title>
     <link rel="icon" th:href="@{/admin/favicon.ico}" type="image/ico">
     <link th:href="@{/admin/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/admin/css/bootstrapValidator.min.css}" rel="stylesheet">
     <link th:href="@{/admin/css/materialdesignicons.min.css}" rel="stylesheet">
     <link th:href="@{/admin/css/style.min.css}" rel="stylesheet">
     <style>
+        /* validator message color */
+        .has-error .help-block {
+            color: white;
+        }
+
+        /* validator input color */
+        .has-error .form-control {
+            border-color: #ff0509 !important;
+        }
+
         .lyear-wrapper {
             position: relative;
         }
@@ -95,10 +106,9 @@
             </div>
             <form method="post" id="loginForm">
 
-                <div class="form-group">
+                <div class="form-group" id="message">
                     <div class="form-group message">
                     </div>
-                    <div class="" id="showMessage"></div>
                 </div>
 
                 <div class="form-group has-feedback feedback-left">
@@ -116,7 +126,7 @@
                     </div>
                     <div class="col-xs-5">
                         <img th:src="@{/defaultKaptcha}" class="pull-right" id="captcha" style="cursor: pointer;"
-                             onclick="this.src='/defaultKaptcha?d'+new Date() * 1;" title="点击刷新" alt="captcha">
+                             title="点击刷新" alt="captcha">
                     </div>
                 </div>
                 <div class="form-group">
@@ -136,23 +146,96 @@
 </div>
 <script type="text/javascript" th:src="@{/admin/js/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/admin/js/bootstrap.min.js}"></script>
+<script th:src="@{/admin/js/bootstrapValidator.min.js}"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript" th:inline="javascript">
     let contextPath = [[${#httpServletRequest.getContextPath()}]];
-    $('#login').click(function () {
-        $.ajax({
-            type: "POST",
-            url: contextPath + "/admin/login",
-            async: true,
-            data: $('#loginForm').serialize(),
-            success: function (data) {
-                if (data.code === 400) {
-                    $('#showMessage').addClass("alert alert-danger").text(data.message);
-                } else if (data.code === 200) {
-                    window.location.href = contextPath + "/admin/index";
+
+    $(function () {
+        $('#loginForm').bootstrapValidator({
+            message: '字段不合法',
+            fields: {
+                username: {
+                    validators: {
+                        notEmpty: {
+                            message: "用户名不能为空"
+                        },
+                        stringLength: {
+                            min: 5,
+                            max: 10,
+                            message: "用户名长度在5-10之间"
+                        }
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: "密码不能为空"
+                        },
+                        stringLength: {
+                            min: 3,
+                            max: 10,
+                            message: "密码长度在3-10之间"
+                        }
+                    }
+                }, verifyCode: {
+                    validators: {
+                        notEmpty: {
+                            message: "验证码不能为空"
+                        },
+                        stringLength: {
+                            min: 4,
+                            max: 4,
+                            message: "长度在4位"
+                        }
+                    }
                 }
-            }
+            },
+            submitButtons: '#login'
         });
+    });
+
+    $("#captcha").click(function () {
+        this.src = contextPath + "/defaultKaptcha?d" + new Date() * 1;
+    });
+
+    /**
+     * execute login action
+     */
+    $('#login').click(function () {
+        let form = $('#loginForm');
+        form.data("bootstrapValidator").resetForm();
+        form.data("bootstrapValidator").validate();
+        form.bootstrapValidator('validate');
+        if (form.data('bootstrapValidator').isValid()) {
+            $.ajax({
+                type: "POST",
+                url: contextPath + "/admin/login",
+                async: true,
+                data: form.serialize(),
+                success: function (data) {
+                    if (data.code === 400) {
+                        let messages = JSON.parse(data.data);
+                        if (messages !== null) {
+                            for (let message of messages) {
+                                let messageArea = $('#message');
+                                let messageString = '<div class="" id="showMessage"></div>'
+                                let messageEle = $(messageString);
+                                messageArea.append(messageEle);
+                                $('#showMessage').addClass("alert alert-danger").text(message);
+                            }
+                        }
+                        let messageArea = $('#message');
+                        let messageString = '<div class="" id="showMessage"></div>'
+                        let messageEle = $(messageString);
+                        messageArea.append(messageEle);
+                        $('#showMessage').addClass("alert alert-danger").text(data.message);
+                    } else if (data.code === 200) {
+                        window.location.href = contextPath + "/admin/index";
+                    }
+                }
+            });
+        }
     });
 </script>
 </body>

@@ -1,14 +1,14 @@
 package com.root2z.controller.admin;
 
 import com.root2z.controller.BaseController;
-import com.root2z.model.entity.Admin;
 import com.root2z.model.vo.AdminVO;
+import com.root2z.model.vo.LoginUserVO;
 import com.root2z.model.vo.ResultVO;
 import com.root2z.utils.FileUtils;
-import com.root2z.utils.IPUtils;
 import com.root2z.utils.ResultUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,58 +18,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value = "/admin")
-public class AdminController extends BaseController {
+public class AdminController extends BaseController {\
 
   @RequestMapping("/login")
   public String login() {
     return "admin/login";
   }
 
-  /**
-   * 真正的登录动作
-   *
-   * @param username
-   * @param password
-   * @param verifyCode
-   * @return
-   */
+  /** 执行登录操作 */
   @RequestMapping(value = "/login", method = RequestMethod.POST)
   @ResponseBody
-  public ResultVO doLogin(
-      @RequestParam("username") String username,
-      @RequestParam("password") String password,
-      @RequestParam("verifyCode") String verifyCode) {
-    // 构造器
-    if (StringUtils.isEmpty(verifyCode)) {
-      return ResultUtil.error(400, "验证码不能为空");
-    }
-    if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-      return ResultUtil.error(400, "用户名或密码错误");
-    }
-
-    String kaptchaCode = session.getAttribute("verifyCode") + "";
-    if (StringUtils.isEmpty(kaptchaCode) || !verifyCode.equals(kaptchaCode)) {
-      return ResultUtil.error(400, "验证码错误");
-    }
-
-    Admin adminUser = adminService.login(username, password);
-    if (adminUser != null) {
-      session.setAttribute("loginUser", adminUser.getUsername());
-      session.setAttribute("nickName", adminUser.getNickname());
-      session.setAttribute("loginUserId", adminUser.getId());
-      session.setAttribute("avatar", adminUser.getAvatar());
-      // session过期时间设置为7200秒 即两小时
-      session.setMaxInactiveInterval(60 * 60 * 2);
-
-      String ipaddress = IPUtils.getIpAddr(request);
-
-      // 在查询出记录之后再插入登录日志
-      logService.addRecord(adminUser.getUsername(), ipaddress);
-
-      return ResultUtil.success("登录成功", null);
-    } else {
-      return ResultUtil.error("登录失败", null);
-    }
+  public ResultVO doLogin(@Validated LoginUserVO loginUserVO, BindingResult result) {
+    return adminService.login(loginUserVO, result, session, request);
   }
 
   @RequestMapping("/index")
