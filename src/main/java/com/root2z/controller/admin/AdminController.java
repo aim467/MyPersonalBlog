@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value = "/admin")
-public class AdminController extends BaseController {\
+public class AdminController extends BaseController {
 
   @RequestMapping("/login")
   public String login() {

@@ -1,3 +1,11 @@
 spring:
   profiles:
     active: dev
+
+aliyun:
+  bucketName:
+  urlPrefix:
+  region:
+  endpoint:
+  accessKeyId:
+  accessKeySecret:

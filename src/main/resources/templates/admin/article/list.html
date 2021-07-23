@@ -68,7 +68,7 @@
 <script src="https://cdn.bootcdn.net/ajax/libs/limonte-sweetalert2/10.16.6/sweetalert2.all.js"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script type="text/javascript" th:inline="javascript">
-
+    let contextPath = [[${#httpServletRequest.getContextPath()}]];
     let $table = $('#articleTable');
     let index = '';
 

@@ -22,19 +22,16 @@ import java.util.Map;
 @RequestMapping("/admin")
 public class AdminArticleController {
 
-  private Logger logger = LoggerFactory.getLogger(AdminArticleController.class);
+  private final Logger logger = LoggerFactory.getLogger(AdminArticleController.class);
 
   private final CategoryService categoryService;
 
   private final ArticleService articleService;
 
-  private final TagService tagService;
-
   @Autowired
   public AdminArticleController(
       CategoryService categoryService, TagService tagService, ArticleService articleService) {
     this.categoryService = categoryService;
-    this.tagService = tagService;
     this.articleService = articleService;
   }
 

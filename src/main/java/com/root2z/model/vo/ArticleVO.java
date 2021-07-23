@@ -1,5 +1,7 @@
 package com.root2z.model.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +22,12 @@ public class ArticleVO {
   private Date publishTime;
 
   private Date updateTime;
+
+  /** 文件对象 */
+  private MultipartFile coverImage;
+
+  /** 文件URL，删除会使用到 */
+  private String cover;
 
   /** 非数据库字段 分类 */
   private String category;
@@ -107,34 +115,37 @@ public class ArticleVO {
     this.tags = tags;
   }
 
+  public MultipartFile getCoverImage() {
+    return coverImage;
+  }
+
+  public void setCoverImage(MultipartFile coverImage) {
+    this.coverImage = coverImage;
+  }
+
+  public String getCover() {
+    return cover;
+  }
+
+  public void setCover(String cover) {
+    this.cover = cover;
+  }
+
   @Override
   public String toString() {
-    return "ArticleVO{"
-        + "id="
-        + id
-        + ", title='"
-        + title
-        + '\''
-        + ", author='"
-        + author
-        + '\''
-        + ", category='"
-        + category
-        + '\''
-        + ", introduce='"
-        + introduce
-        + '\''
-        + ", tags="
-        + tags
-        + ", status="
-        + status
-        + ", content='"
-        + content
-        + '\''
-        + ", publishTime="
-        + publishTime
-        + ", updateTime="
-        + updateTime
-        + '}';
+    return "ArticleVO{" +
+            "id=" + id +
+            ", title='" + title + '\'' +
+            ", author='" + author + '\'' +
+            ", introduce='" + introduce + '\'' +
+            ", status=" + status +
+            ", content='" + content + '\'' +
+            ", publishTime=" + publishTime +
+            ", updateTime=" + updateTime +
+            ", coverImage=" + coverImage +
+            ", cover='" + cover + '\'' +
+            ", category='" + category + '\'' +
+            ", tags=" + tags +
+            '}';
   }
 }

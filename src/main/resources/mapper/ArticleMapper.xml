@@ -5,6 +5,7 @@
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
         <result column="introduce" jdbcType="VARCHAR" property="introduce"/>
+        <result column="cover" jdbcType="VARCHAR" property="cover"/>
         <result column="author" jdbcType="VARCHAR" property="author"/>
         <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
@@ -16,7 +17,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         id
-        , title, introduce, author, publish_time, update_time, status
+        , title, cover, introduce, author, publish_time, update_time, status
     </sql>
     <sql id="Blob_Column_List">
         content
@@ -35,10 +36,11 @@
         where id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="com.root2z.model.entity.Article" useGeneratedKeys="true" keyProperty="id">
-        insert into article (id, title, introduce,
+        insert into article (id, title, cover, introduce,
                              author, publish_time, update_time,
                              status, content)
-        values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{introduce,jdbcType=VARCHAR},
+        values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR},
+                #{introduce,jdbcType=VARCHAR},
                 #{author,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
                 #{status,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
     </insert>
@@ -50,6 +52,9 @@
             </if>
             <if test="title != null">
                 title,
+            </if>
+            <if test="cover != null">
+                cover,
             </if>
             <if test="introduce != null">
                 introduce,
@@ -77,6 +82,9 @@
             <if test="title != null">
                 #{title,jdbcType=VARCHAR},
             </if>
+            <if test="cover != null">
+                #{cover,jdbcType=VARCHAR},
+            </if>
             <if test="introduce != null">
                 #{introduce,jdbcType=VARCHAR},
             </if>
@@ -103,6 +111,9 @@
             <if test="title != null">
                 title = #{title,jdbcType=VARCHAR},
             </if>
+            <if test="cover != null">
+                cover = #{cover,jdbcType=VARCHAR},
+            </if>
             <if test="introduce != null">
                 introduce = #{introduce,jdbcType=VARCHAR},
             </if>
@@ -127,6 +138,7 @@
     <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.root2z.model.entity.Article">
         update article
         set title        = #{title,jdbcType=VARCHAR},
+            cover        = #{cover,jdbcType=VARCHAR},
             introduce    = #{introduce,jdbcType=VARCHAR},
             author       = #{author,jdbcType=VARCHAR},
             publish_time = #{publishTime,jdbcType=TIMESTAMP},
@@ -138,6 +150,7 @@
     <update id="updateByPrimaryKey" parameterType="com.root2z.model.entity.Article">
         update article
         set title        = #{title,jdbcType=VARCHAR},
+            cover        = #{cover,jdbcType=VARCHAR},
             introduce    = #{introduce,jdbcType=VARCHAR},
             author       = #{author,jdbcType=VARCHAR},
             publish_time = #{publishTime,jdbcType=TIMESTAMP},

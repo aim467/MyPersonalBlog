@@ -7,6 +7,8 @@ public class Article {
 
   private String title;
 
+  private String cover;
+
   private String introduce;
 
   private String author;
@@ -83,6 +85,14 @@ public class Article {
     this.content = content == null ? null : content.trim();
   }
 
+  public String getCover() {
+    return cover;
+  }
+
+  public void setCover(String cover) {
+    this.cover = cover;
+  }
+
   @Override
   public String toString() {
     return "Article{"
@@ -90,6 +100,9 @@ public class Article {
         + id
         + ", title='"
         + title
+        + '\''
+        + ", cover='"
+        + cover
         + '\''
         + ", introduce='"
         + introduce

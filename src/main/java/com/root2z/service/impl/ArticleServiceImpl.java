@@ -6,6 +6,7 @@ import com.root2z.dao.*;
 import com.root2z.model.entity.*;
 import com.root2z.model.vo.ArticleVO;
 import com.root2z.service.ArticleService;
+import com.root2z.utils.AliyunOSSUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ import java.util.List;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
+
+  @Resource private AliyunOSSUtil aliyunOSSUtil;
 
   private final HttpServletRequest request;
 
@@ -32,9 +36,9 @@ public class ArticleServiceImpl implements ArticleService {
 
   private final ArticleCategoryMapper articleCategoryMapper;
 
-  @Autowired private ArticleTagMapper articleTagMapper;
+  private final ArticleTagMapper articleTagMapper;
 
-  private Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
+  private final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
   @Autowired
   public ArticleServiceImpl(
@@ -42,12 +46,14 @@ public class ArticleServiceImpl implements ArticleService {
       CategoryMapper categoryMapper,
       TagMapper tagMapper,
       HttpServletRequest request,
-      ArticleCategoryMapper articleCategoryMapper) {
+      ArticleCategoryMapper articleCategoryMapper,
+      ArticleTagMapper articleTagMapper) {
     this.articleMapper = articleMapper;
     this.tagMapper = tagMapper;
     this.categoryMapper = categoryMapper;
     this.request = request;
     this.articleCategoryMapper = articleCategoryMapper;
+    this.articleTagMapper = articleTagMapper;
   }
 
   @Override
@@ -69,6 +75,9 @@ public class ArticleServiceImpl implements ArticleService {
     // 设置当前发布文章的作者
     HttpSession session = request.getSession();
     articleVO.setAuthor((String) session.getAttribute("nickName"));
+
+    String cover = aliyunOSSUtil.uploadFile(articleVO.getCoverImage(), "");
+    articleVO.setCover(cover);
 
     // POJO与VO转换
     Article article = new Article();
@@ -154,6 +163,13 @@ public class ArticleServiceImpl implements ArticleService {
     articleVO.setAuthor((String) session.getAttribute("nickName"));
     // 只需要设置更新时间
     articleVO.setPublishTime(new Date());
+
+    // 先删除文件
+    aliyunOSSUtil.deleteFile(articleVO.getCover());
+
+    // 再上传文件
+    String cover = aliyunOSSUtil.uploadFile(articleVO.getCoverImage(), "");
+    articleVO.setCover(cover);
 
     Article article = new Article();
     BeanUtils.copyProperties(articleVO, article);
