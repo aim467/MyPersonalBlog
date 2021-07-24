@@ -8,14 +8,12 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
-import java.util.UUID;
 
 public class FileUtils {
 
   /**
    * @param file 文件
    * @param fileName 保存的文件名
-   * @return
    */
   public static String upload(MultipartFile file, String fileName) {
 
@@ -35,10 +33,7 @@ public class FileUtils {
       // 保存文件
       file.transferTo(dest);
       return randomFileName;
-    } catch (IllegalStateException e) {
-      e.printStackTrace();
-      return "";
-    } catch (IOException e) {
+    } catch (IllegalStateException | IOException e) {
       e.printStackTrace();
       return "";
     }
@@ -47,22 +42,19 @@ public class FileUtils {
   /**
    * 生成随机文件名
    *
-   * @return
+   * @param fileName 文件名
    */
   public static String getRandomFileName(String fileName) {
-
     // 获取后缀
     String suffixName = fileName.substring(fileName.lastIndexOf("."));
-
     SimpleDateFormat simpleDateFormat;
     simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
     Date date = new Date();
+    // 获得当前时间
     String datetime = simpleDateFormat.format(date);
     Random random = new Random();
+    // 提取时间
     int randNum = (int) (random.nextDouble() * (9999 - 1000 + 1)) + 10000;
-
-    String finaName = randNum + datetime + suffixName;
-
-    return finaName;
+    return randNum + datetime + suffixName;
   }
 }

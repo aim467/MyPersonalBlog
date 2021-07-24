@@ -7,20 +7,25 @@ import com.root2z.model.vo.ResultVO;
 import com.root2z.service.ArticleService;
 import com.root2z.service.CategoryService;
 import com.root2z.service.TagService;
+import com.root2z.utils.AliyunOSSUtil;
 import com.root2z.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminArticleController {
+
+  @Resource private AliyunOSSUtil aliyunOSSUtil;
 
   private final Logger logger = LoggerFactory.getLogger(AdminArticleController.class);
 
@@ -144,5 +149,16 @@ public class AdminArticleController {
       return ResultUtil.success("更新文章状态成功!", null);
     }
     return ResultUtil.error("更改文章状态失败!", null);
+  }
+
+  @RequestMapping(value = "/article/upload", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultVO MarkdownUploadImage(@RequestParam("editormd-image-file") MultipartFile file) {
+    String url = aliyunOSSUtil.uploadFile(file, "");
+    if (url != null) {
+      return ResultUtil.success("图片上传成功", url);
+    } else {
+      return ResultUtil.error("图片上传失败", null);
+    }
   }
 }

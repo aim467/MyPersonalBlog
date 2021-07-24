@@ -174,11 +174,96 @@
             tex: true, // 开启数学公式
             flowChart: true, // 开启流程图支持
             sequenceDiagram: true, // 开启时序图支持
-            saveHTMLToTextarea: true // 保存HTML到textarea
+            saveHTMLToTextarea: true, // 保存HTML到textarea
+            imageUpload: true,
+            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL: contextPath + "/admin/article/upload",
+            onload: function () {
+                initPasteDragImg(this);
+            }
         });
         // 固定工具栏
         contentEditor.setToolbarAutoFixed(true);
     });
+
+    /**
+     * 初始化粘贴图片函数
+     * @param Editor
+     */
+    function initPasteDragImg(Editor) {
+        let doc = document.getElementById(Editor.id);
+        doc.addEventListener('paste', function (event) {
+            let items = (event.clipboardData || window.clipboardData).items;
+            let file = null;
+            if (items && items.length) {
+                // 搜索剪切板items
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].type.indexOf('image') !== -1) {
+                        file = items[i].getAsFile();
+                        break;
+                    }
+                }
+            } else {
+                console.log("当前浏览器不支持");
+                return;
+            }
+            if (!file) {
+                console.log("粘贴内容非图片");
+                return;
+            }
+            uploadImg(file, Editor);
+        });
+        var dashboard = document.getElementById(Editor.id)
+        dashboard.addEventListener("dragover", function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+        })
+        dashboard.addEventListener("dragenter", function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+        })
+        dashboard.addEventListener("drop", function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+            var files = this.files || e.dataTransfer.files;
+            uploadImg(files[0], Editor);
+        })
+    }
+
+    function uploadImg(file, Editor) {
+        let formData = new FormData();
+        let fileName = new Date().getTime() + "." + file.name.split(".").pop();
+        formData.append('editormd-image-file', file, fileName);
+        $.ajax({
+            url: Editor.settings.imageUploadURL,
+            type: 'post',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (data) {
+                let code = data.code
+                if (200 === code) {
+                    Swal.fire({
+                        title: data.message,
+                        icon: "success"
+                    })
+                    let url = data.data
+                    console.log(data);
+                    if (/\.(png|jpg|jpeg|gif|bmp|ico)$/.test(url)) {
+                        Editor.insertValue("![](" + url + ")");
+                    } else {
+                        Editor.insertValue("[下载附件](" + url + ")");
+                    }
+                } else {
+                    Swal.fire({
+                        title: data.message,
+                        icon: "error"
+                    })
+                }
+            }
+        });
+    }
 
     $('#saveArticle').click(function () {
         let article = document.getElementById("editArticle");
