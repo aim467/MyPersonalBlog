@@ -23,6 +23,10 @@ public class ArticleVO {
 
   private Date updateTime;
 
+  private Integer isTop;
+
+  private Integer isRecommend;
+
   /** 文件对象 */
   private MultipartFile coverImage;
 
@@ -37,6 +41,22 @@ public class ArticleVO {
 
   public String getAuthor() {
     return author;
+  }
+
+  public Integer getIsTop() {
+    return isTop;
+  }
+
+  public void setIsTop(Integer isTop) {
+    this.isTop = isTop;
+  }
+
+  public Integer getIsRecommend() {
+    return isRecommend;
+  }
+
+  public void setIsRecommend(Integer isRecommend) {
+    this.isRecommend = isRecommend;
   }
 
   public void setAuthor(String author) {
@@ -133,19 +153,41 @@ public class ArticleVO {
 
   @Override
   public String toString() {
-    return "ArticleVO{" +
-            "id=" + id +
-            ", title='" + title + '\'' +
-            ", author='" + author + '\'' +
-            ", introduce='" + introduce + '\'' +
-            ", status=" + status +
-            ", content='" + content + '\'' +
-            ", publishTime=" + publishTime +
-            ", updateTime=" + updateTime +
-            ", coverImage=" + coverImage +
-            ", cover='" + cover + '\'' +
-            ", category='" + category + '\'' +
-            ", tags=" + tags +
-            '}';
+    return "ArticleVO{"
+        + "id="
+        + id
+        + ", title='"
+        + title
+        + '\''
+        + ", author='"
+        + author
+        + '\''
+        + ", introduce='"
+        + introduce
+        + '\''
+        + ", status="
+        + status
+        + ", content='"
+        + content
+        + '\''
+        + ", publishTime="
+        + publishTime
+        + ", updateTime="
+        + updateTime
+        + ", isTop="
+        + isTop
+        + ", isRecommend="
+        + isRecommend
+        + ", coverImage="
+        + coverImage
+        + ", cover='"
+        + cover
+        + '\''
+        + ", category='"
+        + category
+        + '\''
+        + ", tags="
+        + tags
+        + '}';
   }
 }

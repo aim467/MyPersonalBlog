@@ -20,8 +20,6 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.root2z.model.entity
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 pagehelper:
   helper-dialect: mysql

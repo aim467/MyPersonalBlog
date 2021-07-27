@@ -21,6 +21,26 @@ public class Article {
 
   private String content;
 
+  private Integer isTop;
+
+  private Integer isRecommend;
+
+  public Integer getIsTop() {
+    return isTop;
+  }
+
+  public void setIsTop(Integer isTop) {
+    this.isTop = isTop;
+  }
+
+  public Integer getIsRecommend() {
+    return isRecommend;
+  }
+
+  public void setIsRecommend(Integer isRecommend) {
+    this.isRecommend = isRecommend;
+  }
+
   public Integer getId() {
     return id;
   }
@@ -95,30 +115,18 @@ public class Article {
 
   @Override
   public String toString() {
-    return "Article{"
-        + "id="
-        + id
-        + ", title='"
-        + title
-        + '\''
-        + ", cover='"
-        + cover
-        + '\''
-        + ", introduce='"
-        + introduce
-        + '\''
-        + ", author='"
-        + author
-        + '\''
-        + ", publishTime="
-        + publishTime
-        + ", updateTime="
-        + updateTime
-        + ", status="
-        + status
-        + ", content='"
-        + content
-        + '\''
-        + '}';
+    return "Article{" +
+            "id=" + id +
+            ", title='" + title + '\'' +
+            ", cover='" + cover + '\'' +
+            ", introduce='" + introduce + '\'' +
+            ", author='" + author + '\'' +
+            ", publishTime=" + publishTime +
+            ", updateTime=" + updateTime +
+            ", status=" + status +
+            ", content='" + content + '\'' +
+            ", isTop=" + isTop +
+            ", isRecommend=" + isRecommend +
+            '}';
   }
 }

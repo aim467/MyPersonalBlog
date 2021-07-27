@@ -82,22 +82,52 @@
                                                        th:value="${editArticle.title}"/>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="col-md-5">
-                                            <div class="form-group" th:if="${editArticle.status}">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
                                                 <p class="m-t-10"><label>文章状态</label>
                                                 </p>
-
                                                 <label class="lyear-radio radio-inline radio-success">
-                                                    <input type="radio" name="status" value="1" checked><span>发布</span>
+                                                    <input type="radio" name="status" value="1"
+                                                           id="publish"><span>发布</span>
                                                 </label>
                                                 <label class="lyear-radio radio-inline radio-grey">
-                                                    <input type="radio" name="status" value="0"><span>草稿</span>
+                                                    <input type="radio" name="status" value="0"
+                                                           id="draft"><span>草稿</span>
                                                 </label>
                                             </div>
                                         </div>
 
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <p class="m-t-10"><label>是否置顶</label>
+                                                </p>
+                                                <label class="lyear-radio radio-inline radio-success">
+                                                    <input type="radio" name="isTop" value="1" id="Top"><span>置顶</span>
+                                                </label>
+                                                <label class="lyear-radio radio-inline radio-grey">
+                                                    <input type="radio" name="isTop" value="0"
+                                                           id="noTop"><span>不置顶</span>
+                                                </label>
+                                            </div>
+                                        </div>
 
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <p class="m-t-10"><label>是否推荐</label>
+                                                </p>
+                                                <label class="lyear-radio radio-inline radio-success">
+                                                    <input type="radio" name="isRecommend" value="1"
+                                                           id="Recommend"><span>推荐</span>
+                                                </label>
+                                                <label class="lyear-radio radio-inline radio-grey">
+                                                    <input type="radio" name="isRecommend" value="0"
+                                                           id="noRecommend"><span>非推荐</span>
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="row">
@@ -163,6 +193,8 @@
     let contextPath = [[${#httpServletRequest.getContextPath()}]];
     // 初始化MarkDown编辑器
     let contentEditor;
+    setIsTopAndIsRecommend();
+
     $(function () {
         contentEditor = editormd("md-content", {
             width: "100%", // 宽度
@@ -185,6 +217,28 @@
         // 固定工具栏
         contentEditor.setToolbarAutoFixed(true);
     });
+
+    function setIsTopAndIsRecommend() {
+        // Get Article From thymeleaf variable
+        let article =  /*[[${editArticle}]]*/ "";
+        if (article.status) {
+            $('#publish').prop("checked", true);
+        } else {
+            $('#draft').prop("checked", true);
+        }
+
+        if (article.isTop) {
+            $('#Top').prop("checked", true);
+        } else {
+            $('#noTop').prop("checked", true);
+        }
+
+        if (article.isRecommend) {
+            $('#Recommend').prop("checked", true);
+        } else {
+            $('#noRecommend').prop("checked", true);
+        }
+    }
 
     /**
      * 初始化粘贴图片函数

@@ -8,6 +8,33 @@ public class AdminVO {
   private String email;
   private String intro;
   private String avatar;
+  private Integer status;
+  private Integer isTop;
+  private Integer isRecommend;
+
+  public Integer getStatus() {
+    return status;
+  }
+
+  public void setStatus(Integer status) {
+    this.status = status;
+  }
+
+  public Integer getIsTop() {
+    return isTop;
+  }
+
+  public void setIsTop(Integer isTop) {
+    this.isTop = isTop;
+  }
+
+  public Integer getIsRecommend() {
+    return isRecommend;
+  }
+
+  public void setIsRecommend(Integer isRecommend) {
+    this.isRecommend = isRecommend;
+  }
 
   public String getUsername() {
     return username;
@@ -51,14 +78,31 @@ public class AdminVO {
 
   @Override
   public String toString() {
-    return "AdminVO{" +
-            "id=" + id +
-            ", username='" + username + '\'' +
-            ", nickname='" + nickname + '\'' +
-            ", email='" + email + '\'' +
-            ", intro='" + intro + '\'' +
-            ", avatar='" + avatar + '\'' +
-            '}';
+    return "AdminVO{"
+        + "id="
+        + id
+        + ", username='"
+        + username
+        + '\''
+        + ", nickname='"
+        + nickname
+        + '\''
+        + ", email='"
+        + email
+        + '\''
+        + ", intro='"
+        + intro
+        + '\''
+        + ", avatar='"
+        + avatar
+        + '\''
+        + ", status="
+        + status
+        + ", isTop="
+        + isTop
+        + ", isRecommend="
+        + isRecommend
+        + '}';
   }
 
   public Integer getId() {

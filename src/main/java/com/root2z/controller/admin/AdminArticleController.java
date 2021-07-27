@@ -62,10 +62,11 @@ public class AdminArticleController {
   @RequestMapping(value = "/article/add", method = RequestMethod.POST)
   @ResponseBody
   public ResultVO saveArticle(ArticleVO articleVO) {
+    logger.info(articleVO.toString());
     // 保存文章
-    if (articleService.addArticle(articleVO)) {
-      return ResultUtil.success("保存文章成功!", null);
-    }
+    //    if (articleService.addArticle(articleVO)) {
+    //      return ResultUtil.success("保存文章成功!", null);
+    //    }
     return ResultUtil.error("新增文章失败", null);
   }
 

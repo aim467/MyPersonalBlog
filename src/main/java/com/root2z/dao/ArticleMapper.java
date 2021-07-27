@@ -32,5 +32,6 @@ public interface ArticleMapper {
 
   List<Article> findAll();
 
-  int updateStatusByPrimaryKey(@Param("articleId") Integer articleId, @Param("status") Integer status);
+  int updateStatusByPrimaryKey(
+      @Param("articleId") Integer articleId, @Param("status") Integer status);
 }
