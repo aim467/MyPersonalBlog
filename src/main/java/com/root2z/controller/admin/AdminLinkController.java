@@ -84,7 +84,6 @@ public class AdminLinkController {
   @RequestMapping(value = "/links/update", method = RequestMethod.POST)
   @ResponseBody
   public ResultVO updateLink(Friend friend) {
-    logger.info(friend.toString());
     if (friendService.updateFriend(friend)) {
       return ResultUtil.success("更新成功!", null);
     }

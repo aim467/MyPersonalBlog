@@ -35,7 +35,8 @@
 
                                 <div class="row">
                                     <div class="col-md-5 m-b-10">
-                                        <a th:href="@{/admin/article/add}" class="btn btn-sm btn-round btn-primary">新增文章</a>
+                                        <a th:href="@{/admin/article/add}"
+                                           class="btn btn-sm btn-round btn-primary">新增文章</a>
                                     </div>
                                 </div>
                                 <div class="table-responsive">
@@ -63,7 +64,7 @@
 
     $table.bootstrapTable({
         url: contextPath + "/admin/articles", // 请求地址
-        method: 'POST',      // 请求方式
+        method: 'GET',      // 请求方式
         showColumns: false,  // 是否显示列操作按钮
         striped: true,      // 设置为true会有隔行变色效果
         pagination: true,   // 设置为true会在底部显示分页条

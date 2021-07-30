@@ -1,7 +1,6 @@
 package com.root2z.dao;
 
 import com.root2z.model.entity.Article;
-import com.root2z.model.vo.ArticleVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

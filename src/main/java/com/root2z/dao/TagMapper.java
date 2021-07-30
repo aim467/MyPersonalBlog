@@ -47,4 +47,14 @@ public interface TagMapper {
   int insertByName(Tag tag);
 
   List<String> selectNameByArticleId(@Param("articleId") Integer articleId);
+
+  /**
+   * 根据ID查询标签列表
+   *
+   * @param existTags
+   * @return
+   */
+  List<Tag> findByIds(List<Integer> existTags);
+
+  int deleteTagAndArticleTagById(@Param("tagId") Integer tagId);
 }

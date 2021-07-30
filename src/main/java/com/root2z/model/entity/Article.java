@@ -25,6 +25,8 @@ public class Article {
 
   private Integer isRecommend;
 
+  private Integer categoryId;
+
   public Integer getIsTop() {
     return isTop;
   }
@@ -39,6 +41,14 @@ public class Article {
 
   public void setIsRecommend(Integer isRecommend) {
     this.isRecommend = isRecommend;
+  }
+
+  public Integer getCategoryId() {
+    return categoryId;
+  }
+
+  public void setCategoryId(Integer categoryId) {
+    this.categoryId = categoryId;
   }
 
   public Integer getId() {
@@ -127,6 +137,7 @@ public class Article {
             ", content='" + content + '\'' +
             ", isTop=" + isTop +
             ", isRecommend=" + isRecommend +
+            ", categoryId=" + categoryId +
             '}';
   }
 }

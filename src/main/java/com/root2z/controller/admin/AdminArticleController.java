@@ -2,8 +2,10 @@ package com.root2z.controller.admin;
 
 import com.github.pagehelper.PageInfo;
 import com.root2z.model.entity.Article;
+import com.root2z.model.entity.Tag;
 import com.root2z.model.vo.ArticleVO;
 import com.root2z.model.vo.ResultVO;
+import com.root2z.model.vo.TagVO;
 import com.root2z.service.ArticleService;
 import com.root2z.service.CategoryService;
 import com.root2z.service.TagService;
@@ -11,6 +13,7 @@ import com.root2z.utils.AliyunOSSUtil;
 import com.root2z.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -33,11 +38,14 @@ public class AdminArticleController {
 
   private final ArticleService articleService;
 
+  private final TagService tagService;
+
   @Autowired
   public AdminArticleController(
       CategoryService categoryService, TagService tagService, ArticleService articleService) {
     this.categoryService = categoryService;
     this.articleService = articleService;
+    this.tagService = tagService;
   }
 
   /**
@@ -49,6 +57,7 @@ public class AdminArticleController {
   public ModelAndView addArticlePage() {
     ModelAndView mv = new ModelAndView();
     mv.addObject("categories", categoryService.getAllCategories());
+    mv.addObject("tags", tagService.getAllTags());
     mv.setViewName("admin/article/add");
     return mv;
   }
@@ -62,10 +71,7 @@ public class AdminArticleController {
   @RequestMapping(value = "/article/add", method = RequestMethod.POST)
   @ResponseBody
   public ResultVO saveArticle(ArticleVO articleVO) {
-    if (articleService.addArticle(articleVO)) {
-      return ResultUtil.success("保存文章成功!", null);
-    }
-    return ResultUtil.error("新增文章失败", null);
+    return articleService.addArticle(articleVO);
   }
 
   /**
@@ -93,14 +99,24 @@ public class AdminArticleController {
     ModelAndView mv = new ModelAndView();
     // 拿到所有分类
     mv.addObject("categories", categoryService.getAllCategories());
-
     // 查询出文章信息
     ArticleVO articleVO = articleService.getArticleInfo(id);
+    List<Tag> tags = tagService.getAllTags();
+    List<TagVO> tagVOS = new ArrayList<>();
 
-    // 设置tag
-    String tags = String.join(",", articleVO.getTags());
-    mv.addObject("tags", tags);
-
+    // 拷贝列表
+    for (Tag tag : tags) {
+      TagVO tagVO = new TagVO();
+      BeanUtils.copyProperties(tag, tagVO);
+      tagVOS.add(tagVO);
+    }
+    // 遍历选中的标签名字，设置selected
+    for (String tagName : articleVO.getTags()) {
+      for (TagVO tagVO : tagVOS) {
+        if (tagVO.getName().equals(tagName)) tagVO.setSelected(true);
+      }
+    }
+    mv.addObject("tagVOS", tagVOS);
     // 设置文章对象
     mv.addObject("editArticle", articleVO);
     mv.setViewName("admin/article/edit");
@@ -110,10 +126,7 @@ public class AdminArticleController {
   @RequestMapping(value = "/article/edit/", method = RequestMethod.POST)
   @ResponseBody
   public ResultVO updateArticle(ArticleVO articleVO) {
-    if (articleService.editArticle(articleVO)) {
-      return ResultUtil.success("更新文章成功!", null);
-    }
-    return ResultUtil.error("更新文章失败", null);
+    return articleService.editArticle(articleVO);
   }
 
   /**
@@ -123,7 +136,7 @@ public class AdminArticleController {
    * @param pageSize
    * @return
    */
-  @RequestMapping(value = "/articles", method = RequestMethod.POST)
+  @RequestMapping(value = "/articles", method = RequestMethod.GET)
   @ResponseBody
   public Map<String, Object> articleList(
       @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
@@ -135,7 +148,7 @@ public class AdminArticleController {
     return result;
   }
 
-  @RequestMapping(value = "/articles")
+  @RequestMapping(value = "/article")
   public String articlesPage() {
     return "admin/article/list";
   }

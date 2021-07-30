@@ -2,14 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="zh">
 <head th:replace="admin/_fragments :: adminHead(~{::title})">
     <title>编辑文章</title>
-    <style>
-        /**
-        解决冲突的样式宽度
-         */
-        .editormd-menu > li.divider {
-            width: auto;
-        }
-    </style>
 </head>
 
 <body>
@@ -51,18 +43,32 @@
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <label for="category">选择分类</label>
-                                                <select id="category" class="form-control" name="category">
-                                                    <option th:each="category:${categories}" th:value="${category.name}"
+                                                <select id="category" class="form-control" name="categoryId">
+                                                    <option th:each="category:${categories}" th:value="${category.id}"
+                                                            th:selected="${editArticle.categoryId} == ${category.id}"
                                                             th:text="${category.name}"></option>
                                                 </select>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="col-md-5">
+                                    <div class="row">
+                                        <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="tags">请输入标签，使用英文逗号分割</label>
-                                                <input type="text" name="tags" class="form-control" id="tags"
-                                                       th:value="${tags}">
+                                                <label for="existTags">从已知标签列表中选择</label>
+                                                <select class="form-control" id="existTags" name="existTags"
+                                                        size="3" multiple>
+                                                    <option th:each="tag: ${tagVOS}" th:value="${tag.id}"
+                                                            th:text="${tag.name}" th:selected="${tag.Selected} == true"
+                                                            name="existTags"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="newTags">在此输入新的标签，会进行创建</label>
+                                                <input type="text" name="newTags" class="form-control" id="newTags">
                                             </div>
                                         </div>
                                     </div>
@@ -321,7 +327,7 @@
                         title: data.message,
                         icon: "success"
                     })
-                    window.location.href = contextPath + "/admin/articles";
+                    window.location.href = contextPath + "/admin/article";
                 } else {
                     Swal.fire({
                         title: data.message,

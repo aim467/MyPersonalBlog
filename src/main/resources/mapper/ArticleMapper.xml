@@ -12,6 +12,7 @@
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="is_top" jdbcType="INTEGER" property="isTop"/>
         <result column="is_recommend" jdbcType="INTEGER" property="isRecommend"/>
+        <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
     </resultMap>
 
     <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.root2z.model.entity.Article">
@@ -19,7 +20,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         id
-        , title, cover, introduce, author, publish_time, update_time, status, is_top, is_recommend
+        , title, cover, introduce, author, publish_time, update_time, status, is_top, is_recommend, category_id
     </sql>
     <sql id="Blob_Column_List">
         content
@@ -40,12 +41,12 @@
     <insert id="insert" parameterType="com.root2z.model.entity.Article" useGeneratedKeys="true" keyProperty="id">
         insert into article (id, title, cover, introduce,
                              author, publish_time, update_time,
-                             status, content, is_top, is_recommend)
+                             status, content, is_top, is_recommend, category_id)
         values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR},
                 #{introduce,jdbcType=VARCHAR},
                 #{author,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
                 #{status,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}, #{isTop,jdbcType=INTEGER},
-                #{isRecommend,jdbcType=INTEGER})
+                #{isRecommend,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" parameterType="com.root2z.model.entity.Article">
         insert into article
@@ -83,6 +84,9 @@
             <if test="isRecommend != null">
                 is_recommend,
             </if>
+            <if test="categoryId != null">
+                category_id
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -117,6 +121,9 @@
             </if>
             <if test="isRecommend != null">
                 #{isRecommend,jdbcType=INTEGER},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=INTEGER}
             </if>
         </trim>
     </insert>
@@ -153,6 +160,9 @@
             <if test="isRecommend != null">
                 is_recommend = #{isRecommend,jdbcType=INTEGER},
             </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=INTEGER}
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -167,7 +177,8 @@
             status       = #{status,jdbcType=INTEGER},
             content      = #{content,jdbcType=LONGVARCHAR},
             is_top       = #{isTop,jdbcType=INTEGER},
-            is_recommend = #{isRecommend,jdbcType=INTEGER}
+            is_recommend = #{isRecommend,jdbcType=INTEGER},
+            category_id  = #{categoryId,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.root2z.model.entity.Article">
@@ -180,7 +191,8 @@
             update_time  = #{updateTime,jdbcType=TIMESTAMP},
             status       = #{status,jdbcType=INTEGER},
             is_top       = #{isTop,jdbcType=INTEGER},
-            is_recommend = #{isRecommend,jdbcType=INTEGER}
+            is_recommend = #{isRecommend,jdbcType=INTEGER},
+            category_id  = #{categoryId,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
     </update>
 

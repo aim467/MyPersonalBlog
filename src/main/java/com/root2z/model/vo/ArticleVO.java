@@ -36,8 +36,40 @@ public class ArticleVO {
   /** 非数据库字段 分类 */
   private String category;
 
-  /** 非数据库字段 标签列表 */
+  /** 非数据库字段，分类ID */
+  private Integer categoryId;
+
+  /** 非数据库字段 新标签列表 */
+  private List<String> newTags;
+
+  /** 非数据库字段，已存在标签ID列表 */
+  private List<Integer> existTags;
+
   private List<String> tags;
+
+  public Integer getCategoryId() {
+    return categoryId;
+  }
+
+  public void setCategoryId(Integer categoryId) {
+    this.categoryId = categoryId;
+  }
+
+  public List<String> getNewTags() {
+    return newTags;
+  }
+
+  public void setNewTags(List<String> newTags) {
+    this.newTags = newTags;
+  }
+
+  public List<Integer> getExistTags() {
+    return existTags;
+  }
+
+  public void setExistTags(List<Integer> existTags) {
+    this.existTags = existTags;
+  }
 
   public String getAuthor() {
     return author;
@@ -153,41 +185,24 @@ public class ArticleVO {
 
   @Override
   public String toString() {
-    return "ArticleVO{"
-        + "id="
-        + id
-        + ", title='"
-        + title
-        + '\''
-        + ", author='"
-        + author
-        + '\''
-        + ", introduce='"
-        + introduce
-        + '\''
-        + ", status="
-        + status
-        + ", content='"
-        + content
-        + '\''
-        + ", publishTime="
-        + publishTime
-        + ", updateTime="
-        + updateTime
-        + ", isTop="
-        + isTop
-        + ", isRecommend="
-        + isRecommend
-        + ", coverImage="
-        + coverImage
-        + ", cover='"
-        + cover
-        + '\''
-        + ", category='"
-        + category
-        + '\''
-        + ", tags="
-        + tags
-        + '}';
+    return "ArticleVO{" +
+            "id=" + id +
+            ", title='" + title + '\'' +
+            ", author='" + author + '\'' +
+            ", introduce='" + introduce + '\'' +
+            ", status=" + status +
+            ", content='" + content + '\'' +
+            ", publishTime=" + publishTime +
+            ", updateTime=" + updateTime +
+            ", isTop=" + isTop +
+            ", isRecommend=" + isRecommend +
+            ", coverImage=" + coverImage +
+            ", cover='" + cover + '\'' +
+            ", category='" + category + '\'' +
+            ", categoryId=" + categoryId +
+            ", newTags=" + newTags +
+            ", existTags=" + existTags +
+            ", tags=" + tags +
+            '}';
   }
 }

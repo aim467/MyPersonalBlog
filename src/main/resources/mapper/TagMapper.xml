@@ -20,6 +20,11 @@
         from tag
         where id = #{id,jdbcType=INTEGER}
     </delete>
+
+    <delete id="deleteTagAndArticleTagById">
+        delete tag, article_tag from tag left join article_tag on tag.id=article_tag.tag_id where tag.id = #{tagId}
+    </delete>
+
     <insert id="insert" parameterType="string" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into tag (`name`)
         values (#{name,jdbcType=VARCHAR})
@@ -89,5 +94,14 @@
         select tag.name
         from tag
         where id in (select tag_id from article_tag where article_id = #{articleId,jdbcType=INTEGER})
+    </select>
+
+    <select id="findByIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tag where id in
+        <foreach collection="existTags" item="id" separator="," open="(" close=")">
+            #{id,jdbcType=INTEGER}
+        </foreach>
     </select>
 </mapper>

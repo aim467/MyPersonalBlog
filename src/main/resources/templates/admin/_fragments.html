@@ -10,7 +10,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link th:href="@{/admin/css/materialdesignicons.min.css}" rel="stylesheet">
+    <link th:href="@{/editormd/css/editormd.css}" rel="stylesheet"/>
     <link th:href="@{/admin/css/style.min.css}" rel="stylesheet">
+    <style>
+        /**
+        解决冲突的样式宽度
+         */
+        .editormd-menu > li.divider {
+            width: auto;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,6 +31,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.18.3/dist/locale/bootstrap-table-zh-CN.min.js"></script>
     <script type="text/javascript" th:src="@{/admin/js/perfect-scrollbar.min.js}"></script>
     <script type="text/javascript" th:src="@{/admin/js/main.min.js}"></script>
+    <script type="text/javascript" th:src="@{/editormd/editormd.min.js}"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 </th:block>
