@@ -38,7 +38,7 @@ public class AdminCommentController {
    */
   @RequestMapping(value = "/comment")
   public String commentPage() {
-    return "admin/comment/list";
+    return "admin/comment/comments";
   }
 
   @RequestMapping(value = "/comments", method = RequestMethod.GET)

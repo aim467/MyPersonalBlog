@@ -1,13 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="zh">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>后台管理</title>
-    <link rel="icon" href="favicon.ico" th:href="@{/admin/favicon.ico}" type="image/ico">
-    <link th:href="@{/admin/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/admin/css/materialdesignicons.min.css}" rel="stylesheet">
-    <link th:href="@{/admin/css/style.min.css}" rel="stylesheet">
+<head th:replace="admin/_fragments :: adminHead(~{::title})">
+    <title>个人中心-博客后台</title>
 </head>
 
 <body>
@@ -55,38 +49,53 @@
                                         </div>
                                     </div>
 
+                                    <div class="row">
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="username">用户名</label>
+                                                <input type="text" class="form-control" name="username" id="username"
+                                                       th:value="${currentUser.username}"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="nickname">昵称</label>
+                                                <input type="text" class="form-control" name="nickname" id="nickname"
+                                                       placeholder="输入您的昵称" th:value="${currentUser.nickname}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="email">邮箱</label>
+                                                <input type="email" class="form-control" name="email" id="email"
+                                                       placeholder="请输入你的邮箱" th:value="${currentUser.email}">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
                                     <div class="form-group">
                                         <input type="text" name="id" id="id"
                                                th:value="${currentUser.getId()}" hidden="hidden">
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="username">用户名</label>
-                                        <input type="text" class="form-control" name="username" id="username"
-                                               th:value="${currentUser.username}"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="nickname">昵称</label>
-                                        <input type="text" class="form-control" name="nickname" id="nickname"
-                                               placeholder="输入您的昵称" th:value="${currentUser.nickname}">
-                                    </div>
 
+                                    <div class="row">
 
-                                    <div class="form-group">
-                                        <label for="email">邮箱</label>
-                                        <input type="email" class="form-control" name="email" id="email"
-                                               placeholder="请输入你的邮箱" th:value="${currentUser.email}">
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        <label for="intro">自我简介</label>
-                                        <textarea placeholder="这个人很懒，什么都没留下" class="form-control" id="intro" rows="3"
-                                                  name="intro" th:text="${currentUser.intro}">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label for="intro">自我简介</label>
+                                                <textarea placeholder="这个人很懒，什么都没留下" class="form-control" id="intro"
+                                                          rows="10"
+                                                          name="intro" th:text="${currentUser.intro}">
 
                                         </textarea>
+                                            </div>
+                                        </div>
                                     </div>
-
 
                                     <button type="button" class="btn btn-primary" id="update">保存</button>
                                 </form>
@@ -104,12 +113,8 @@
     </div>
 </div>
 
-<script type="text/javascript" th:src="@{/admin/js/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/perfect-scrollbar.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/main.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/utils.js}"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/limonte-sweetalert2/10.16.6/sweetalert2.all.js"></script>
+<!--/*/<th:block th:replace="admin/_fragments :: adminScript">/*/-->
+<!--/*/</th:block>/*/-->
 <script type="text/javascript" th:inline="javascript">
     let contextPath = [[${#httpServletRequest.getContextPath()}]];
     /**

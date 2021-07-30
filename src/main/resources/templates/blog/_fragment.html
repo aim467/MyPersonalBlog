@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="Header">
+    <!--导航-->
+    <nav id="nav" class="gird-header" style="display: none">
+        <div class="ui container">
+            <div class="ui inverted secondary stackable menu">
+                <h2 class="ui olive header item" style="font-family: STSong">DedSec's Blog</h2>
+                <!--<div class="right m-item item m-mobile-hide">-->
+                <a href="#" class="active m-item item"><i class="home icon"></i>首页</a>
+                <a href="#" class="m-item item"><i class="clone outline icon"></i>分类</a>
+                <a href="#" class="m-item item"><i class="clock icon"></i>时间轴</a>
+                <a href="#" class="m-item item"><i class="music icon"></i>音乐盒</a>
+                <a href="#" class="m-item item"><i class="book icon"></i>留言板</a>
+                <a href="#" class="m-item item"><i class="pencil alternate icon"></i>友人帐</a>
+                <a href="#" class="olive m-item item"><i class="image icon"></i>照片墙</a>
+                <a href="#" class="m-item item"><i class="info icon"></i>关于我</a>
+                <!--</div>-->
+                <div class="right m-item item">
+                    <form name="search" action="#" method="post" target="_blank">
+                        <div class="ui icon transparent input m-margin-tb-tiny" style="color: white">
+                            <input style="color: white" type="text" name="query" placeholder="Search....">
+                            <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-hide" style="display: none">
+            <i class="sidebar icon"></i>
+        </a>
+    </nav>
+
+</div>
+
+</body>
+</html>

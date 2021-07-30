@@ -1,14 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="zh">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<head th:replace="admin/_fragments :: adminHead(~{::title})">
     <title>新增文章</title>
-    <link rel="icon" th:href="@{/admin/favicon.ico}" type="image/ico">
-    <link th:href="@{/admin/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/admin/css/style.min.css}" rel="stylesheet">
-    <link th:href="@{/admin/css/materialdesignicons.min.css}" rel="stylesheet">
-    <link th:href="@{/editormd/css/editormd.css}" rel="stylesheet"/>
     <style>
         /**
         解决冲突的样式宽度
@@ -171,13 +164,8 @@
         <!--End 页面主要内容-->
     </div>
 </div>
-
-<script type="text/javascript" th:src="@{/admin/js/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/perfect-scrollbar.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/main.min.js}"></script>
-<script type="text/javascript" th:src="@{/editormd/editormd.min.js}"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--/*/<th:block th:replace="admin/_fragments :: adminScript">/*/-->
+<!--/*/</th:block>/*/-->
 <script th:inline="javascript" type="text/javascript">
     let contextPath = [[${#httpServletRequest.getContextPath()}]];
     // 初始化MarkDown编辑器
@@ -230,11 +218,7 @@
                 return;
             }
             if (!file) {
-                Swal.fire({
-                    title: "粘贴内容非图片",
-                    icon: "error"
-                });
-                return;
+                console.log("粘贴内容非图片");
             }
             uploadImg(file, Editor);
         });

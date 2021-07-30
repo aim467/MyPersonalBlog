@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="zh">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>个人博客后台系统</title>
-    <link rel="icon" href="favicon.ico" th:href="@{/admin/favicon.ico}" type="image/ico">
-    <link th:href="@{/admin/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/admin/css/materialdesignicons.min.css}" rel="stylesheet">
-    <link th:href="@{/admin/css/style.min.css}" rel="stylesheet">
+<head th:replace="admin/_fragments :: adminHead(~{::title})">
+    <title>博客后台管理首页</title>
 </head>
-
 <body>
 <div class="lyear-layout-web">
     <div class="lyear-layout-container">
@@ -31,7 +24,7 @@
             <div class="container-fluid">
 
                 <div class="row">
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-sm-3">
                         <div class="card bg-primary">
                             <div class="card-body clearfix">
                                 <div class="pull-right">
@@ -44,7 +37,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-sm-3">
                         <div class="card bg-danger">
                             <div class="card-body clearfix">
                                 <div class="pull-right">
@@ -57,7 +50,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-sm-3">
                         <div class="card bg-success">
                             <div class="card-body clearfix">
                                 <div class="pull-right">
@@ -70,7 +63,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-sm-3">
                         <div class="card bg-purple">
                             <div class="card-body clearfix">
                                 <div class="pull-right">
@@ -83,7 +76,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-sm-3">
                         <div class="card bg-brown">
                             <div class="card-body clearfix">
                                 <div class="pull-right">
@@ -91,12 +84,12 @@
                                     <p th:text="${friendCount}" class="h4 text-white m-b-0 fa-1-5x">102</p>
                                 </div>
                                 <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
-                                        class="mdi mdi-account fa-1-5x"></i></span></div>
+                                        class="mdi mdi-link-variant fa-1-5x"></i></span></div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-sm-3">
                         <div class="card bg-gray">
                             <div class="card-body clearfix">
                                 <div class="pull-right">
@@ -104,12 +97,12 @@
                                     <p th:text="${categoryCount}" class="h4 text-white m-b-0 fa-1-5x">920</p>
                                 </div>
                                 <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
-                                        class="mdi mdi-file-document fa-1-5x"></i></span></div>
+                                        class="mdi mdi-tag fa-1-5x"></i></span></div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-sm-3">
                         <div class="card bg-dark">
                             <div class="card-body clearfix">
                                 <div class="pull-right">
@@ -117,12 +110,12 @@
                                     <p th:text="${tagCount}" class="h4 text-white m-b-0 fa-1-5x">34</p>
                                 </div>
                                 <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
-                                        class="mdi mdi-message fa-1-5x"></i></span></div>
+                                        class="mdi mdi-tag-outline fa-1-5x"></i></span></div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-sm-3">
                         <div class="card bg-yellow">
                             <div class="card-body clearfix">
                                 <div class="pull-right">
@@ -130,7 +123,7 @@
                                     <p th:text="${logCount}" class="h4 text-white m-b-0 fa-1-5x">153</p>
                                 </div>
                                 <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
-                                        class="mdi mdi-comment fa-1-5x"></i></span></div>
+                                        class="mdi mdi-chart-line fa-1-5x"></i></span></div>
                             </div>
                         </div>
                     </div>
@@ -143,9 +136,7 @@
     </div>
 </div>
 
-<script type="text/javascript" th:src="@{/admin/js/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/perfect-scrollbar.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/main.min.js}"></script>
+<!--/*/<th:block th:replace="admin/_fragments :: adminScript">/*/-->
+<!--/*/</th:block>/*/-->
 </body>
 </html>

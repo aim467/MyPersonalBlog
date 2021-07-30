@@ -1,13 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="zh">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<head th:replace="admin/_fragments :: adminHead(~{::title})">
     <title>编辑友链</title>
-    <link rel="icon" href="favicon.ico" th:href="@{/admin/favicon.ico}" type="image/ico">
-    <link th:href="@{/admin/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/admin/css/materialdesignicons.min.css}" rel="stylesheet">
-    <link th:href="@{/admin/css/style.min.css}" rel="stylesheet">
 </head>
 <body>
 <div class="lyear-layout-web">
@@ -17,7 +11,7 @@
         <!--
         侧边栏
         -->
-        <div th:insert="@{admin/leftSide} :: LeftSide">
+        <div th:insert="@{admin/leftSide} :: LeftSide('link')">
 
         </div>
 
@@ -108,13 +102,8 @@
         <!--End 页面主要内容-->
     </div>
 </div>
-<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
-<script type="text/javascript" th:src="@{/admin/js/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/perfect-scrollbar.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/main.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/utils.js}"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--/*/<th:block th:replace="admin/_fragments :: adminScript">/*/-->
+<!--/*/</th:block>/*/-->
 <script type="text/javascript" th:inline="javascript">
     let contextPath = [[${#httpServletRequest.getContextPath()}]];
     $('#update').click(function () {

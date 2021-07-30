@@ -1,13 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="zh">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<head th:replace="admin/_fragments :: adminHead(~{::title})">
     <title>友链列表</title>
-    <link rel="icon" href="favicon.ico" th:href="@{/admin/favicon.ico}" type="image/ico">
-    <link th:href="@{/admin/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/admin/css/materialdesignicons.min.css}" rel="stylesheet">
-    <link th:href="@{/admin/css/style.min.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -39,7 +33,7 @@
                             <div class="card-body">
 
                                 <a th:href="@{/admin/links/add}"
-                                   class="btn btn-w-md btn-round btn-brown m-b-15">添加新友链</a>
+                                   class="btn btn-sm btn-round btn-brown m-b-15">添加新友链</a>
 
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
@@ -66,8 +60,8 @@
                                             <td th:text="${friend.description}">36</td>
                                             <td class="col-sm-2">
                                                 <a href="#" th:href="@{/admin/links/edit/{id}(id=${friend.id})}"
-                                                   class="btn  btn-round btn-primary m-r-10">编辑</a>
-                                                <a href="#" class="btn  btn-round btn-danger"
+                                                   class="btn btn-sm btn-round btn-primary m-r-5">编辑</a>
+                                                <a href="#" class="btn btn-sm btn-round btn-danger"
                                                    th:href="@{/admin/links/delete/{id}(id=${friend.id})}">删除</a>
                                             </td>
                                         </tr>
@@ -100,12 +94,7 @@
         <!--End 页面主要内容-->
     </div>
 </div>
-<script type="text/javascript" th:src="@{/admin/js/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/perfect-scrollbar.min.js}"></script>
-<script type="text/javascript" th:src="@{/admin/js/main.min.js}"></script>
-<script type="text/javascript">
-
-</script>
+<!--/*/<th:block th:replace="admin/_fragments :: adminScript">/*/-->
+<!--/*/</th:block>/*/-->
 </body>
 </html>
