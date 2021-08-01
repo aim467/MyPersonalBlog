@@ -38,4 +38,6 @@ public interface CommentMapper {
   List<Comment> findAllById(@Param("commentId") Integer commentId);
 
   int deleteAllByIds(@Param("Ids") List<Integer> ids);
+
+  List<Comment> selectAllBySorted(Integer limit);
 }

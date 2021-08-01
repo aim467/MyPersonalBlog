@@ -53,4 +53,6 @@ public interface CategoryService {
    * @return
    */
   List<Category> getAllCategories();
+
+  List<Category> getCategoryCount();
 }

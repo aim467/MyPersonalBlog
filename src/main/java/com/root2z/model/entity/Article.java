@@ -1,6 +1,7 @@
 package com.root2z.model.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class Article {
   private Integer id;
@@ -26,6 +27,29 @@ public class Article {
   private Integer isRecommend;
 
   private Integer categoryId;
+
+  /** 非数据库字段，文章拥有的分类 */
+  private Category category;
+
+  /** 非数据库字段，文章标签集合 */
+  private List<Tag> tags;
+
+
+  public Category getCategory() {
+    return category;
+  }
+
+  public void setCategory(Category category) {
+    this.category = category;
+  }
+
+  public List<Tag> getTags() {
+    return tags;
+  }
+
+  public void setTags(List<Tag> tags) {
+    this.tags = tags;
+  }
 
   public Integer getIsTop() {
     return isTop;
@@ -138,6 +162,8 @@ public class Article {
             ", isTop=" + isTop +
             ", isRecommend=" + isRecommend +
             ", categoryId=" + categoryId +
+            ", category=" + category +
+            ", tags=" + tags +
             '}';
   }
 }

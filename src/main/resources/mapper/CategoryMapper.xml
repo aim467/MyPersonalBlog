@@ -73,7 +73,10 @@
         from category where name=#{name,jdbcType=VARCHAR}
     </select>
 
-    <select id="selectByArticleId" resultType="com.root2z.model.entity.Category">
-        select category.* from category where id = ( select category_id from article_category where article_id = #{articleId,jdbcType=INTEGER})
+    <select id="selectAllAndCount" resultType="com.root2z.model.entity.Category">
+        select category.id, name, count(name) as count
+        from category, article
+        where article.category_id=category.id
+        group by category.id;
     </select>
 </mapper>

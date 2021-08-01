@@ -33,4 +33,27 @@ public interface ArticleMapper {
 
   int updateStatusByPrimaryKey(
       @Param("articleId") Integer articleId, @Param("status") Integer status);
+
+  /**
+   * 获取置顶的博客
+   *
+   * @param top
+   * @return
+   */
+  List<Article> selectAllByTop(Integer top);
+
+  /**
+   * 根据文章的更新时间排序
+   *
+   * @return
+   */
+  List<Article> selectAllByUpdateTime();
+
+  /**
+   * 查询推荐文章
+   *
+   * @param recommendNumber
+   * @return
+   */
+  List<Article> selectAllByRecommend(Integer recommendNumber);
 }

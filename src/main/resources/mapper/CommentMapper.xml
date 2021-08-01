@@ -162,4 +162,16 @@
             #{item}
         </foreach>
     </delete>
+
+    <select id="selectAllBySorted" resultMap="BaseResultMap">
+        select id,
+               commentator,
+               content,
+               create_time,
+               article_id
+        from comment
+        where is_active = 1
+        order by id limit #{limit}
+    </select>
+
 </mapper>

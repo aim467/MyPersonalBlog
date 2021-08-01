@@ -22,6 +22,12 @@
         id
         , title, cover, introduce, author, publish_time, update_time, status, is_top, is_recommend, category_id
     </sql>
+
+    <sql id="Article_List">
+        id
+        ,title,cover,introduce,author,publish_time,update_time,category_id
+    </sql>
+
     <sql id="Blob_Column_List">
         content
     </sql>
@@ -204,6 +210,26 @@
         select
         <include refid="Base_Column_List"/>
         from article
+    </select>
+
+    <select id="selectAllByTop" resultMap="BaseResultMap">
+        select id, title, cover
+        from article
+        where status = 1
+          and is_top = 1 limit #{top}
+    </select>
+
+    <select id="selectAllByUpdateTime" resultMap="BaseResultMap">
+        select
+        <include refid="Article_List"/>
+        from article where status=1 order by update_time desc
+    </select>
+
+    <select id="selectAllByRecommend" resultMap="BaseResultMap">
+        select id, title, update_time
+        from article
+        where status = 1
+          and is_recommend = 1 limit #{recommendNumber}
     </select>
 
     <update id="updateStatusByPrimaryKey">

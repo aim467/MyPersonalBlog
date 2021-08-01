@@ -67,7 +67,6 @@ public class TagServiceImpl implements TagService {
     try {
       int result = tagMapper.insert(name);
       return result == 1;
-
     } catch (DataAccessException exception) {
       logger.info(exception.getMessage());
     }
@@ -82,5 +81,10 @@ public class TagServiceImpl implements TagService {
   @Override
   public List<Tag> getAllTags() {
     return tagMapper.findAll();
+  }
+
+  @Override
+  public List<Tag> getTagCount() {
+    return tagMapper.selectAllByCount();
   }
 }

@@ -27,6 +27,8 @@ public class ArticleVO {
 
   private Integer isRecommend;
 
+  private String categoryName;
+
   /** 文件对象 */
   private MultipartFile coverImage;
 
@@ -183,6 +185,14 @@ public class ArticleVO {
     this.cover = cover;
   }
 
+  public String getCategoryName() {
+    return categoryName;
+  }
+
+  public void setCategoryName(String categoryName) {
+    this.categoryName = categoryName;
+  }
+
   @Override
   public String toString() {
     return "ArticleVO{" +
@@ -196,6 +206,7 @@ public class ArticleVO {
             ", updateTime=" + updateTime +
             ", isTop=" + isTop +
             ", isRecommend=" + isRecommend +
+            ", categoryName='" + categoryName + '\'' +
             ", coverImage=" + coverImage +
             ", cover='" + cover + '\'' +
             ", category='" + category + '\'' +

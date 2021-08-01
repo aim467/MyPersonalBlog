@@ -22,10 +22,12 @@
     </delete>
 
     <delete id="deleteTagAndArticleTagById">
-        delete tag, article_tag from tag left join article_tag on tag.id=article_tag.tag_id where tag.id = #{tagId}
+        delete
+        tag, article_tag from tag left join article_tag on tag.id=article_tag.tag_id where tag.id =
+        #{tagId}
     </delete>
 
-    <insert id="insert" parameterType="string" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    <insert id="insert" parameterType="java.lang.String">
         insert into tag (`name`)
         values (#{name,jdbcType=VARCHAR})
     </insert>
@@ -103,5 +105,18 @@
         <foreach collection="existTags" item="id" separator="," open="(" close=")">
             #{id,jdbcType=INTEGER}
         </foreach>
+    </select>
+    <select id="selectAllByArticleId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tag, article_tag where tag.id=article_tag.tag_id and article_tag.article_id=#{id}
+    </select>
+
+    <select id="selectAllByCount" resultType="com.root2z.model.entity.Tag">
+        select tag.id, tag.name, count(article_tag.tag_id) as count
+        from tag,
+            article_tag
+        where tag.id = article_tag.tag_id
+        group by article_tag.tag_id;
     </select>
 </mapper>

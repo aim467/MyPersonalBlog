@@ -77,4 +77,14 @@ public class CategoryServiceImpl implements CategoryService {
   public List<Category> getAllCategories() {
     return categoryMapper.findAll();
   }
+
+  /**
+   * 根据博客统计分类数
+   *
+   * @return
+   */
+  @Override
+  public List<Category> getCategoryCount() {
+    return categoryMapper.selectAllAndCount();
+  }
 }

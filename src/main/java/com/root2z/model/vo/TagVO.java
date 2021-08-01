@@ -33,10 +33,6 @@ public class TagVO {
 
   @Override
   public String toString() {
-    return "TagVO{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            ", Selected=" + Selected +
-            '}';
+    return "TagVO{" + "id=" + id + ", name='" + name + '\'' + ", Selected=" + Selected + '}';
   }
 }

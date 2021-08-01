@@ -28,8 +28,6 @@ public interface CategoryMapper {
 
   Category selectByName(String name);
 
-  Category selectByArticleId(@Param("articleId") Integer articleId);
-
   /**
    * 统计分类数
    *
@@ -43,4 +41,11 @@ public interface CategoryMapper {
    * @return List<Category> 分类列表
    */
   List<Category> findAll();
+
+  /**
+   * 根据博客统计标签数
+   *
+   * @return
+   */
+  List<Category> selectAllAndCount();
 }

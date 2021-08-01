@@ -5,6 +5,17 @@ public class Tag {
 
   private String name;
 
+  /** 标签统计 */
+  private Integer count;
+
+  public Integer getCount() {
+    return count;
+  }
+
+  public void setCount(Integer count) {
+    this.count = count;
+  }
+
   public Integer getId() {
     return id;
   }
@@ -23,6 +34,10 @@ public class Tag {
 
   @Override
   public String toString() {
-    return "Tag{" + "id=" + id + ", name='" + name + '\'' + '}';
+    return "Tag{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", count=" + count +
+            '}';
   }
 }

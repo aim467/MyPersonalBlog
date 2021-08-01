@@ -1,5 +1,6 @@
 package com.root2z;
 
+import com.root2z.dao.ArticleMapper;
 import com.root2z.dao.TagMapper;
 import com.root2z.service.ArticleService;
 import com.root2z.service.CommentService;
@@ -11,10 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class MyPersonalBlogApplicationTests {
 
-  @Autowired private TagMapper tagMapper;
+  @Autowired private ArticleMapper articleMapper;
 
   @Test
   void contextLoads() {
-    System.out.println(tagMapper.deleteTagAndArticleTagById(15));
+    System.out.println(articleMapper.selectAllByTop(4));
   }
 }

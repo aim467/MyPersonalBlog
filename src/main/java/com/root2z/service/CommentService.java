@@ -3,6 +3,8 @@ package com.root2z.service;
 import com.github.pagehelper.PageInfo;
 import com.root2z.model.entity.Comment;
 
+import java.util.List;
+
 public interface CommentService {
 
   /**
@@ -28,4 +30,12 @@ public interface CommentService {
    * @return
    */
   boolean deleteComment(Integer commentId);
+
+  /**
+   * 获得最新的评论
+   *
+   * @param limit
+   * @return
+   */
+  List<Comment> getNewComments(Integer limit);
 }

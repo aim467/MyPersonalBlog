@@ -5,15 +5,16 @@ import com.github.pagehelper.PageInfo;
 import com.root2z.dao.*;
 import com.root2z.model.entity.*;
 import com.root2z.model.vo.ArticleVO;
+import com.root2z.model.vo.FrontArticleVO;
 import com.root2z.model.vo.ResultVO;
 import com.root2z.service.ArticleService;
 import com.root2z.utils.AliyunOSSUtil;
+import com.root2z.utils.BlogUtils;
 import com.root2z.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -74,6 +75,15 @@ public class ArticleServiceImpl implements ArticleService {
   @Override
   @Transactional
   public ResultVO addArticle(ArticleVO articleVO) {
+
+    if (articleVO.getCategoryId() == null) {
+      return ResultUtil.error("未选择分类，请至少选择一个分类!", null);
+    }
+
+    if (articleVO.getExistTags() == null) {
+      return ResultUtil.error("未选择标签，请至少确定一个标签!", null);
+    }
+
     // 保存文章时，手动设置发布时间和更新时间为当前时间
     articleVO.setPublishTime(new Date());
     articleVO.setUpdateTime(new Date());
@@ -82,21 +92,34 @@ public class ArticleServiceImpl implements ArticleService {
     HttpSession session = request.getSession();
     articleVO.setAuthor((String) session.getAttribute("nickName"));
 
-    String cover = aliyunOSSUtil.uploadFile(articleVO.getCoverImage(), "");
-    articleVO.setCover(cover);
+    // 如果上传了封面图，则上传到阿里云
+    if (!articleVO.getCoverImage().isEmpty()) {
+      String cover = aliyunOSSUtil.uploadFile(articleVO.getCoverImage(), "");
+      // 拿到返回的图片地址
+      articleVO.setCover(cover);
+    }
+    // 否则，使用一个随机封面图
+    articleVO.setCover(BlogUtils.randomWallpaper());
 
     // POJO与VO转换
     Article article = new Article();
     BeanUtils.copyProperties(articleVO, article);
 
+    // 插入文章并且保存分类ID
+    if (articleMapper.insert(article) == 0) {
+      return ResultUtil.error("插入文章失败", null);
+    }
+
     // 新标签非空判断
     if (!StringUtils.isEmpty(articleVO.getNewTags()) || null != articleVO.getNewTags()) {
       // 根据选中的标签ID查询存在标签
       List<Tag> findTags = tagMapper.findByIds(articleVO.getExistTags());
+      // 拿到所有的标签列表
       List<Tag> allTag = tagMapper.findAll();
+      // 新标签的列表
       List<Tag> newTags = getTagListFromVO(articleVO.getNewTags());
 
-      // 已存在标签列表和新标签列表判断
+      // 使用所有标签列表和新标签判断
       for (Tag tag : allTag) {
         for (Tag newTag : newTags) {
           if (tag.getName().equals(newTag.getName())) {
@@ -106,10 +129,11 @@ public class ArticleServiceImpl implements ArticleService {
       }
 
       try {
-        // 先删除关联
+        // 暴力删除此文章标签关联表的所有记录
         if (articleTagMapper.deleteByArticleId(articleVO.getId()) < 0) {
           return ResultUtil.error("删除关联表出错!", null);
         }
+
         // 在已知标签列表中插入 文章标签中间表记录
         for (Tag findTag : findTags) {
           ArticleTag articleTag = new ArticleTag(article.getId(), findTag.getId());
@@ -118,9 +142,11 @@ public class ArticleServiceImpl implements ArticleService {
 
         // 对于新的标签，先在新的标签表中插入记录，最后在中间表建立关联
         for (Tag newTag : newTags) {
+          // 插入时返回ID
           if (tagMapper.insertByName(newTag) == 0) {
             return ResultUtil.error("插入新的标签失败!", null);
           }
+
           ArticleTag articleTag = new ArticleTag(article.getId(), newTag.getId());
           if (articleTagMapper.insert(articleTag) == 0) {
             return ResultUtil.error("插入中间表关联失败!", null);
@@ -130,10 +156,6 @@ public class ArticleServiceImpl implements ArticleService {
       } catch (Exception e) {
         throw e;
       }
-    }
-    // 插入文章并且保存分类ID
-    if (articleMapper.insert(article) == 0) {
-      return ResultUtil.error("插入文章失败", null);
     }
 
     return ResultUtil.error("插入文章成功，无新标签插入", null);
@@ -180,22 +202,38 @@ public class ArticleServiceImpl implements ArticleService {
   @Override
   @Transactional
   public ResultVO editArticle(ArticleVO articleVO) {
+    if (articleVO.getCategoryId() == null) {
+      return ResultUtil.error("未选择分类，请至少选择一个分类!", null);
+    }
+
+    if (articleVO.getExistTags() == null) {
+      return ResultUtil.error("未选择标签，请至少选择一个标签!", null);
+    }
+
     // 拿到当前登录用户
     HttpSession session = request.getSession();
     articleVO.setAuthor((String) session.getAttribute("nickName"));
     // 只需要设置更新时间
-    articleVO.setPublishTime(new Date());
+    articleVO.setUpdateTime(new Date());
 
-    if (articleVO.getCoverImage() != null) {
+    // 如果上传了封面图，那么上传到阿里云
+    if (!articleVO.getCoverImage().isEmpty()) {
       // 先删除文件
       aliyunOSSUtil.deleteFile(articleVO.getCover());
       // 再上传文件
       String cover = aliyunOSSUtil.uploadFile(articleVO.getCoverImage(), "");
       articleVO.setCover(cover);
     }
+    // 否则使用随机壁纸
+    articleVO.setCover(BlogUtils.randomWallpaper());
 
     Article article = new Article();
     BeanUtils.copyProperties(articleVO, article);
+
+    // 更新文章并且同时更新分类ID
+    if (articleMapper.updateByPrimaryKeySelective(article) == 0) {
+      return ResultUtil.error("更新文章失败!", null);
+    }
 
     if (!StringUtils.isEmpty(articleVO.getNewTags()) || null != articleVO.getNewTags()) {
       List<Tag> findTags = tagMapper.findByIds(articleVO.getExistTags());
@@ -212,7 +250,7 @@ public class ArticleServiceImpl implements ArticleService {
       }
 
       try {
-        // 先删除关联
+        // 暴力删除法
         if (articleTagMapper.deleteByArticleId(articleVO.getId()) < 0) {
           return ResultUtil.error("删除关联表出错!", null);
         }
@@ -239,11 +277,6 @@ public class ArticleServiceImpl implements ArticleService {
       } catch (Exception e) {
         throw e;
       }
-    }
-
-    // 更新文章并且同时更新分类ID
-    if (articleMapper.updateByPrimaryKeySelective(article) == 0) {
-      return ResultUtil.error("更新文章失败!", null);
     }
 
     return ResultUtil.error("更新文章成功，无新标签插入", null);
@@ -285,5 +318,45 @@ public class ArticleServiceImpl implements ArticleService {
   @Override
   public boolean updateArticleStatus(Integer articleId, Integer status) {
     return articleMapper.updateStatusByPrimaryKey(articleId, status) == 1;
+  }
+
+  /**
+   * 获取置顶的博客，设置分类名字，设置标签列表
+   *
+   * @return
+   */
+  @Override
+  public List<Article> getTopArticle(Integer top) {
+    // 获得前4个置顶博客
+    return articleMapper.selectAllByTop(top);
+  }
+
+  /**
+   * 根据文章的更新时间进行分页
+   *
+   * @param page
+   * @param size
+   */
+  @Override
+  public PageInfo<Article> getArticleByTime(Integer page, Integer size) {
+    // 设定分页
+    PageHelper.startPage(page, size);
+    List<Article> articles = articleMapper.selectAllByUpdateTime();
+
+    // 设置分类
+    for (Article article : articles) {
+      article.setCategory(categoryMapper.selectByPrimaryKey(article.getCategoryId()));
+    }
+    // 设置标签
+    for (Article article : articles) {
+      List<Tag> tags = tagMapper.selectAllByArticleId(article.getId());
+      article.setTags(tags);
+    }
+    return new PageInfo<Article>(articles);
+  }
+
+  @Override
+  public List<Article> getRecommendArticle(Integer recommendNumber) {
+    return articleMapper.selectAllByRecommend(recommendNumber);
   }
 }

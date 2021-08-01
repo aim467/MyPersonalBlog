@@ -57,4 +57,15 @@ public interface TagMapper {
   List<Tag> findByIds(List<Integer> existTags);
 
   int deleteTagAndArticleTagById(@Param("tagId") Integer tagId);
+
+  /**
+   * 根据文章得到对应的标签
+   *
+   * @param id
+   * @return
+   */
+  List<Tag> selectAllByArticleId(Integer id);
+
+  // 统计所有的标签拥有的文章数目
+  List<Tag> selectAllByCount();
 }

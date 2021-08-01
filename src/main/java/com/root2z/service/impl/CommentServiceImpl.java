@@ -73,4 +73,9 @@ public class CommentServiceImpl implements CommentService {
     }
     return false;
   }
+
+  @Override
+  public List<Comment> getNewComments(Integer limit) {
+    return commentMapper.selectAllBySorted(limit);
+  }
 }

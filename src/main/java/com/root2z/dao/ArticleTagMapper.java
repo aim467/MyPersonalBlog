@@ -1,8 +1,11 @@
 package com.root2z.dao;
 
 import com.root2z.model.entity.ArticleTag;
+import com.root2z.model.entity.Tag;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface ArticleTagMapper {
