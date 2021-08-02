@@ -70,4 +70,9 @@ public class FriendServiceImpl implements FriendService {
   public boolean updateFriend(Friend friend) {
     return friendMapper.updateByPrimaryKey(friend) == 1;
   }
+
+  @Override
+  public List<Friend> listFriends() {
+    return friendMapper.findAll();
+  }
 }

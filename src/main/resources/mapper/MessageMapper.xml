@@ -164,4 +164,36 @@
             #{item}
         </foreach>
     </delete>
+
+
+    <!--查询父级评论-->
+    <select id="findByParentIdNull" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from message
+        where parent_id = #{ParentId}
+        and is_active = 1
+        order by create_time desc
+    </select>
+
+    <!--查询一级回复-->
+    <select id="findByParentIdNotNull" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from message
+        where parent_id = #{id}
+        and is_active = 1
+        order by create_time desc
+    </select>
+
+    <!--查询二级以及所有子集回复-->
+    <select id="findByReplayId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from message
+        where parent_id = #{childId}
+        and is_active = 1
+        order by create_time desc
+    </select>
+
 </mapper>

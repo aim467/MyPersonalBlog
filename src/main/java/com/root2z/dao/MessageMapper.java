@@ -38,4 +38,15 @@ public interface MessageMapper {
    * @return
    */
   int deleteAllById(@Param("Ids") List<Integer> Ids);
+
+
+  //查询父级评论
+  List<Message> findByParentIdNull(@Param("ParentId") Integer ParentId);
+
+  //查询一级回复
+  List<Message> findByParentIdNotNull(@Param("id") Integer id);
+
+  //查询二级以及所有子集回复
+  List<Message> findByReplayId(@Param("childId") Integer childId);
+
 }

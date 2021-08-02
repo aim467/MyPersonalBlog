@@ -5,10 +5,14 @@ import com.github.pagehelper.PageInfo;
 import com.root2z.config.BlogConst;
 import com.root2z.dao.MessageMapper;
 import com.root2z.model.entity.Message;
+import com.root2z.model.vo.ResultVO;
 import com.root2z.service.MessageService;
+import com.root2z.utils.RandomAvatar;
+import com.root2z.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +24,9 @@ public class MessageServiceImpl implements MessageService {
 
   /** 保存要被删除的留言ID集合 */
   private List<Integer> messageIds = new ArrayList<>();
+
+  /** 所有子回复集合 */
+  private List<Message> tempReplys = new ArrayList<>();
 
   @Autowired
   public MessageServiceImpl(MessageMapper messageMapper) {
@@ -88,5 +95,80 @@ public class MessageServiceImpl implements MessageService {
       recursionDelete(messageId);
     }
     return false;
+  }
+
+  /** @Description: 查询评论 @Auther: ONESTAR @Date: 17:26 2020/4/14 @Param: @Return: 评论消息 */
+  @Override
+  public List<Message> listMessage() {
+    // 查询出父节点
+    List<Message> messages = messageMapper.findByParentIdNull(-1);
+    for (Message message : messages) {
+      int id = message.getId();
+      String parentNickname1 = message.getAuthor();
+      List<Message> childMessages = messageMapper.findByParentIdNotNull(id);
+      // 查询出子评论
+      combineChildren(childMessages, parentNickname1);
+      message.setReplyMessages(tempReplys);
+      tempReplys = new ArrayList<>();
+    }
+    return messages;
+  }
+
+  @Override
+  public ResultVO addMessage(Message message) {
+    if (message.getAvatar().equals("")) {
+      try {
+        message.setAvatar(RandomAvatar.getBase64Avatar());
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+    if (message.getAuthor().equals("") || message.getContent().equals("")) {
+      return ResultUtil.error("请填写正确的昵称和内容", null);
+    }
+
+    if (messageMapper.insertSelective(message) < 0) {
+      return ResultUtil.error("提交留言失败!", null);
+    }
+    return ResultUtil.success("提交留言成功", null);
+  }
+
+  /**
+   * @Description: 查询出子评论 @Auther: ONESTAR @Date: 17:31 2020/4/14 @Param:
+   * childComments：所有子评论 @Param: parentNickname1：父评论的姓名 @Return:
+   */
+  private void combineChildren(List<Message> childMessages, String parentNickname1) {
+    // 判断是否有一级子回复
+    if (childMessages.size() > 0) {
+      // 循环找出子评论的id
+      for (Message childMessage : childMessages) {
+        String parentNickname = childMessage.getAuthor();
+        childMessage.setParentNickname(parentNickname1);
+        tempReplys.add(childMessage);
+        int childId = childMessage.getId();
+        // 查询二级以及所有子集回复
+        recursively(childId, parentNickname);
+      }
+    }
+  }
+
+  /**
+   * @Description: 循环迭代找出子集回复 @Auther: ONESTAR @Date: 17:33 2020/4/14 @Param: childId：子评论的id @Param:
+   * parentNickname1：子评论的姓名 @Return:
+   */
+  private void recursively(int childId, String parentNickname1) {
+    // 根据子一级评论的id找到子二级评论
+    List<Message> replayMessages = messageMapper.findByReplayId(childId);
+
+    if (replayMessages.size() > 0) {
+      for (Message replayMessage : replayMessages) {
+        String parentNickname = replayMessage.getAuthor();
+        replayMessage.setParentNickname(parentNickname1);
+        int replayId = replayMessage.getId();
+        tempReplys.add(replayMessage);
+        // 循环迭代找出子集回复
+        recursively(replayId, parentNickname);
+      }
+    }
   }
 }

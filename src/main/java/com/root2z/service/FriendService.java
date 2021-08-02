@@ -3,6 +3,8 @@ package com.root2z.service;
 import com.github.pagehelper.PageInfo;
 import com.root2z.model.entity.Friend;
 
+import java.util.List;
+
 public interface FriendService {
 
   /**
@@ -27,4 +29,6 @@ public interface FriendService {
   Friend getFriendById(Integer id);
 
   boolean updateFriend(Friend friend);
+
+  List<Friend> listFriends();
 }

@@ -1,117 +1,114 @@
 <!DOCTYPE HTML>
 <html class="no-js" lang=zh-cmn-Hans xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title th:text="${currentArticle.title}">dokuwiki静态化配置 - IDZD</title>
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css">
-    <link rel="stylesheet" type="text/css" th:href="@{/blog/lib/waxy/css/waxy-main.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/blog/lib/waxy/lib/prism/css/Okaidia.css}"/>
-    <link rel="shortcut icon" th:href="@{/blog/images/favicon.ico}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/blog/css/toc_style.css}"/>
-    <link th:href="@{/admin/css/bootstrapValidator.min.css}" rel="stylesheet">
+<head th:replace="blog/_fragments :: head(~{::title})">
+    <title>友情链接</title>
 </head>
 <body class="home-template">
-
-<nav class="main-navigation" th:replace="blog/_fragments :: navigation('')">
+<nav class="main-navigation" th:replace="blog/_fragments :: navigation('friends')">
 </nav>
 
 <section class="content-wrap">
     <div class="container">
         <div class="row">
             <main class="col-md-8 main-content">
-                <article id="20" class="post">
+                <article id="2" class="post">
                     <header class="post-head">
-                        <h1 class="post-title" th:text="${currentArticle.title}">dokuwiki静态化配置</h1>
-                        <section class="post-meta">
-                            <span class="author">作者：
-                                <span itemprop="name" rel="author" style="color: #9c3328"
-                                      th:text="${currentArticle.author}">
-                                </span>
-                            </span>
-                            <time class="post-date"
-                                  th:datetime="${#dates.format(currentArticle.publishTime, 'yyyy-MM-dd')}"
-                                  th:text="${#dates.format(currentArticle.publishTime, 'yyyy-MM-dd')}">
-                            </time>
-                            <span class="author">分类：<a
-                                    th:href="@{/category/{id}(id=${currentArticle.categoryId})}"
-                                    th:text="${currentArticle.category.name}">笔记</a></span>
-                        </section>
+                        <h1 class="post-title">友链</h1>
+                        <section class="post-meta"></section>
                         <div class="post-border"></div>
                     </header>
-                    <section class="post-content" th:utext="${currentArticle.content}">
+
+                    <section class="post-content">
+                        <div>
+                            <img src="https://buckets-me.oss-cn-beijing.aliyuncs.com/wallhaven-n673pw.png" alt="">
+                        </div>
+                        <div>
+                            <h4>本站信息</h4>
+                            <h4>站名：DedSec's Blog</h4>
+                            <h4>站长名字：DedSec</h4>
+                            <h4>链接：https://127.0.0.1:8080</h4>
+                            <h4>头像： <img style="width: 50px; height: 50px; border-radius: 10px;"
+                                         src="https://p3-tt-ipv6.byteimg.com/origin/pgc-image/10d1842054d0455d894e5289d3d81c91"
+                                         alt=""></h4>
+                            <h4>简介：起风了!</h4>
+                        </div>
+                        <p></p>
+                        <div>
+                            <span>本站接受任何朋友进行互相友链，添加本站后，在下方留言，博主收到你的留言后，会在后台进行添加，谢谢 :)</span>
+                        </div>
+
                     </section>
-                    <footer class="post-footer clearfix">
-                        <div class="pull-left tag-list">
-                            <i class="glyphicon glyphicon-folder-open"></i>
-                            <a th:href="@{/tag/{id}(id=${tag.id})}"
-                               th:each="tag : ${currentArticle.tags}"
-                               th:text="${tag.name}">编程</a>
-                        </div>
-                        <div class="pull-right tag-list post-permalink">
-                            最后修改于：<span
-                                th:text="${#dates.format(currentArticle.updateTime, 'yyyy-MM-dd HH:mm')}"></span>
-                        </div>
-                    </footer>
+                    <footer class="post-footer clearfix"></footer>
                 </article>
+
+                <div class="friends clearfix">
+                    <h4>友链列表</h4>
+                    <hr style="height: 10px;">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-t-10 friend" th:each="friend : ${friends}">
+                            <!-- 头像 -->
+                            <div class="col-lg-4 col-md-4 col-sm-2 col-xs-3 avatar">
+                                <a href="" th:href="${friend.url}">
+                                    <img th:src="@{${friend.getAvatar()}}"  alt="">
+                                </a>
+                            </div>
+                            <!-- 右侧部分 -->
+                            <div class="col-lg-8 col-md-8 col-sm-9 col-xs-9 info">
+                                <a class="title" th:text="${friend.getName()}">水月无证</a>
+                                <div>
+                                    <span th:text="${friend.getDescription()}">一个以分享音乐，为摘抄文字为主的博客</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="about-author clearfix">
                     <div id="comments">
-                        <ol class="comment-list">
+                        <h4>已有 <span th:text="${messageCount}"></span> 条评论</h4>
 
-                            <!-- 一级评论 -->
+                        <ol class="comment-list">
                             <li id="comment-463" class="comment-body comment-parent comment-even"
-                                th:each="comment : ${commentList}">
-                                <!-- 评论人信息 -->
+                                th:each="message: ${messages}">
                                 <div class="comment-author">
-                                    <span>
-                                        <img class="avatar" th:src="@{${comment.avatar}}" alt="雨中执笔" width="32"
-                                             height="32">
-                                    </span>
-                                    <span th:text="${comment.commentator}"></span>
+                                    <span itemprop="image">
+                                        <img class="avatar" th:src="@{${message.avatar}}"
+                                             alt="雨中执笔" width="32" height="32"></span>
+                                    <span th:text="${message.author}"></span>
                                 </div>
 
-                                <!-- 评论元数据 -->
                                 <div class="comment-meta">
-                                    <span th:text="${#dates.format(comment.createTime, 'yyyy-MM-dd HH:mm')}">
+                                    <span th:text="${#dates.format(message.createTime, 'yyyy-MM-dd HH:mm')}">
                                     </span>
 
-                                    <a th:attr="data-commentid=${comment.id},data-commentnickname=${comment.commentator}"
+                                    <a th:attr="data-commentid=${message.id},data-commentnickname=${message.author}"
                                        onclick="reply(this)">回复</a>
                                 </div>
 
-                                <!-- 评论内容 -->
                                 <div class="comment-content"
                                      style="margin:20px 0 20px 0; border-bottom: #00c4ff solid 2px;"
-                                     itemprop="commentText" th:text="${comment.content}">
+                                     itemprop="commentText" th:text="${message.content}">
                                 </div>
 
-
+                                <!-- 子回复集合 -->
                                 <div class="comment-children" itemprop="discusses">
                                     <ol class="comment-list">
-                                        <!-- 子评论集合 -->
-                                        <li itemscope="" id="comment-465"
-                                            class="comment-body comment-child comment-level-odd comment-odd comment-by-author"
-                                            th:each="reply : ${comment.replyComments}"
-                                            th:if="${#arrays.length(comment.replyComments)}>0">
-
-                                            <!-- 评论作者信息 -->
+                                        <li id="comment-465" th:each="reply : ${message.replyMessages}"
+                                            class="comment-body comment-child comment-level-odd comment-odd comment-by-author">
                                             <div class="comment-author">
                                                 <span itemprop="image">
                                                     <img class="avatar" th:src="@{${reply.avatar}}"
                                                          alt="dingzd" width="32" height="32"></span>
-                                                <span th:text="${reply.commentator}"></span>&nbsp;
+                                                <span th:text="${reply.author}"></span>&nbsp;
                                                 <span th:text="|@ ${reply.parentNickname}|" style="color: #00c4ff">@
                                                         </span>
                                             </div>
-
                                             <!-- 评论元数据 -->
                                             <div class="comment-meta">
                                                 <span th:text="${#dates.format(reply.createTime, 'yyyy-MM-dd HH:mm')}"
                                                       th:datetime="${reply.createTime}">
                                                 </span>
-                                                <a th:attr="data-commentid=${reply.id},data-commentnickname=${reply.commentator}"
+                                                <a th:attr="data-commentid=${reply.id},data-commentnickname=${reply.author}"
                                                    onclick="reply(this)">回复</a>
                                             </div>
 
@@ -126,42 +123,30 @@
                             </li>
                         </ol>
 
-                        <!-- 表单回复区域 -->
-                        <div id="respond-post-20" class="respond">
-                            <div class="cancel-comment-reply">
-                                <a id="cancel-comment-reply-link" href="index.html#respond-post-20" rel="nofollow"
-                                   style="display:none" onclick="return TypechoComment.cancelReply();">取消回复</a></div>
-                            <h3 id="response" class="addco">添加新评论</h3>
-                            <form method="post" id="comment-form"
-                                  role="form">
 
+                        <div id="respond-page-2" class="respond">
+                            <h3 id="response" class="addco">添加留言</h3>
+                            <form id="comment-form"
+                                  role="form">
                                 <div class="form-group" id="message">
                                     <div class="form-group">
                                         <div class="" id="showMessage"></div>
                                     </div>
                                 </div>
-
                                 <input type="hidden" name="parentId" value="-1">
-                                <input type="hidden" name="articleId" th:value="${currentArticle.id}">
 
                                 <div class="form-group has-feedback feedback-left">
-                                    <input type="text" name="commentator" placeholder="昵称（必填）" id="commentator"
+                                    <input type="text" name="author" placeholder="昵称（必填）" id="author"
                                            class="text form-control" value="" required/>
-
                                 </div>
-
                                 <div class="form-group has-feedback feedback-left">
                                     <input type="email" name="email" id="email" placeholder="邮件（必填）"
                                            class="text form-control" value="" required/>
-
                                 </div>
-
                                 <div class="form-group has-feedback feedback-left">
                                     <input type="url" name="avatar" id="avatar" class="text form-control"
                                            placeholder="(头像，非必填，可以随机生成)" value=""/>
                                 </div>
-
-
                                 <div class="form-group has-feedback feedback-left">
                                     <textarea rows="8" cols="50" name="content" id="content"
                                               class="textarea form-control"
@@ -176,22 +161,22 @@
                     </div>
                 </div>
             </main>
-
             <aside class="col-md-4 sidebar">
                 <div th:replace="blog/_fragments :: aside">
                 </div>
             </aside>
-
         </div>
     </div>
 </section>
+
 <div class="copyright" th:replace="blog/_fragments :: footer">
 </div>
+
 <a id="back-to-top"><i class="glyphicon glyphicon-menu-up"></i></a>
 <!--/*/<th:block th:replace="blog/_fragments :: script">/*/-->
 <!--/*/</th:block>/*/-->
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="text/javascript">
+<script>
     function reply(obj) {
         let commentId = $(obj).data('commentid');
         let commentNickname = $(obj).data('commentnickname');
@@ -244,9 +229,9 @@
         form.bootstrapValidator('validate');
         if (form.data('bootstrapValidator').isValid()) {
             $.ajax({
-                url: "/comment/save",
+                url: "/message/save",
                 method: 'POST',
-                data: $('#comment-form').serialize(),
+                data: form.serialize(),
                 success: function (data) {
                     if (data.code === 200) {
                         Swal.fire({

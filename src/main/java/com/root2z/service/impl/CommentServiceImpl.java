@@ -149,7 +149,7 @@ public class CommentServiceImpl implements CommentService {
 
   @Override
   public ResultVO saveComment(Comment comment) {
-    if (comment.getAvatar() == null) {
+    if (comment.getAvatar().equals("")) {
       try {
         comment.setAvatar(RandomAvatar.getBase64Avatar());
       } catch (IOException e) {
