@@ -40,4 +40,13 @@ public interface CommentMapper {
   int deleteAllByIds(@Param("Ids") List<Integer> ids);
 
   List<Comment> selectAllBySorted(Integer limit);
+
+  // 查询父级评论
+  List<Comment> findByParentIdNull(@Param("ParentId") int ParentId, @Param("articleId") int articleId);
+
+  // 查询一级回复
+  List<Comment> findByParentIdNotNull(@Param("id") int id, @Param("articleId") int articleId);
+
+  // 查询二级以及所有子集回复
+  List<Comment> findByReplayId(@Param("childId") int childId, @Param("articleId") int articleId);
 }

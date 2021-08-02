@@ -56,4 +56,6 @@ public interface ArticleMapper {
    * @return
    */
   List<Article> selectAllByRecommend(Integer recommendNumber);
+
+    Article selectByArticleId(Integer articleId);
 }

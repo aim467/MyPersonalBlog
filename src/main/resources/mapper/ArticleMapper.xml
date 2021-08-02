@@ -232,6 +232,44 @@
           and is_recommend = 1 limit #{recommendNumber}
     </select>
 
+
+    <resultMap id="ArticleMap" type="com.root2z.model.entity.Article" extends="ResultMapWithBLOBs">
+        <association property="category" javaType="com.root2z.model.entity.Category">
+            <id column="cid" property="id" jdbcType="INTEGER"/>
+            <result column="cname" jdbcType="VARCHAR" property="name"/>
+        </association>
+        <collection property="tags" javaType="list" ofType="com.root2z.model.entity.Tag">
+            <id column="tid" property="id" jdbcType="INTEGER"/>
+            <result column="tname" property="name" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="selectByArticleId" resultMap="ArticleMap">
+        select distinct article.id,
+                        article.title,
+                        article.author,
+                        article.content,
+                        article.publish_time,
+                        article.update_time,
+                        article.cover,
+                        article.introduce,
+                        article.content,
+                        article.category_id,
+                        category.id   as cid,
+                        category.name as cname,
+                        tag.id        as tid,
+                        tag.name      as tname
+        from article,
+             category,
+             tag,
+             article_tag
+        where article.id = #{articleId}
+          and article.category_id = category.id
+          and tag.id = article_tag.tag_id
+          and article_tag.article_id = article.id;
+    </select>
+
     <update id="updateStatusByPrimaryKey">
         update article
         set status=#{status,jdbcType=INTEGER}

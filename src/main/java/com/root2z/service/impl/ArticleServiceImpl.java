@@ -11,6 +11,7 @@ import com.root2z.service.ArticleService;
 import com.root2z.utils.AliyunOSSUtil;
 import com.root2z.utils.BlogUtils;
 import com.root2z.utils.ResultUtil;
+import com.youbenzi.mdtool.tool.MDTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -358,5 +359,12 @@ public class ArticleServiceImpl implements ArticleService {
   @Override
   public List<Article> getRecommendArticle(Integer recommendNumber) {
     return articleMapper.selectAllByRecommend(recommendNumber);
+  }
+
+  @Override
+  public Article getArticleById(Integer articleId) {
+    Article article = articleMapper.selectByArticleId(articleId);
+    article.setContent(MDTool.markdown2Html(article.getContent()));
+    return article;
   }
 }

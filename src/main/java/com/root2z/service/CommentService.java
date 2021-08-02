@@ -2,6 +2,7 @@ package com.root2z.service;
 
 import com.github.pagehelper.PageInfo;
 import com.root2z.model.entity.Comment;
+import com.root2z.model.vo.ResultVO;
 
 import java.util.List;
 
@@ -38,4 +39,18 @@ public interface CommentService {
    * @return
    */
   List<Comment> getNewComments(Integer limit);
+
+  /**
+   * 列出所有评论
+   *
+   * @return
+   */
+  List<Comment> listComment(Integer articleId);
+
+  /**
+   * 保存评论
+   *
+   * @return
+   */
+  ResultVO saveComment(Comment comment);
 }

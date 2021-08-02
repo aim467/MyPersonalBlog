@@ -12,10 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class MyPersonalBlogApplicationTests {
 
-  @Autowired private ArticleMapper articleMapper;
+  @Autowired private CommentService commentService;
 
   @Test
   void contextLoads() {
-    System.out.println(articleMapper.selectAllByTop(4));
+    System.out.println(commentService.listComment(14));
   }
 }

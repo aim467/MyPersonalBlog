@@ -63,4 +63,6 @@ public interface ArticleService {
    * @return
    */
   List<Article> getRecommendArticle(Integer recommendNumber);
+
+  Article getArticleById(Integer articleId);
 }

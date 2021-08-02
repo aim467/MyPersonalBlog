@@ -1,0 +1,266 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang=zh-cmn-Hans xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title th:text="${currentArticle.title}">dokuwiki静态化配置 - IDZD</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/blog/lib/waxy/css/waxy-main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/blog/lib/waxy/lib/prism/css/Okaidia.css}"/>
+    <link rel="shortcut icon" th:href="@{/blog/images/favicon.ico}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/blog/css/toc_style.css}"/>
+</head>
+<body class="home-template">
+
+<nav class="main-navigation" th:replace="blog/_fragments :: navigation">
+</nav>
+
+<section class="content-wrap">
+    <div class="container">
+        <div class="row">
+            <main class="col-md-8 main-content">
+                <article id="20" class="post">
+                    <header class="post-head">
+                        <h1 class="post-title" th:text="${currentArticle.title}">dokuwiki静态化配置</h1>
+                        <section class="post-meta">
+                            <span class="author">作者：
+                                <span itemprop="name" rel="author" style="color: #9c3328"
+                                      th:text="${currentArticle.author}">
+                                </span>
+                            </span>
+                            <time class="post-date"
+                                  th:datetime="${#dates.format(currentArticle.publishTime, 'yyyy-MM-dd')}"
+                                  th:text="${#dates.format(currentArticle.publishTime, 'yyyy-MM-dd')}">
+                            </time>
+                            <span class="author">分类：<a
+                                    th:href="@{/category/{id}(id=${currentArticle.categoryId})}"
+                                    th:text="${currentArticle.category.name}">笔记</a></span>
+                        </section>
+                        <div class="post-border"></div>
+                    </header>
+                    <section class="post-content" th:utext="${currentArticle.content}">
+                    </section>
+                    <footer class="post-footer clearfix">
+                        <div class="pull-left tag-list">
+                            <i class="glyphicon glyphicon-folder-open"></i>
+                            <a th:href="@{/tag/{id}(id=${tag.id})}"
+                               th:each="tag : ${currentArticle.tags}"
+                               th:text="${tag.name}">编程</a>
+                        </div>
+                        <div class="pull-right tag-list post-permalink">
+                            最后修改于：<span
+                                th:text="${#dates.format(currentArticle.updateTime, 'yyyy-MM-dd HH:mm')}"></span>
+                        </div>
+                    </footer>
+                </article>
+                <div class="about-author clearfix">
+                    <div id="comments">
+                        <ol class="comment-list">
+
+                            <!-- 一级评论 -->
+                            <li id="comment-463" class="comment-body comment-parent comment-even"
+                                th:each="comment : ${commentList}">
+                                <!-- 评论人信息 -->
+                                <div class="comment-author">
+                                    <span>
+                                        <img class="avatar" th:src="@{${comment.avatar}}" alt="雨中执笔" width="32"
+                                             height="32">
+                                    </span>
+                                    <span th:text="${comment.commentator}"></span>
+                                </div>
+
+                                <!-- 评论元数据 -->
+                                <div class="comment-meta">
+                                    <span th:text="${#dates.format(comment.createTime, 'yyyy-MM-dd HH:mm')}">
+                                    </span>
+
+                                    <a th:attr="data-commentid=${comment.id},data-commentnickname=${comment.commentator}"
+                                       onclick="reply(this)">回复</a>
+                                </div>
+
+                                <!-- 评论内容 -->
+                                <div class="comment-content"
+                                     style="margin:20px 0 20px 0; border-bottom: #00c4ff solid 2px;"
+                                     itemprop="commentText" th:text="${comment.content}">
+                                </div>
+
+
+                                <div class="comment-children" itemprop="discusses">
+                                    <ol class="comment-list">
+                                        <!-- 子评论集合 -->
+                                        <li itemscope="" id="comment-465"
+                                            class="comment-body comment-child comment-level-odd comment-odd comment-by-author"
+                                            th:each="reply : ${comment.replyComments}"
+                                            th:if="${#arrays.length(comment.replyComments)}>0">
+
+                                            <!-- 评论作者信息 -->
+                                            <div class="comment-author">
+                                                <span itemprop="image">
+                                                    <img class="avatar" th:src="@{${reply.avatar}}"
+                                                         alt="dingzd" width="32" height="32"></span>
+                                                <span th:text="${reply.commentator}"></span>&nbsp;
+                                                <span th:text="|@ ${reply.parentNickname}|" style="color: #00c4ff">@
+                                                        </span>
+                                            </div>
+
+                                            <!-- 评论元数据 -->
+                                            <div class="comment-meta">
+                                                <span th:text="${#dates.format(reply.createTime, 'yyyy-MM-dd HH:mm')}"
+                                                      th:datetime="${reply.createTime}">
+                                                </span>
+                                                <a th:attr="data-commentid=${reply.id},data-commentnickname=${reply.commentator}"
+                                                   onclick="reply(this)">回复</a>
+                                            </div>
+
+                                            <!-- 评论主题 -->
+                                            <div th:text="${reply.content}" class="comment-content"
+                                                 style="margin: 20px 0 20px 0; border-bottom: #00c4ff solid 2px;"
+                                                 itemprop="commentText">
+                                            </div>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <!-- 表单回复区域 -->
+                        <div id="respond-post-20" class="respond">
+                            <div class="cancel-comment-reply">
+                                <a id="cancel-comment-reply-link" href="index.html#respond-post-20" rel="nofollow"
+                                   style="display:none" onclick="return TypechoComment.cancelReply();">取消回复</a></div>
+                            <h3 id="response" class="addco">添加新评论</h3>
+                            <form method="post" id="comment-form"
+                                  role="form">
+
+                                <div class="form-group" id="message">
+                                    <div class="form-group">
+                                        <div class="" id="showMessage"></div>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="parentId" value="-1">
+                                <input type="hidden" name="articleId" th:value="${currentArticle.id}">
+
+                                <div class="form-group has-feedback feedback-left">
+                                    <input type="text" name="commentator" placeholder="昵称（必填）" id="commentator"
+                                           class="text form-control" value="" required/>
+
+                                </div>
+
+                                <div class="form-group has-feedback feedback-left">
+                                    <input type="email" name="email" id="email" placeholder="邮件（必填）"
+                                           class="text form-control" value="" required/>
+
+                                </div>
+
+                                <div class="form-group has-feedback feedback-left">
+                                    <input type="url" name="avatar" id="avatar" class="text form-control"
+                                           placeholder="(头像，非必填，可以随机生成)" value=""/>
+                                </div>
+
+
+                                <div class="form-group has-feedback feedback-left">
+                                    <textarea rows="8" cols="50" name="content" id="content"
+                                              class="textarea form-control"
+                                              placeholder="留下您伟大的看法......" required></textarea>
+                                </div>
+                                <p>
+                                    <button type="button" class="submit btn btn-lg" id="submit">提交评论</button>
+                                    <span style="color: #f4645f;margin: 10px;">* 人工审核评论，通过后即可正常显示。</span>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <aside class="col-md-4 sidebar">
+                <div th:replace="blog/_fragments :: aside">
+                </div>
+            </aside>
+
+        </div>
+    </div>
+</section>
+<div class="copyright" th:replace="blog/_fragments :: footer">
+</div>
+<a id="back-to-top"><i class="glyphicon glyphicon-menu-up"></i></a>
+<!--/*/<th:block th:replace="blog/_fragments :: script">/*/-->
+<!--/*/</th:block>/*/-->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript">
+    function reply(obj) {
+        let commentId = $(obj).data('commentid');
+        let commentNickname = $(obj).data('commentnickname');
+        $("[name='content']").attr("placeholder", "@" + commentNickname).focus();
+        $("[name='parentId']").val(commentId);
+    }
+
+    $(function () {
+        $('#comment-form').bootstrapValidator({
+            message: '字段不合法',
+            fields: {
+                commentator: {
+                    validators: {
+                        notEmpty: {
+                            message: "昵称不能为空",
+                        },
+                        stringLength: {
+                            min: 5,
+                            max: 15,
+                            message: "昵称长度在5-15之间"
+                        }
+                    }
+                },
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: "邮箱不能为空"
+                        },
+                        regexp: {
+                            regexp: '^[^@\\s]+@([^@\\s]+\\.)+[^@\\s]+$',
+                            message: '邮箱的值不合法!'
+                        }
+                    }
+                },
+                content: {
+                    validators: {
+                        notEmpty: {
+                            message: "内容不能为空"
+                        }
+                    }
+                }
+            },
+        })
+    })
+
+    $('#submit').click(function () {
+        let form = $('#comment-form');
+        form.data("bootstrapValidator").resetForm();
+        form.data("bootstrapValidator").validate();
+        form.bootstrapValidator('validate');
+        if (form.data('bootstrapValidator').isValid()) {
+            $.ajax({
+                url: "/comment/save",
+                method: 'POST',
+                data: $('#comment-form').serialize(),
+                success: function (data) {
+                    if (data.code === 200) {
+                        Swal.fire({
+                            title: data.message,
+                            icon: "success",
+                        })
+                        location.reload();
+                    } else if (data.code === 400) {
+                        $('#comment-form').trigger('reset');
+                        $('#showMessage').innerText = data.message;
+                    }
+                }
+            })
+        }
+    })
+</script>
+</body>
+</html>
