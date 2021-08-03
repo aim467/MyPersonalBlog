@@ -21,7 +21,7 @@
             <div class="col-sm-12">
                 <div class="container">
                     <div class="menu menu-logo">
-                        <a class="navbar-brand menu-title" href="index.html" title="个人技术博客，记录并分享学习中的收获与乐趣！">
+                        <a class="navbar-brand menu-title" th:href="@{/}" title="个人技术博客，记录并分享学习中的收获与乐趣！">
                             <img th:src="@{/blog/images/logo.png}" height="45" style="margin: -15px -15px 35px 0px;"
                                  alt="IDZD" src="">
                         </a>
@@ -36,10 +36,13 @@
                         <ul class="menu">
                             <li th:class="${active == 'index' ? 'nav-current' : ''}"><a
                                     th:href="@{/}">首页</a></li>
-                            <li th:class="${active == 'archives' ? 'nav-current' : ''}"><a title="归档" th:href="@{/archives}">归档</a></li>
-                            <li><a href="category/coding/index.html" title="分类">分类</a></li>
+                            <li th:class="${active == 'archives' ? 'nav-current' : ''}">
+                                <a title="归档" th:href="@{/archives}">归档</a>
+                            </li>
+                            <li th:class="${active == 'categories' ? 'nav-current' : ''}">
+                                <a th:href="@{/category}" title="分类">分类</a>
+                            </li>
                             <li><a href="category/zt/index.html" title="标签">标签</a></li>
-                            <li><a href="category/note/index.html" title="留言">留言</a></li>
                             <li th:class="${active == 'friends' ? 'nav-current' : ''}"><a
                                     th:href="@{/friends}">友链</a>
                             </li>
@@ -87,7 +90,7 @@
         <div class="category">
             <ul class="menu-list">
                 <li th:each="category : ${categoryCount}">
-                    <a href="category/essay/index.html" th:href="@{category/{id}(id=${category.id})}"
+                    <a href="category/essay/index.html" th:href="@{/category(id=${category.id})}"
                        title="随笔" th:title="${category.name}">
                         <span class="menu-title" th:text="${category.name}">随笔</span>
                         <span class="menu-count label" th:text="${category.count}">16</span>
@@ -248,7 +251,10 @@
             var todayHour = today.getHours();
             var todayMinute = today.getMinutes();
             var todaySecond = today.getSeconds();
-            var t1 = Date.UTC(2021, 08, 01, 00, 00, 00); //北京时间2016-12-1 00:00:00
+            var t1 = Date.UTC(2021, 0
+            8, 01, 00, 00, 00
+        )
+            ; //北京时间2016-12-1 00:00:00
             var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
             var diff = t2 - t1;
             var diffYears = Math.floor(diff / years);
@@ -261,7 +267,6 @@
 
         siteTime();
     </script>
-
 </th:block>
 </body>
 </html>

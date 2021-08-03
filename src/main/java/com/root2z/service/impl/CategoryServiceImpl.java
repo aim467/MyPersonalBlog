@@ -87,4 +87,9 @@ public class CategoryServiceImpl implements CategoryService {
   public List<Category> getCategoryCount() {
     return categoryMapper.selectAllAndCount();
   }
+
+  @Override
+  public Integer getCategoryId() {
+    return categoryMapper.selectByFirst();
+  }
 }

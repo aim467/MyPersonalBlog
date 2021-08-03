@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang=zh-cmn-Hans xmlns:th="http://www.thymeleaf.org">
+<head th:replace="blog/_fragments :: head(~{::title})">
+    <title>分类列表</title>
+</head>
+<link rel="stylesheet" href="https://codehimblog.github.io/jquery.prettytag/css/prettytag.css"/>
+<body class="home-template">
+<!-- start navigation -->
+<nav class="main-navigation" th:replace="blog/_fragments :: navigation('categories')">
+</nav>
+<!-- end navigation -->
+
+<section class="content-wrap">
+    <div class="container">
+        <div class="row">
+            <main class="col-md-8 main-content">
+                <div class="cover tag-cover">
+                    <div class="breadcrumb tag-name">
+                        <center>
+                            <ul class="cloud-tags">
+                                <li th:each="category : ${categories}"><a th:href="@{/category(id=${category.id})}"> <i
+                                        class="glyphicon glyphicon-tags"></i>
+                                    [[${category.name}]]
+                                </a></li>
+                            </ul>
+                        </center>
+                    </div>
+                </div>
+                <article id="2810" class="post" th:each=" article : ${articles.getList()}"
+                         th:if="${articles.list.size() != 0}">
+                    <div class="post-head">
+                        <h1 class="post-title"><a th:href="@{/article/{id}(id=${article.id})}"
+                                                  th:text="${article.title}"></a>
+                        </h1>
+                        <div class="post-meta">
+                            <span class="author">作者：[[${article.author}]] </span>
+                            <time class="post-date" datetime="2021-04-05T10:48:00+08:00" title="2021年04月05日">
+                                时间：2021年04月05日
+                            </time>
+                            <span class="author">分类：<a th:text="${article.category.name}"
+                                                       th:href="@{/category(id=${article.category.id})}">笔记</a></span>
+                        </div>
+                        <div class="post-border"></div>
+                    </div>
+                    <div class="post-content">
+                        <div>
+                            <img th:src="${article.cover}" alt="">
+                        </div>
+                        <p style="margin-top: 10px" th:text="${article.introduce}"></p>
+                        <footer class="post-footer clearfix">
+                            <div class="pull-left tag-list">
+                                <i class="glyphicon glyphicon-folder-open"></i>
+                                <a th:href="@{/tag/{id}(id=${tag.id})}" th:each="tag : ${article.tags}"
+                                   th:text="${tag.name}">JavaScript</a>
+                            </div>
+                            <div class="pull-right post-permalink">
+                                <a href="archives/2810/index.html#comments" class="btn btn-default"
+                                   th:href="@{/article/{id}(id=${article.id})}">继续阅读</a>
+                            </div>
+                        </footer>
+                    </div>
+                </article>
+                <nav class="pagination" role="navigation">
+                    <a class="prev" href="https://www.idzd.top/page/1/" th:if="${articles.isHasPreviousPage()}"
+                       th:href="@{/(page=${articles.getPrePage()})}">
+
+                        <span aria-label="Previous" class="newer-posts">
+                            <i class="glyphicon glyphicon-menu-left"></i>
+                        </span>
+                    </a>
+                    <span class="page-number">
+                        第 <span th:text="${articles.getPageNum()}"></span> 页 / 共
+                        <span th:text="${articles.getPages()}"></span>  页</span>
+                    <a class="next" th:href="@{/(page=${articles.getNextPage()})}" href="page/2/index.html"
+                       th:if="${articles.isHasNextPage()}">
+                        <span aria-label="Next" class="older-posts"><i
+                                class="glyphicon glyphicon-menu-right"></i></span>
+                    </a>
+                </nav>
+            </main>
+            <aside class="col-md-4 sidebar">
+                <div th:replace="blog/_fragments :: aside">
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<div class="copyright" th:replace="blog/_fragments :: footer">
+</div>
+
+<a id="back-to-top"><i class="glyphicon glyphicon-menu-up"></i></a>
+<!--/*/<th:block th:replace="blog/_fragments :: script">/*/-->
+<!--/*/</th:block>/*/-->
+<script src="https://codehimblog.github.io/jquery.prettytag/js/jquery.prettytag.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".cloud-tags").prettyTag();
+    });
+</script>
+</body>
+</html>

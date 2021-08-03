@@ -79,4 +79,8 @@
         where article.category_id=category.id
         group by category.id;
     </select>
+    <select id="selectByFirst" resultType="java.lang.Integer">
+        select id
+        from category limit 1
+    </select>
 </mapper>

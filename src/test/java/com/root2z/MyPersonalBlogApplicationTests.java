@@ -1,6 +1,6 @@
 package com.root2z;
 
-import com.root2z.service.MessageService;
+import com.root2z.dao.ArticleMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,10 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class MyPersonalBlogApplicationTests {
 
-  @Autowired private MessageService messageService;
+  @Autowired private ArticleMapper articleMapper;
 
   @Test
   void contextLoads() {
-    System.out.println(messageService.listMessage());
+    System.out.println(articleMapper.selectAllCategoryId(21));
   }
 }

@@ -68,8 +68,17 @@ public interface ArticleMapper {
 
   /**
    * 根据年份查找对应的文章
+   *
    * @param year
    * @return
    */
   List<Article> findByYear(@Param("year") String year);
+
+  /**
+   * 根据分类ID查询所有文章
+   *
+   * @param categoryId
+   * @return
+   */
+  List<Article> selectAllCategoryId(Integer categoryId);
 }

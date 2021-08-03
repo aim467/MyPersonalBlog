@@ -55,4 +55,10 @@ public interface CategoryService {
   List<Category> getAllCategories();
 
   List<Category> getCategoryCount();
+
+  /**
+   * 获得第一条记录的ID
+   * @return
+   */
+  Integer getCategoryId();
 }

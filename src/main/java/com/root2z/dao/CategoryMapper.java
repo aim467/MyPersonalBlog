@@ -48,4 +48,6 @@ public interface CategoryMapper {
    * @return
    */
   List<Category> selectAllAndCount();
+
+  Integer selectByFirst();
 }

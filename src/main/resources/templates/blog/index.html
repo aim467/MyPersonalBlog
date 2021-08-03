@@ -50,7 +50,7 @@
                                 时间：2021年04月05日
                             </time>
                             <span class="author">分类：<a
-                                    th:href="@{/category/{id}(id=${article.category.id})}"
+                                    th:href="@{/category(id=${article.category.id})}"
                                     th:text="${article.category.name}">笔记</a></span>
                         </div>
                         <div class="post-border"></div>
@@ -71,6 +71,7 @@
                                    th:href="@{/article/{id}(id=${article.id})}">继续阅读</a>
                             </div>
                         </footer>
+                    </div>
                 </article>
                 <nav class="pagination" role="navigation">
                     <a class="prev" href="https://www.idzd.top/page/1/" th:if="${articleList.isHasPreviousPage()}"

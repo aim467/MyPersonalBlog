@@ -375,4 +375,11 @@ public class ArticleServiceImpl implements ArticleService {
     }
     return archives;
   }
+
+  @Override
+  public PageInfo<Article> getAllByCategory(Integer categoryId, Integer page, Integer size) {
+    PageHelper.startPage(page, size);
+    List<Article> articles = articleMapper.selectAllCategoryId(categoryId);
+    return new PageInfo<>(articles);
+  }
 }

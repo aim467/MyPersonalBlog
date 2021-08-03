@@ -73,4 +73,14 @@ public interface ArticleService {
    * @return
    */
   Map<String, List<Article>> getArchives();
+
+  /**
+   * 根据对应的分类ID拿到所有的文章数据并且进行分页
+   *
+   * @param categoryId
+   * @param page
+   * @param size
+   * @return
+   */
+  PageInfo<Article> getAllByCategory(Integer categoryId, Integer page, Integer size);
 }
