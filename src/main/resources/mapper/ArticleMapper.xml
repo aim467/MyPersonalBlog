@@ -269,10 +269,25 @@
           and tag.id = article_tag.tag_id
           and article_tag.article_id = article.id;
     </select>
-
     <update id="updateStatusByPrimaryKey">
         update article
         set status=#{status,jdbcType=INTEGER}
         where id = #{articleId,jdbcType=INTEGER}
     </update>
+
+    <select id="findByYear" resultMap="BaseResultMap">
+        select id, title, publish_time, cover
+        from article
+        where date_format(publish_time, '%Y') = #{year}
+          and status = 1
+    </select>
+
+    <select id="getYears" resultType="java.lang.String">
+        select date_format(b.publish_time, '%Y') as year
+        from article b
+        where status=1
+        group by date_format(b.publish_time, '%Y')
+        order by year desc;
+    </select>
+
 </mapper>

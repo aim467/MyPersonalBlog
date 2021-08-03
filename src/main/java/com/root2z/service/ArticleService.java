@@ -7,6 +7,7 @@ import com.root2z.model.vo.FrontArticleVO;
 import com.root2z.model.vo.ResultVO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ArticleService {
 
@@ -65,4 +66,11 @@ public interface ArticleService {
   List<Article> getRecommendArticle(Integer recommendNumber);
 
   Article getArticleById(Integer articleId);
+
+  /**
+   * 获得归档文章
+   *
+   * @return
+   */
+  Map<String, List<Article>> getArchives();
 }

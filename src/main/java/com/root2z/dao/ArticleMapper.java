@@ -57,5 +57,19 @@ public interface ArticleMapper {
    */
   List<Article> selectAllByRecommend(Integer recommendNumber);
 
-    Article selectByArticleId(Integer articleId);
+  Article selectByArticleId(Integer articleId);
+
+  /**
+   * 获得发布文章的年份
+   *
+   * @return
+   */
+  List<String> getYears();
+
+  /**
+   * 根据年份查找对应的文章
+   * @param year
+   * @return
+   */
+  List<Article> findByYear(@Param("year") String year);
 }

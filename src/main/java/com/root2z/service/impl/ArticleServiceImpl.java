@@ -23,9 +23,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -366,5 +364,15 @@ public class ArticleServiceImpl implements ArticleService {
     Article article = articleMapper.selectByArticleId(articleId);
     article.setContent(MDTool.markdown2Html(article.getContent()));
     return article;
+  }
+
+  @Override
+  public Map<String, List<Article>> getArchives() {
+    Map<String, List<Article>> archives = new HashMap<>();
+    List<String> years = articleMapper.getYears();
+    for (String year : years) {
+      archives.put(year, articleMapper.findByYear(year));
+    }
+    return archives;
   }
 }
