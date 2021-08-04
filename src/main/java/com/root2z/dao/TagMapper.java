@@ -68,4 +68,6 @@ public interface TagMapper {
 
   // 统计所有的标签拥有的文章数目
   List<Tag> selectAllByCount();
+
+  Integer selectId();
 }

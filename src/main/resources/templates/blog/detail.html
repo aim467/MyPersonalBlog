@@ -36,7 +36,7 @@
                                   th:text="${#dates.format(currentArticle.publishTime, 'yyyy-MM-dd')}">
                             </time>
                             <span class="author">分类：<a
-                                    th:href="@{/category/{id}(id=${currentArticle.categoryId})}"
+                                    th:href="@{/category(id=${currentArticle.categoryId})}"
                                     th:text="${currentArticle.category.name}">笔记</a></span>
                         </section>
                         <div class="post-border"></div>
@@ -46,7 +46,7 @@
                     <footer class="post-footer clearfix">
                         <div class="pull-left tag-list">
                             <i class="glyphicon glyphicon-folder-open"></i>
-                            <a th:href="@{/tag/{id}(id=${tag.id})}"
+                            <a th:href="@{/tag(id=${tag.id})}"
                                th:each="tag : ${currentArticle.tags}"
                                th:text="${tag.name}">编程</a>
                         </div>

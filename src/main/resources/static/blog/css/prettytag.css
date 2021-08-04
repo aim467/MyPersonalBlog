@@ -1,0 +1,76 @@
+/*  Plugin: prettyTag (Auto Colored Tags)
+ *   Frameworks: jQuery 3.3.1
+ *   Author: Asif Mughal
+ *   GitHub: https://github.com/CodeHimBlog
+ *   URL: https://www.codehim.com
+ *   License: MIT License
+ *   Copyright (c) 2018 - Asif Mughal
+ */
+/* File: prettytag.css*/
+
+/*Style for An Unordered list */
+.cloud-tags{
+    list-style: none;
+    border-bottom: 1px dotted #ccc;
+    padding: 13px;
+}
+
+/* list item into cloud tags */
+.cloud-tags li {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+/* style of tag with anchor link */
+.cloud-tags li a{
+    display: inline-block;
+    padding: 8px;
+    text-shadow: 1px 0.01px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    margin-bottom: 2px;
+    font-size: 12px;
+    text-decoration: none;
+    color: #fff;
+    transition: .2s;
+    outline: 0;
+    margin: 1px;
+}
+
+/* hover looking for cloud tags*/
+.cloud-tags li a:hover{
+    transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    transition: .2s;
+    -webkit-transition: .2s;
+    -moz-transition: .2s;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+}
+
+/*tag close button (for input tagging mode)*/
+.cloud-tags span{
+    padding: 0 5px;
+    cursor: pointer;
+
+}
+/* tag close button hover style */
+.cloud-tags span:hover{
+    background: #f2f2f2;
+}
+
+/* area where new tags show when user enter tag  name into input field*/
+.show-input-tags {
+    position: relative;
+}
+
+/* Input for tags */
+.codehim-input-tags{
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin: 0 10px;
+    width: auto;
+    box-sizing: border-box;
+}

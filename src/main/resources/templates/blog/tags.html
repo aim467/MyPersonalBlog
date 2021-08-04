@@ -1,40 +1,55 @@
 <!DOCTYPE HTML>
 <html class="no-js" lang=zh-cmn-Hans xmlns:th="http://www.thymeleaf.org">
 <head th:replace="blog/_fragments :: head(~{::title})">
-    <title>分类列表</title>
+    <title>标签列表</title>
 </head>
-<link rel="stylesheet" th:href="@{/blog/css/prettytag.css}"/>
+<link th:href="@{/blog/css/tagcloud.css}" rel="stylesheet" type="text/css"/>
+<script id="bfwone" data="dep=jquery.17&err=0" type="text/javascript"
+        th:src="@{/blog/js/bfwone.js}"></script>
+<script src="http://repo.bfw.wiki/bfwrepo/js/tagcloud.js"></script>
+<script type="text/javascript">
+    bready(function () {
+        use(["tagcloud", "tagcloud"], function () {
+            tagcloud({
+                selector: ".tagcloud",
+                fontsize: 14,
+                radius: 80,
+                mspeed: "normal",
+                ispeed: "normal",
+                direction: 180,
+                keep: false
+            });
+        });
+    });
+</script>
 <body class="home-template">
-<!-- start navigation -->
-<nav class="main-navigation" th:replace="blog/_fragments :: navigation('categories')">
+<nav class="main-navigation" th:replace="blog/_fragments :: navigation('tags')">
 </nav>
-<!-- end navigation -->
 
 <section class="content-wrap">
     <div class="container">
         <div class="row">
             <main class="col-md-8 main-content">
-                <div class="cover tag-cover">
-                    <div class="breadcrumb tag-name">
-                        <center>
-                            <ul class="cloud-tags">
-                                <li th:each="category : ${categories}"><a th:href="@{/category(id=${category.id})}"> <i
-                                        class="glyphicon glyphicon-tags"></i>
-                                    [[${category.name}]]
-                                </a></li>
-                            </ul>
-                        </center>
+
+                <!-- 标签云 -->
+                <div class="post" style="background: transparent;">
+                    <div style="height: 50vh;">
+                        <div class="tagcloud" style="visibility: visible;width: 100%;height: 100%;">
+                            <a th:text="${tag.name}" th:href="@{/tag(id=${tag.id})}" th:each="tag : ${tags}"
+                               th:if="${not #lists.isEmpty(tags)}"></a>
+                        </div>
                     </div>
                 </div>
+
                 <article id="2810" class="post" th:each=" article : ${articles.getList()}"
-                         th:if="${articles.list.size() != 0}">
+                         th:if="${not #lists.isEmpty(articles)}">
                     <div class="post-head">
                         <h1 class="post-title"><a th:href="@{/article/{id}(id=${article.id})}"
                                                   th:text="${article.title}"></a>
                         </h1>
                         <div class="post-meta">
                             <span class="author">作者：[[${article.author}]] </span>
-                            <time class="post-date">
+                            <time class="post-date" title="2021年04月05日">
                                 时间：[[${#dates.year(article.publishTime)}]]年[[${#dates.month(article.publishTime)}]]月[[${#dates.day(article.publishTime)}]]日
                             </time>
                             <span class="author">分类：<a th:text="${article.category.name}"
@@ -46,7 +61,7 @@
                         <div>
                             <img th:src="${article.cover}" alt="">
                         </div>
-                        <p style="margin-top: 10px" th:text="${article.introduce}"></p>
+                        <p class="m-tb-10" th:text="${article.introduce}"></p>
                         <footer class="post-footer clearfix">
                             <div class="pull-left tag-list">
                                 <i class="glyphicon glyphicon-folder-open"></i>
@@ -54,22 +69,22 @@
                                    th:text="${tag.name}">JavaScript</a>
                             </div>
                             <div class="pull-right post-permalink">
-                                <a href="archives/2810/index.html#comments" class="btn btn-default"
+                                <a class="btn btn-default"
                                    th:href="@{/article/{id}(id=${article.id})}">继续阅读</a>
                             </div>
                         </footer>
                     </div>
                 </article>
+                <!-- 分页 -->
                 <nav class="pagination" role="navigation">
                     <a class="prev" href="https://www.idzd.top/page/1/" th:if="${articles.isHasPreviousPage()}"
-                       th:href="@{/category(page=${articles.getPrePage()})}">
+                       th:href="@{/tag(page=${articles.getPrePage()})}">
                         <span aria-label="Previous" class="newer-posts">
                             <i class="glyphicon glyphicon-menu-left"></i>
                         </span>
                     </a>
-
                     <span class="page-number">
-                         第 <span th:text="${articles.getPageNum()}"></span> 页 / 共
+                        第 <span th:text="${articles.getPageNum()}"></span> 页 / 共
                         <span th:if="${articles.pages}">
                             <span th:text="${articles.getPages()}"></span> 页
                         </span>
@@ -77,8 +92,7 @@
                             1 页
                         </span>
                     </span>
-
-                    <a class="next" th:href="@{/category(page=${articles.getNextPage()})}" href="page/2/index.html"
+                    <a class="next" th:href="@{/tag(page=${articles.getNextPage()})}"
                        th:if="${articles.isHasNextPage()}">
                         <span aria-label="Next" class="older-posts"><i
                                 class="glyphicon glyphicon-menu-right"></i></span>
@@ -99,11 +113,5 @@
 <a id="back-to-top"><i class="glyphicon glyphicon-menu-up"></i></a>
 <!--/*/<th:block th:replace="blog/_fragments :: script">/*/-->
 <!--/*/</th:block>/*/-->
-<script th:src="@{/blog/js/jquery.prettytag.js}"></script>
-<script>
-    $(document).ready(function () {
-        $(".cloud-tags").prettyTag();
-    });
-</script>
 </body>
 </html>

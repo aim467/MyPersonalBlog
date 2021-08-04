@@ -12,6 +12,8 @@ class MyPersonalBlogApplicationTests {
 
   @Test
   void contextLoads() {
-    System.out.println(articleMapper.selectAllCategoryId(21));
+    System.out.println(articleMapper.selectAllTagId(42));
+    System.out.println("=======");
+    System.out.println(articleMapper.selectAllTagId(47));
   }
 }

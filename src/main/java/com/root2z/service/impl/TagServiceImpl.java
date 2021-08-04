@@ -87,4 +87,9 @@ public class TagServiceImpl implements TagService {
   public List<Tag> getTagCount() {
     return tagMapper.selectAllByCount();
   }
+
+  @Override
+  public Integer getTagId() {
+    return tagMapper.selectId();
+  }
 }

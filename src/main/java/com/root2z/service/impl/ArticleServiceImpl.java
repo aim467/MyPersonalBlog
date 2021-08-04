@@ -382,4 +382,19 @@ public class ArticleServiceImpl implements ArticleService {
     List<Article> articles = articleMapper.selectAllCategoryId(categoryId);
     return new PageInfo<>(articles);
   }
+
+  /**
+   * 根据对应的标签ID拿到对应的文章数据并且进行分页
+   *
+   * @param tagId
+   * @param page
+   * @param size
+   * @return
+   */
+  @Override
+  public PageInfo<Article> getAllByTagId(Integer tagId, Integer page, Integer size) {
+    PageHelper.startPage(page, size);
+    List<Article> articles = articleMapper.selectAllTagId(tagId);
+    return new PageInfo<Article>(articles);
+  }
 }

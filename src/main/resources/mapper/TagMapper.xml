@@ -119,4 +119,8 @@
         where tag.id = article_tag.tag_id
         group by article_tag.tag_id;
     </select>
+    <select id="selectId" resultType="java.lang.Integer">
+        select id
+        from tag limit 1
+    </select>
 </mapper>

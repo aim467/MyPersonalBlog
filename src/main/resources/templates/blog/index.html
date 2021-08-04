@@ -63,7 +63,7 @@
                         <footer class="post-footer clearfix">
                             <div class="pull-left tag-list">
                                 <i class="glyphicon glyphicon-folder-open"></i>
-                                <a th:href="@{/tag/{id}(id=${tag.id})}" th:each="tag : ${article.tags}"
+                                <a th:href="@{/tag(id=${tag.id})}" th:each="tag : ${article.tags}"
                                    th:text="${tag.name}">JavaScript</a>
                             </div>
                             <div class="pull-right post-permalink">

@@ -83,4 +83,14 @@ public interface ArticleService {
    * @return
    */
   PageInfo<Article> getAllByCategory(Integer categoryId, Integer page, Integer size);
+
+  /**
+   * 根据对应的标签ID拿到所有文章的数据并且进行分页
+   *
+   * @param tagId
+   * @param page
+   * @param size
+   * @return
+   */
+  PageInfo<Article> getAllByTagId(Integer tagId, Integer page, Integer size);
 }

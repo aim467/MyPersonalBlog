@@ -81,4 +81,12 @@ public interface ArticleMapper {
    * @return
    */
   List<Article> selectAllCategoryId(Integer categoryId);
+
+  /**
+   * 根据标签ID拿到对应的文章列表
+   *
+   * @param tagId
+   * @return
+   */
+  List<Article> selectAllTagId(Integer tagId);
 }

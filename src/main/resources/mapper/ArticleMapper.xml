@@ -311,5 +311,27 @@
           and status = 1
 
     </select>
+    <select id="selectAllTagId" resultMap="ArticleMap">
+        select distinct article.id,
+                        article.title,
+                        article.publish_time,
+                        article.author,
+                        article.cover,
+                        article.introduce,
+                        article.category_id,
+                        category.id   as cid,
+                        category.name as cname,
+                        tag.id        as tid,
+                        tag.name      as tname
+        from article,
+             category,
+             article_tag,
+             tag
+        where article.category_id = category.id
+          and tag.id = #{tagId}
+          and tag.id = article_tag.tag_id
+          and article_tag.article_id = article.id
+          and status = 1
+    </select>
 
 </mapper>

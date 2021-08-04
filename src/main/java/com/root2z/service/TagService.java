@@ -58,7 +58,10 @@ public interface TagService {
 
   /**
    * 根据文章得到标签统计
+   *
    * @return
    */
   List<Tag> getTagCount();
+
+  Integer getTagId();
 }
