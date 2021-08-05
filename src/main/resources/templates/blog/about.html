@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang=zh-cmn-Hans xmlns:th="http://www.thymeleaf.org">
+<head th:replace="blog/_fragments :: head(~{::title})">
+    <title>关于我</title>
+</head>
+<body class="home-template">
+<!-- start navigation -->
+<nav class="main-navigation" th:replace="blog/_fragments :: navigation('about')">
+</nav>
+<!-- end navigation -->
+
+
+<section class="content-wrap">
+    <div class="container">
+        <div class="row">
+            <main class="col-md-8 main-content">
+                <article id="2" class="post">
+                    <header class="post-head">
+                        <h1 class="post-title">关于我</h1>
+                        <section class="post-meta"></section>
+                        <div class="post-border"></div>
+                    </header>
+
+                    <section class="post-content">
+                        <p><img src="https://buckets-me.oss-cn-beijing.aliyuncs.com/wallhaven-xlg3po.png" title="" alt=""/></p>
+                        <p>本站采用了 <code>SpringBoot</code> + <code>Mybatis</code> 所编写的第一个版本的个人博客，特性如下：</p>
+                        <ul>
+                            <li>使用阿里云 <code>OSS</code> 对象存储来管理静态资源
+                            </li>
+                            <li>基于 <code>EditorMd</code> 的在线 <code>Markdown</code> 编辑器
+                            </li>
+                            <li>可在写博客时实现图片上传到阿里云图床
+                            </li>
+                            <li>后台提供多种样式选择
+                            </li>
+                            <li>...
+                            </li>
+                        </ul>
+
+
+                        <p>对于一个个人博客来说，这个博客的功能还不是非常完善，只是实现了最基础最基础的功能，但是我会继续优化这个博客，争取把这个博客做的更完完美。</p>
+                        <p>本人呢，目前也只是一个 <code>Java/Python</code> 小菜鸡，平时喜欢看看美剧，玩玩单机游戏，也喜欢和人交流技术，欢迎随时来我的小站！</p>
+                    </section>
+                    <footer class="post-footer clearfix"></footer>
+                </article>
+            </main>
+            <aside class="col-md-4 sidebar">
+                <div th:replace="blog/_fragments :: aside">
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<div class="copyright" th:replace="blog/_fragments :: footer">
+</div>
+
+<a id="back-to-top"><i class="glyphicon glyphicon-menu-up"></i></a>
+<!--/*/<th:block th:replace="blog/_fragments :: script">/*/-->
+<!--/*/</th:block>/*/-->
+</html>
