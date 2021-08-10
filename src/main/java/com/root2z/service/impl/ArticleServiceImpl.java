@@ -368,7 +368,7 @@ public class ArticleServiceImpl implements ArticleService {
 
   @Override
   public Map<String, List<Article>> getArchives() {
-    Map<String, List<Article>> archives = new HashMap<>();
+    Map<String, List<Article>> archives = new TreeMap<>();
     List<String> years = articleMapper.getYears();
     for (String year : years) {
       archives.put(year, articleMapper.findByYear(year));

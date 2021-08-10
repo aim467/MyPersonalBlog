@@ -279,6 +279,7 @@
         from article
         where date_format(publish_time, '%Y') = #{year}
           and status = 1
+        order by publish_time
     </select>
 
     <select id="getYears" resultType="java.lang.String">
