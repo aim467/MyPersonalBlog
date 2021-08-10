@@ -5,24 +5,34 @@ import com.root2z.model.entity.Friend;
 import com.root2z.model.vo.ResultVO;
 import com.root2z.service.FriendService;
 import com.root2z.utils.ResultUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminLinkController {
-
-  private final Logger logger = LoggerFactory.getLogger(AdminLinkController.class);
 
   private final FriendService friendService;
 
   @Autowired
   public AdminLinkController(FriendService friendService) {
     this.friendService = friendService;
+  }
+
+  /**
+   * 到达友链管理页面
+   *
+   * @return
+   */
+  @RequestMapping(value = "/link")
+  private String linksPage() {
+    return "admin/link/links";
   }
 
   /**
@@ -33,25 +43,15 @@ public class AdminLinkController {
    * @return mv
    */
   @RequestMapping(value = "/links")
-  public ModelAndView links(
-      @RequestParam(value = "pageNum", defaultValue = "1", required = true) Integer pageNum,
+  @ResponseBody
+  public Map<String, Object> links(
+      @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
       @RequestParam(value = "pageSize", defaultValue = "4", required = false) Integer pageSize) {
-
-    ModelAndView mv = new ModelAndView();
-    mv.setViewName("admin/link/links");
+    Map<String, Object> result = new HashMap<>();
     PageInfo<Friend> pageInfo = friendService.pageQueryFriend(pageNum, pageSize);
-    mv.addObject("friendList", pageInfo);
-    return mv;
-  }
-
-  /**
-   * 添加友链
-   *
-   * @return
-   */
-  @RequestMapping("/links/add")
-  public String addLink() {
-    return "admin/link/add";
+    result.put("rows", pageInfo.getList());
+    result.put("total", pageInfo.getTotal());
+    return result;
   }
 
   @RequestMapping(value = "/links/add", method = RequestMethod.POST)
@@ -61,19 +61,6 @@ public class AdminLinkController {
       return ResultUtil.success("插入友情链接记录成功", null);
     }
     return ResultUtil.error("插入友情链接失败", null);
-  }
-
-  /**
-   * 编辑友链，根据友链ID找到友链记录
-   *
-   * @return String 视图名字
-   */
-  @RequestMapping("/links/edit/{id}")
-  public ModelAndView editLink(@PathVariable("id") Integer id) {
-    ModelAndView mv = new ModelAndView();
-    mv.setViewName("admin/link/edit");
-    mv.addObject("friend", friendService.getFriendById(id));
-    return mv;
   }
 
   /**
@@ -95,12 +82,12 @@ public class AdminLinkController {
    *
    * @return 地址
    */
-  @RequestMapping("/links/delete/{id}")
-  public ModelAndView deleteLink(@PathVariable("id") Integer id) {
-    ModelAndView mv = new ModelAndView();
+  @RequestMapping(value = "/links/delete/{id}", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultVO deleteLink(@PathVariable("id") Integer id) {
     if (friendService.deleteFriendById(id)) {
-      mv.setViewName("redirect:/admin/links");
+      return ResultUtil.success("删除成功!", null);
     }
-    return mv;
+    return ResultUtil.error("删除失败!", null);
   }
 }

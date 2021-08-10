@@ -32,56 +32,167 @@
                         <div class="card">
                             <div class="card-body">
 
-                                <a th:href="@{/admin/links/add}"
-                                   class="btn btn-sm btn-round btn-brown m-b-15">添加新友链</a>
+                                <!-- 工具条 -->
+                                <div id="toolbox" class="row">
+                                    <div class="col-md-3 m-b-10">
+                                        <button class="btn btn-sm btn-round btn-cyan" id="addButton" data-toggle="modal"
+                                                data-target="#addFriendModal">
+                                            新增友链
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                                <!-- 模态框（Modal） -->
+                                <div class="modal fade" id="addFriendModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="addFriendModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">
+                                                    &times;
+                                                </button>
+                                                <h4 class="modal-title" id="addFriendModalLabel">
+                                                    新增友链
+                                                </h4>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <form id="addFriendForm">
+                                                        <div class="form-group">
+                                                            <label for="name" class="col-sm-3 control-label">名字</label>
+                                                            <div class="col-sm-7">
+                                                                <input type="text" class="form-control" name="name">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="avatar"
+                                                                   class="col-sm-3 control-label">头像</label>
+                                                            <div class="col-sm-7">
+                                                                <input type="text" class="form-control" name="avatar">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="url" class="col-sm-3 control-label">链接</label>
+                                                            <div class="col-sm-7">
+                                                                <input type="text" class="form-control" name="url">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="description"
+                                                                   class="col-sm-3 control-label">描述</label>
+                                                            <div class="col-sm-7">
+                                                                <input type="text" class="form-control"
+                                                                       name="description">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <div class="row">
+                                                    <button type="button" class="btn btn-dark"
+                                                            data-dismiss="modal">关闭
+                                                    </button>
+                                                    <button type="button" id="addFriend"
+                                                            class="btn btn-primary">
+                                                        提交更改
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+
+                                <!-- 模态框（Modal） -->
+                                <div class="modal fade" id="editFriendModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="editFriendModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">
+                                                    &times;
+                                                </button>
+                                                <h4 class="modal-title" id="editFriendModalLabel">
+                                                    编辑友链
+                                                </h4>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <form id="editFriendForm" class="site-form">
+                                                        <!--
+                                                        隐藏域
+                                                        -->
+                                                        <input type="hidden" name="id" id="id">
+
+                                                        <div class="form-group">
+                                                            <label for="name" class="col-sm-3 control-label">名字</label>
+                                                            <div class="col-sm-7">
+                                                                <input type="text" class="form-control" name="name"
+                                                                       id="name">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="avatar"
+                                                                   class="col-sm-3 control-label">头像</label>
+                                                            <div class="col-sm-7">
+                                                                <input type="text" class="form-control" name="avatar"
+                                                                       id="avatar">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="url" class="col-sm-3 control-label">链接</label>
+                                                            <div class="col-sm-7">
+                                                                <input type="text" class="form-control" name="url"
+                                                                       id="url">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="description"
+                                                                   class="col-sm-3 control-label">描述</label>
+                                                            <div class="col-sm-7">
+                                                                <input type="text" class="form-control"
+                                                                       name="description"
+                                                                       id="description">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <div class="row">
+                                                    <button type="button" class="btn btn-dark"
+                                                            data-dismiss="modal">关闭
+                                                    </button>
+                                                    <button type="button" id="editFriend"
+                                                            class="btn btn-primary">
+                                                        提交更改
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
 
                                 <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                        <tr>
-                                            <th class="col-sm-1">编号</th>
-                                            <th class="col-sm-1">名字</th>
-                                            <th class="col-sm-3">链接</th>
-                                            <th class="col-sm-1">头像</th>
-                                            <th>描述</th>
-                                            <th class="col-sm-2">操作</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr th:each="friend: ${friendList.list}">
-                                            <td th:text="${friend.id}" class="col-sm-1">1</td>
-                                            <td th:text="${friend.name}" class="col-sm-1">第01章 天涯思君不可忘</td>
-                                            <td class="col-sm-3">
-                                                <a th:href="${friend.url}" th:text="${friend.url}"></a>
-                                            </td>
-                                            <td class="col-sm-1">
-                                                <img th:src="${friend.avatar}" class="img-avatar">
-                                            </td>
-                                            <td th:text="${friend.description}">36</td>
-                                            <td class="col-sm-2">
-                                                <a href="#" th:href="@{/admin/links/edit/{id}(id=${friend.id})}"
-                                                   class="btn btn-sm btn-round btn-primary m-r-5">编辑</a>
-                                                <a href="#" class="btn btn-sm btn-round btn-danger"
-                                                   th:href="@{/admin/links/delete/{id}(id=${friend.id})}">删除</a>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                    <table id="friendTable"></table>
                                 </div>
-                                <ul class="pagination">
-                                    <li>
-                                        <a th:href="@{/admin/links(pageNum=${friendList.navigateFirstPage})}">首页</a>
-                                    </li>
-
-                                    <li th:each="page: ${friendList.navigatepageNums}" class=""
-                                        th:class="${page ==  friendList.pageNum} ? 'active' : '' ">
-                                        <a th:href="@{/admin/links(pageNum=${page})}" th:text="${page}"></a>
-                                    </li>
-                                    <li>
-                                        <a th:href="@{/admin/links(pageNum=${friendList.navigateLastPage})}">尾页</a>
-                                    </li>
-                                </ul>
-
                             </div>
                         </div>
                     </div>
@@ -96,5 +207,160 @@
 </div>
 <!--/*/<th:block th:replace="admin/_fragments :: adminScript">/*/-->
 <!--/*/</th:block>/*/-->
+<script type="text/javascript" th:inline="javascript">
+    let contextPath = [[${#httpServletRequest.getContextPath()}]];
+    let $table = $('#friendTable');
+
+    $table.bootstrapTable({
+        url: contextPath + "/admin/links", // 请求地址
+        method: 'GET',
+        striped: true,
+        pagination: true,
+        singleSelect: true,
+        clickToSelect: true,
+        pageSize: 3,
+        pageNumber: 1,
+        pageList: [5, 10, 15],
+        sidePagination: "server",
+        idField: 'id',
+        locale: 'zh_CN',
+        sortOrder: "asc",
+        uniqueId: "id",
+        // 设置自定义查询参数
+        queryParams: function (params) {
+            return {
+                // 说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
+                pageNum: (params.offset / params.limit) + 1,
+                pageSize: params.limit
+            };
+        },
+        // 定义列
+        columns: [{checkbox: true}, {
+            field: 'id',
+            title: 'id',
+            sortable: true,
+        }, {
+            field: 'name',
+            title: '名字',
+            sortable: true,
+        }, {
+            field: 'avatar',
+            title: '头像',
+            sortable: true,
+            formatter: function (value) {
+                return "<img src=" + value + " style='width:70px;height=70px;' />"
+            }
+        }, {
+            field: 'description',
+            title: '描述',
+            sortable: true,
+        }, {
+            field: "id",
+            title: "操作",
+            width: 600,
+            align: "center",
+            // formatter为格式化表格事件
+            formatter: actionFormatter
+        }]
+    });
+
+    // 操作栏的格式化
+    function actionFormatter(value) {
+        let id = value;
+        let result = "";
+        result += "<a onclick=\"EditViewById('" + id + "')\" class='btn btn-sm btn-round btn-brown m-r-5 m-b-5' title='编辑'><span>编辑</span></a>";
+        result += "<a href='javascript:;' class='btn btn-sm btn-round btn-danger m-r-5 m-b-5' onclick=\"DeleteByIds('" + id + "')\" title='删除'><span>删除</span></a>";
+        return result;
+    }
+
+
+    $('#addFriend').click(function () {
+        let data = $('#addFriendForm').serialize();
+        $.ajax({
+            url: contextPath + '/admin/links/add',
+            data: data,
+            method: 'POST',
+            success: function (data) {
+                if (data.code === 200) {
+                    Swal.fire({
+                        title: data.message,
+                        icon: "success"
+                    })
+                    // 关闭模态框
+                    $('#addFriendModal').modal('hide');
+                    // 清除数据
+                    $('#addFriendForm').trigger('reset');
+                    // 刷新表格
+                    $('#friendTable').bootstrapTable('refresh');
+
+                } else {
+                    Swal.fire({
+                        title: data.message,
+                        icon: "error"
+                    })
+                    $('#addFriendForm').trigger('reset');
+                }
+            }
+        });
+    });
+
+    function EditViewById(id) {
+        // 根据唯一的行列哪值
+        let record = $('#friendTable').bootstrapTable('getRowByUniqueId', id);
+        $('#id').val(record.id);
+        $('#name').val(record.name);
+        $('#avatar').val(record.avatar);
+        $('#url').val(record.url);
+        $('#description').val(record.description);
+
+        console.log(record);
+
+        $('#editFriendModal').modal('show');
+
+        $('#editFriend').click(function () {
+            $.ajax({
+                url: contextPath + "/admin/links/update",
+                method: "POST",
+                data: $('#editFriendForm').serialize(),
+                success: function (data) {
+                    if (data.code === 200) {
+                        Swal.fire({
+                            title: data.message,
+                            icon: "success"
+                        })
+                        $('#friendTable').bootstrapTable('refresh');
+                        $('editFriendForm').trigger('reset');
+                        $('#editFriendModal').modal('hide');
+                    } else {
+                        Swal.fire({
+                            title: data.message,
+                            icon: "error"
+                        })
+                    }
+                }
+            })
+        });
+    }
+
+
+    // 根据ID删除对应的记录
+    function DeleteByIds(id) {
+        $.ajax({
+            url: contextPath + "/admin/links/delete/" + id,
+            method: "POST",
+            success: function (data) {
+                if (data.code === 200) {
+                    Swal.fire({
+                        title: data.message,
+                        icon: "success"
+                    })
+                    // 刷新表格
+                    $('#friendTable').bootstrapTable('refresh');
+                }
+            }
+        })
+    }
+
+</script>
 </body>
 </html>

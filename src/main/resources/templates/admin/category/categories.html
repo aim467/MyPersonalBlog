@@ -198,7 +198,6 @@
     function EditViewById(id, view) {
         // 根据唯一的行列哪值
         let record = $('#categoryTable').bootstrapTable('getRowByUniqueId', id);
-        console.log(record);
         $('#editId').val(record.id);
         $('#editName').val(record.name);
         $('#editCategory').modal('show');
