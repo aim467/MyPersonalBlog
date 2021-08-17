@@ -3,12 +3,14 @@ package com.root2z.model.entity;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Message {
+public class Message implements Serializable {
+  private static final long serialVersionUID = 6941012284195164911L;
   private Integer id;
 
   @NotNull(message = "昵称不能为空")

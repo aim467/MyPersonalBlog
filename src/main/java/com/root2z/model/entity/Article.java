@@ -1,9 +1,11 @@
 package com.root2z.model.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Article {
+public class Article implements Serializable {
+  private static final long serialVersionUID = 2879955794019075487L;
   private Integer id;
 
   private String title;
@@ -33,7 +35,6 @@ public class Article {
 
   /** 非数据库字段，文章标签集合 */
   private List<Tag> tags;
-
 
   public Category getCategory() {
     return category;
@@ -149,21 +150,40 @@ public class Article {
 
   @Override
   public String toString() {
-    return "Article{" +
-            "id=" + id +
-            ", title='" + title + '\'' +
-            ", cover='" + cover + '\'' +
-            ", introduce='" + introduce + '\'' +
-            ", author='" + author + '\'' +
-            ", publishTime=" + publishTime +
-            ", updateTime=" + updateTime +
-            ", status=" + status +
-            ", content='" + content + '\'' +
-            ", isTop=" + isTop +
-            ", isRecommend=" + isRecommend +
-            ", categoryId=" + categoryId +
-            ", category=" + category +
-            ", tags=" + tags +
-            '}';
+    return "Article{"
+        + "id="
+        + id
+        + ", title='"
+        + title
+        + '\''
+        + ", cover='"
+        + cover
+        + '\''
+        + ", introduce='"
+        + introduce
+        + '\''
+        + ", author='"
+        + author
+        + '\''
+        + ", publishTime="
+        + publishTime
+        + ", updateTime="
+        + updateTime
+        + ", status="
+        + status
+        + ", content='"
+        + content
+        + '\''
+        + ", isTop="
+        + isTop
+        + ", isRecommend="
+        + isRecommend
+        + ", categoryId="
+        + categoryId
+        + ", category="
+        + category
+        + ", tags="
+        + tags
+        + '}';
   }
 }

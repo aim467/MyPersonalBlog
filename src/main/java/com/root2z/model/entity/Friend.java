@@ -1,6 +1,9 @@
 package com.root2z.model.entity;
 
-public class Friend {
+import java.io.Serializable;
+
+public class Friend implements Serializable {
+    private static final long serialVersionUID = 9036213971111499566L;
     private Integer id;
 
     private String name;

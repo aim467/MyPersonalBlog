@@ -1,6 +1,9 @@
 package com.root2z.model.entity;
 
-public class Tag {
+import java.io.Serializable;
+
+public class Tag implements Serializable {
+  private static final long serialVersionUID = -6003587943012655792L;
   private Integer id;
 
   private String name;
@@ -34,10 +37,6 @@ public class Tag {
 
   @Override
   public String toString() {
-    return "Tag{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            ", count=" + count +
-            '}';
+    return "Tag{" + "id=" + id + ", name='" + name + '\'' + ", count=" + count + '}';
   }
 }

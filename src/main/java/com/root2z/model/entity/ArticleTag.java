@@ -1,6 +1,10 @@
 package com.root2z.model.entity;
 
-public class ArticleTag {
+import java.io.Serializable;
+
+public class ArticleTag implements Serializable {
+
+  private static final long serialVersionUID = 7867207432205480286L;
 
   public ArticleTag() {}
 

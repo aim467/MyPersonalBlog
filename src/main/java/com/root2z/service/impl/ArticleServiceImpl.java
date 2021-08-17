@@ -38,8 +38,6 @@ public class ArticleServiceImpl implements ArticleService {
 
   private final TagMapper tagMapper;
 
-  private final ArticleCategoryMapper articleCategoryMapper;
-
   private final ArticleTagMapper articleTagMapper;
 
   private final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
@@ -50,13 +48,11 @@ public class ArticleServiceImpl implements ArticleService {
       CategoryMapper categoryMapper,
       TagMapper tagMapper,
       HttpServletRequest request,
-      ArticleCategoryMapper articleCategoryMapper,
       ArticleTagMapper articleTagMapper) {
     this.articleMapper = articleMapper;
     this.tagMapper = tagMapper;
     this.categoryMapper = categoryMapper;
     this.request = request;
-    this.articleCategoryMapper = articleCategoryMapper;
     this.articleTagMapper = articleTagMapper;
   }
 

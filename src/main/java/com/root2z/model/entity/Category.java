@@ -1,6 +1,9 @@
 package com.root2z.model.entity;
 
-public class Category {
+import java.io.Serializable;
+
+public class Category implements Serializable {
+  private static final long serialVersionUID = 4696385418894355876L;
   private Integer id;
 
   private String name;

@@ -1,8 +1,12 @@
 package com.root2z.model.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Admin {
+public class Admin implements Serializable {
+
+  private static final long serialVersionUID = -388293204730444162L;
+
   private Integer id;
 
   private String nickname;

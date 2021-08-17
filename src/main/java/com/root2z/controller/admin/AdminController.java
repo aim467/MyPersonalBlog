@@ -63,7 +63,6 @@ public class AdminController extends BaseController {
   @ResponseBody
   public ResultVO updatePassword(@Validated PasswordVO passwordVO, BindingResult result) {
     if (result.hasErrors()) {
-      result.getAllErrors().stream().forEach(System.out::println);
       return ResultUtil.error("数据有误!", null);
     }
     return adminService.updatePassword(passwordVO, session);
@@ -86,7 +85,6 @@ public class AdminController extends BaseController {
   @RequestMapping(value = "/profile", method = RequestMethod.POST)
   @ResponseBody
   public ResultVO updateProfile(AdminVO adminVO) {
-    System.out.println(adminVO);
     int result = adminService.updateAdmin(adminVO);
     if (result == 0) {
       return ResultUtil.error(400, "更新失败");
