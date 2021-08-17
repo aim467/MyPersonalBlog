@@ -10,7 +10,7 @@ public class LoginUserVO {
   private String username;
 
   @NotNull(message = "密码不能为空")
-  @Size(min = 3, max = 10, message = "密码在3-10个字符内!")
+  @Size(min = 8, max = 20, message = "密码在8-20个字符内!")
   private String password;
 
   @NotNull(message = "验证码不能为空")

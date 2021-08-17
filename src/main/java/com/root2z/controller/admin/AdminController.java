@@ -3,6 +3,7 @@ package com.root2z.controller.admin;
 import com.root2z.controller.BaseController;
 import com.root2z.model.vo.AdminVO;
 import com.root2z.model.vo.LoginUserVO;
+import com.root2z.model.vo.PasswordVO;
 import com.root2z.model.vo.ResultVO;
 import com.root2z.utils.FileUtils;
 import com.root2z.utils.ResultUtil;
@@ -60,23 +61,12 @@ public class AdminController extends BaseController {
 
   @RequestMapping(value = "/password", method = RequestMethod.POST)
   @ResponseBody
-  public ResultVO updatePassword(
-      @RequestParam("newPassword") String newPassword,
-      @RequestParam("ReNewPassword") String reNewPassword,
-      @RequestParam("oldPassword") String oldPassword) {
-    if (newPassword.equals("") || reNewPassword.equals("") || oldPassword.equals("")) {
-      return ResultUtil.error(400, "没有填写数据");
-    } else if (newPassword != reNewPassword) {
-      return ResultUtil.error(400, "密码不一致");
+  public ResultVO updatePassword(@Validated PasswordVO passwordVO, BindingResult result) {
+    if (result.hasErrors()) {
+      result.getAllErrors().stream().forEach(System.out::println);
+      return ResultUtil.error("数据有误!", null);
     }
-
-    String loginUser = (String) session.getAttribute("loginUser");
-
-    int result = adminService.updatePassword(reNewPassword, loginUser);
-    if (result == 0) {
-      return ResultUtil.error(400, "更新失败");
-    }
-    return ResultUtil.success("更新成功", "");
+    return adminService.updatePassword(passwordVO, session);
   }
 
   @RequestMapping("/profile")
@@ -120,7 +110,7 @@ public class AdminController extends BaseController {
     String fileType = file.getContentType();
 
     // 判断文件类型
-    if (fileType.equals("image/jpeg")
+    if (fileType.equals("image/jpg")
         || fileType.equals("image/png")
         || fileType.equals("image/jpeg")) {
 

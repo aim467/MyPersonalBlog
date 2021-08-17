@@ -13,7 +13,7 @@ public interface AdminMapper {
 
   int insertSelective(Admin record);
 
-  AdminVO selectByUserName(String loginUser);
+  Admin selectByUserName(String loginUser);
 
   int updateByPrimaryKeySelective(Admin record);
 

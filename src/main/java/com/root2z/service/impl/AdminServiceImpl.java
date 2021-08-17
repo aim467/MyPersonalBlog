@@ -4,12 +4,14 @@ import com.root2z.dao.AdminMapper;
 import com.root2z.model.entity.Admin;
 import com.root2z.model.vo.AdminVO;
 import com.root2z.model.vo.LoginUserVO;
+import com.root2z.model.vo.PasswordVO;
 import com.root2z.model.vo.ResultVO;
 import com.root2z.service.AdminService;
 import com.root2z.service.LogService;
 import com.root2z.utils.IPUtils;
 import com.root2z.utils.MD5Utils;
 import com.root2z.utils.ResultUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -88,14 +90,29 @@ public class AdminServiceImpl implements AdminService {
   }
 
   @Override
-  public int updatePassword(String RewNewPassword, String username) {
-    String ReNewPasswordHash = MD5Utils.MD5Encode(RewNewPassword, "");
-    return adminMapper.updateByUserName(ReNewPasswordHash, username);
+  public ResultVO updatePassword(PasswordVO passwordVO, HttpSession session) {
+    String loginUser = (String) session.getAttribute("loginUser");
+    String oldPassword = MD5Utils.MD5Encode(passwordVO.getOldPassword(), "");
+    Admin admin = adminMapper.selectByUserNameAndPassword(loginUser, oldPassword);
+    if (admin == null) {
+      return ResultUtil.error("旧密码有误!", null);
+    }
+    if (!passwordVO.getNewPassword().equals(passwordVO.getReNewPassword())) {
+      return ResultUtil.error("重复新密码与新密码不一致!", null);
+    }
+    String reNewPassword = MD5Utils.MD5Encode(passwordVO.getReNewPassword(), "");
+    if (adminMapper.updateByUserName(reNewPassword, loginUser) == 1) {
+      return ResultUtil.success("密码更新成功!", null);
+    }
+    return ResultUtil.error("密码更新失败", null);
   }
 
   @Override
   public AdminVO getCurrentUser(String loginUser) {
-    return adminMapper.selectByUserName(loginUser);
+    AdminVO adminVO = new AdminVO();
+    Admin admin = adminMapper.selectByUserName(loginUser);
+    BeanUtils.copyProperties(admin, adminVO);
+    return adminVO;
   }
 
   /**

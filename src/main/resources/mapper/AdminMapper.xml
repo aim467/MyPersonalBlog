@@ -17,7 +17,7 @@
         id
         , nickname, avatar, username, password, email, intro, create_time, update_time, status
     </sql>
-    <select id="selectByUserName" parameterType="java.lang.String" resultType="com.root2z.model.vo.AdminVO">
+    <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
         select id,
                nickname,
                username,

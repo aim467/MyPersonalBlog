@@ -3,6 +3,7 @@ package com.root2z.service;
 import com.root2z.model.entity.Admin;
 import com.root2z.model.vo.AdminVO;
 import com.root2z.model.vo.LoginUserVO;
+import com.root2z.model.vo.PasswordVO;
 import com.root2z.model.vo.ResultVO;
 import org.springframework.validation.BindingResult;
 
@@ -28,11 +29,9 @@ public interface AdminService {
   /**
    * 根据用户名更新密码
    *
-   * @param ReNewPassword
-   * @param username
    * @return
    */
-  int updatePassword(String ReNewPassword, String username);
+  ResultVO updatePassword(PasswordVO passwordVO, HttpSession session);
 
   /**
    * 获取当前用户

@@ -31,10 +31,8 @@
                         <div class="card">
                             <div class="card-body">
 
-                                <form method="post" class="site-form" id="passwordForm">
-
+                                <form method="post" id="passwordForm">
                                     <div class="row">
-
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="old-password">旧密码</label>
@@ -43,7 +41,9 @@
                                                        placeholder="输入账号的原登录密码">
                                             </div>
                                         </div>
+                                    </div>
 
+                                    <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="new-password">新密码</label>
@@ -52,18 +52,17 @@
                                                        placeholder="输入新的密码">
                                             </div>
                                         </div>
+                                    </div>
 
+                                    <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="confirm-password">确认新密码</label>
-                                                <input type="password" class="form-control" name="ReNewPassword"
+                                                <input type="password" class="form-control" name="reNewPassword"
                                                        id="confirm-password" placeholder="请再次输入密码">
                                             </div>
                                         </div>
-
                                     </div>
-
-
                                     <button type="button" class="btn btn-primary" id="update">修改密码</button>
                                 </form>
 
@@ -82,34 +81,93 @@
 <!--/*/<th:block th:replace="admin/_fragments :: adminScript">/*/-->
 <!--/*/</th:block>/*/-->
 <script th:inline="javascript" type="text/javascript">
-    let contextPath = [[${#httpServletRequest.getContextPath()}]];
-    $('#update').click(function () {
-        $.ajax({
-            async: true,
-            type: "POST",
-            url: contextPath + "/admin/password",
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            data: $('#passwordForm').serialize(),
-            success: function (data) {
-                if (data.code === 200) {
-                    Swal.fire({
-                        title: data.message,
-                        icon: 'success'
-                    });
-                    setTimeout(function () {
-                    }, 1000);
-                    window.location.href = contextPath + "/admin/logout";
-                } else {
-                    Swal.fire({
-                        title: data.message,
-                        icon: 'error'
-                    });
-                    $('#passwordForm').trigger("reset");
+
+    $(function () {
+        $('#passwordForm').bootstrapValidator({
+            message: '数据不合法',
+            fields: {
+                oldPassword: {
+                    validators: {
+                        notEmpty: {
+                            message: "旧密码不能为空"
+                        }
+                    }
+                },
+                newPassword: {
+                    validators: {
+                        notEmpty: {
+                            message: "密码不能为空"
+                        },
+                        stringLength: {
+                            min: 8,
+                            max: 20,
+                            message: "密码长度在8-20之间"
+                        }, identical: {
+                            field: 'reNewPassword',
+                            message: '两次输入密码不一致'
+                        }, regexp: {
+                            regexp: '^(?![a-zA-Z]+$)(?![a-z0-9]+$)(?![A-Z0-9]+$)(?![A-Z\W_]+$)(?![a-z\W_]+$)(?![0-9\W_]+$)[a-zA-Z0-9~!@#$%^&*()_+?/]{8,12}$',
+                            message: '至少包含三种：大写字母、小写字母、数字、特殊字符(~!@#$%^&*()_+?/)'
+                        },
+                    }
+                }, reNewPassword: {
+                    validators: {
+                        notEmpty: {
+                            message: "重复新密码不能为空"
+                        },
+                        stringLength: {
+                            min: 8,
+                            max: 20,
+                            message: "长度在8-20位之间"
+                        }, identical: {
+                            field: 'newPassword',
+                            message: '两次输入密码不一致'
+                        }, regexp: {
+                            regexp: '^(?![a-zA-Z]+$)(?![a-z0-9]+$)(?![A-Z0-9]+$)(?![A-Z\W_]+$)(?![a-z\W_]+$)(?![0-9\W_]+$)[a-zA-Z0-9~!@#$%^&*()_+?/]{8,12}$',
+                            message: '至少包含三种：大写字母、小写字母、数字、特殊字符(~!@#$%^&*()_+?/)'
+                        },
+                    }
                 }
             }
-
-        })
+        });
     });
+
+
+    let contextPath = [[${#httpServletRequest.getContextPath()}]];
+    $('#update').click(function () {
+        let form = $('#passwordForm');
+        form.data("bootstrapValidator").resetForm();
+        form.data("bootstrapValidator").validate();
+        form.bootstrapValidator('validate');
+        if (form.data('bootstrapValidator').isValid()) {
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: contextPath + "/admin/password",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                data: form.serialize(),
+                success: function (data) {
+                    if (data.code === 200) {
+                        Swal.fire({
+                            title: data.message,
+                            icon: 'success'
+                        });
+                        setTimeout(function () {
+                        }, 3000);
+                        window.location.href = contextPath + "/admin/logout";
+                    } else {
+                        Swal.fire({
+                            title: data.message,
+                            icon: 'error'
+                        });
+                        $('#passwordForm').trigger("reset");
+                    }
+                }
+            });
+        }
+    });
+
+
 </script>
 </body>
 </html>
