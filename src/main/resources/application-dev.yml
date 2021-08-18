@@ -18,6 +18,23 @@ spring:
       test-on-return: false
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,wall,slf4j
+      filter:
+        stat:
+          merge-sql: true
+          slow-sql-millis: 5000
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        session-stat-enable: true
+        session-stat-max-count: 100
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: true
+        login-password:
+        login-username:
   thymeleaf:
     cache: false
   devtools:
@@ -34,8 +51,13 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.root2z.model.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 pagehelper:
   helper-dialect: mysql
   reasonable: true
   support-methods-arguments: true
+
+server:
+  port: 9090
