@@ -41,7 +41,36 @@
 
 ![](docs/backadmin.png)
 
-## 如何使用
+## 如何运行
 
-请在 `application.dev.yml` 中配置数据库信息，数据库脚本已经导入 `docs` 文件夹，在 `admin` 表内创建一个帐号，记得密码使用 `MD5Utils` 类加密；最后在 `application.yml`
+### 本地运行
+
+请在 `application-prod.yml` 中完善数据库信息，并且设置 `application.yml` 中的 `active` 属性为 `prod`。数据库脚本和数据脚本已经导入 `docs`
+文件夹，在本地的数据库中导入建表文件和数据之后，最后在 `application.yml`
 中配置阿里云OSS配置属性，然后就可以运行了。
+
+管理后台地址为：[http://localhost:8080/admin/login](http://localhost:8080/admin/login) 。 帐号：admin，密码：qwerty123_
+
+### `docker` 中部署
+
+首先执行当前目录下的 `install-mysql.sh`，有几个变量可以自定义，详细注释已经写在 `install-mysql.sh` 内，请自行查看。执行完 `install-mysql.sh` 脚本后，执行下面的命令，用于导入建表脚本和数据脚本到上面创建的容器。注意 `-i` 参数后面的名字是容器名字，要和你创建的容器名字相对应。
+
+```shell
+docker exec -i blog-mysql mysql -uroot -p123456 blog < ./docs/schema.sql
+docker exec -i blog-mysql mysql -uroot -p123456 blog < ./docs/data.sql
+```
+
+修改 `resources/application-docker.yml` ，配置正确的数据库连接并且在 `application.yml` 中设置 `active` 属性为 `docker`，同时配置 `application.yml` 中的阿里云 OSS 属性，最后执行下面命令。
+
+```shell
+# 确保 target 文件夹被清空
+mvn clean 
+
+# 发布 jar 包
+mvn package
+
+# 构建镜像
+docker build -t blog:v1 .
+```
+
+最终，执行 `docker run -p 9090:9090 --name blog --link blog-mysql:mysql5.6 -d blog:v1` 运行，打开浏览器输入 [http://127.0.0.1:9090](http://127.0.0.1:9090) 即可看到效果。

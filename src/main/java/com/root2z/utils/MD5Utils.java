@@ -55,7 +55,7 @@ public class MD5Utils {
   };
 
   public static void main(String[] args) {
-    String pass = MD5Utils.MD5Encode("456", "");
+    String pass = MD5Utils.MD5Encode("qwerty123_", "");
     System.out.println(pass);
   }
 }
