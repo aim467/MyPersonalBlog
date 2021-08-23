@@ -2,7 +2,8 @@ package com.root2z.utils;
 
 import com.root2z.model.vo.ResultVO;
 
-/** 通用返回结果工具类 */
+/** 通用返回结果工具类
+ * @author root2z */
 public class ResultUtil {
 
   public static ResultVO success(Object object) {

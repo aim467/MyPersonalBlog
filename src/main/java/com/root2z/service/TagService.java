@@ -21,7 +21,7 @@ public interface TagService {
    * @param pageSize
    * @return
    */
-  PageInfo<Tag> PageQueryTag(int pageNum, int pageSize);
+  PageInfo<Tag> pageQueryTag(int pageNum, int pageSize);
 
   /**
    * 根据ID删除标签
@@ -31,12 +31,10 @@ public interface TagService {
    */
   boolean deleteTag(Integer id);
 
-  Tag getTagById(Integer id);
-
   /**
    * 添加一个tag
    *
-   * @param name
+   * @param name 标签名字
    * @return
    */
   boolean addTag(String name);

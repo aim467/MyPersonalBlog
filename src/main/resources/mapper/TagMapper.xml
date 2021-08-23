@@ -116,8 +116,8 @@
     <select id="selectAllByCount" resultType="com.root2z.model.entity.Tag">
         select tag.id, tag.name, count(article_tag.tag_id) as count
         from tag,
-            article_tag
-        where tag.id = article_tag.tag_id
+            article_tag, article
+        where tag.id = article_tag.tag_id and article.id = article_tag.article_id and article.status=1
         group by article_tag.tag_id;
     </select>
     <select id="selectId" resultType="java.lang.Integer">

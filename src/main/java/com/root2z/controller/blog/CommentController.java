@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.List;
 
+/** @author root2z */
 @Controller
 @RequestMapping(value = "/comment")
 public class CommentController {

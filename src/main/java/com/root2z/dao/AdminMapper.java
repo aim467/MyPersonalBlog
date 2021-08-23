@@ -2,8 +2,8 @@ package com.root2z.dao;
 
 import com.root2z.model.entity.Admin;
 import com.root2z.model.vo.AdminVO;
-import io.lettuce.core.dynamic.annotation.Param;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface AdminMapper {
@@ -37,12 +37,11 @@ public interface AdminMapper {
   /**
    * 根据用户ID更新密码
    *
-   * @param ReNewPassword
-   * @param username
-   * @return
+   * @param reNewPassword 新密码
+   * @param username 用户名
    */
   int updateByUserName(
-      @Param("ReNewPassword") String ReNewPassword, @Param("username") String username);
+      @Param("ReNewPassword") String reNewPassword, @Param("username") String username);
 
   /**
    * 更新用户信息

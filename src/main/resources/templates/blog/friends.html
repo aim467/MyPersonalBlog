@@ -49,7 +49,7 @@
                             <!-- 头像 -->
                             <div class="col-lg-4 col-md-4 col-sm-2 col-xs-3 avatar">
                                 <a href="" th:href="${friend.url}">
-                                    <img th:src="@{${friend.getAvatar()}}"  alt="">
+                                    <img th:src="@{${friend.getAvatar()}}" alt="">
                                 </a>
                             </div>
                             <!-- 右侧部分 -->
@@ -154,7 +154,6 @@
                                 </div>
                                 <p>
                                     <button type="button" class="submit btn btn-lg" id="submit">提交评论</button>
-                                    <span style="color: #f4645f;margin: 10px;">* 人工审核评论，通过后即可正常显示。</span>
                                 </p>
                             </form>
                         </div>

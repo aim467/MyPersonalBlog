@@ -1,7 +1,6 @@
 package com.root2z.controller.blog;
 
 import com.github.pagehelper.PageInfo;
-import com.google.gson.JsonElement;
 import com.root2z.controller.BaseController;
 import com.root2z.model.entity.Article;
 import com.root2z.model.entity.Category;
@@ -14,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
+/** @author root2z */
 @Controller
 @RequestMapping(value = "/category")
 public class CategoryController extends BaseController {

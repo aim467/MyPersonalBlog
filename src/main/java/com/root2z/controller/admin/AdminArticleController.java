@@ -32,8 +32,6 @@ public class AdminArticleController {
 
   @Resource private AliyunOSSUtil aliyunOSSUtil;
 
-  private final Logger logger = LoggerFactory.getLogger(AdminArticleController.class);
-
   private final CategoryService categoryService;
 
   private final ArticleService articleService;
@@ -113,7 +111,9 @@ public class AdminArticleController {
     // 遍历选中的标签名字，设置selected
     for (String tagName : articleVO.getTags()) {
       for (TagVO tagVO : tagVOS) {
-        if (tagVO.getName().equals(tagName)) tagVO.setSelected(true);
+        if (tagVO.getName().equals(tagName)) {
+          tagVO.setSelected(true);
+        }
       }
     }
     mv.addObject("tagVOS", tagVOS);
@@ -165,7 +165,7 @@ public class AdminArticleController {
 
   @RequestMapping(value = "/article/upload", method = RequestMethod.POST)
   @ResponseBody
-  public ResultVO MarkdownUploadImage(@RequestParam("editormd-image-file") MultipartFile file) {
+  public ResultVO markdownUploadImage(@RequestParam("editormd-image-file") MultipartFile file) {
     String url = aliyunOSSUtil.uploadFile(file, "");
     if (url != null) {
       return ResultUtil.success("图片上传成功", url);

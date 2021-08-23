@@ -77,7 +77,7 @@
     <select id="selectAllAndCount" resultType="com.root2z.model.entity.Category">
         select category.id, name, count(name) as count
         from category, article
-        where article.category_id=category.id
+        where article.category_id=category.id and article.status=1
         group by category.id;
     </select>
     <select id="selectByFirst" resultType="java.lang.Integer">

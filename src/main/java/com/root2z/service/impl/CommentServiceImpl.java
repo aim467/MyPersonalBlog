@@ -10,21 +10,26 @@ import com.root2z.service.CommentService;
 import com.root2z.utils.RandomAvatar;
 import com.root2z.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/** @author root2z */
 @Service
 public class CommentServiceImpl implements CommentService {
+
+  @Autowired private RedisTemplate redisTemplate;
 
   /** 保存要被删除的留言ID集合 */
   private List<Integer> commentIds = new ArrayList<>();
 
   private final CommentMapper commentMapper;
 
-  // 存放迭代找出的所有子代的集合
+  /** 存放迭代找出的所有子代的集合 */
   private List<Comment> tempReplys = new ArrayList<>();
 
   @Autowired
@@ -34,9 +39,6 @@ public class CommentServiceImpl implements CommentService {
 
   /**
    * @Description: 查询评论 <br>
-   * @Auther: ONESTAR <br>
-   * @Date: 17:26 2020/4/14 <br>
-   * @Param: <br>
    * @Return: 评论消息 <br>
    */
   @Override
@@ -108,6 +110,7 @@ public class CommentServiceImpl implements CommentService {
 
   @Override
   public boolean replyComment(Comment comment) {
+    redisTemplate.delete("newsComment");
     comment.setAvatar(BlogConst.avatar);
     comment.setEmail(BlogConst.email);
     return commentMapper.insertSelective(comment) > 0;
@@ -120,6 +123,7 @@ public class CommentServiceImpl implements CommentService {
    */
   @Override
   public boolean deleteComment(Integer commentId) {
+    redisTemplate.delete("newsComment");
     // 先加上自己的ID
     commentIds.add(commentId);
     // 传入自己的ID，作为子评论的parent_id，查询数据
@@ -127,6 +131,12 @@ public class CommentServiceImpl implements CommentService {
     return commentMapper.deleteAllByIds(commentIds) > 0;
   }
 
+  /**
+   * 循环删除子评论
+   *
+   * @param Id
+   * @return
+   */
   private boolean recursionDelete(Integer Id) {
     // 先拿到第一个评论的子评论
     List<Comment> comments = commentMapper.findAllById(Id);
@@ -144,19 +154,34 @@ public class CommentServiceImpl implements CommentService {
 
   @Override
   public List<Comment> getNewComments(Integer limit) {
-    return commentMapper.selectAllBySorted(limit);
+    List<Comment> newsCommentCache = (List<Comment>) redisTemplate.opsForValue().get("newsComment");
+    if (newsCommentCache == null | StringUtils.isEmpty(newsCommentCache)) {
+      List<Comment> comments = commentMapper.selectAllBySorted(limit);
+      redisTemplate.opsForValue().set("newsComment", comments);
+      return comments;
+    }
+    return newsCommentCache;
   }
 
+  /**
+   * 保存评论
+   *
+   * @param comment 评论对象
+   * @return
+   */
   @Override
   public ResultVO saveComment(Comment comment) {
-    if (comment.getAvatar().equals("")) {
+    redisTemplate.delete("newsComment");
+    String emptyAvatar = "";
+    if (emptyAvatar.equals(comment.getAvatar())) {
       try {
         comment.setAvatar(RandomAvatar.getBase64Avatar());
       } catch (IOException e) {
         e.printStackTrace();
       }
     }
-    if (comment.getCommentator().equals("") || comment.getContent().equals("")) {
+
+    if (emptyAvatar.equals(comment.getCommentator()) || emptyAvatar.equals(comment.getContent())) {
       return ResultUtil.error("请填写正确的昵称和内容", null);
     }
 

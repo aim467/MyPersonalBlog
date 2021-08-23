@@ -2,30 +2,33 @@ package com.root2z.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.root2z.dao.ArticleTagMapper;
 import com.root2z.dao.TagMapper;
-import com.root2z.model.entity.ArticleTag;
 import com.root2z.model.entity.Tag;
 import com.root2z.service.TagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+/** @author root2z */
 @Service
 public class TagServiceImpl implements TagService {
+  private final RedisTemplate redisTemplate;
 
   private final Logger logger = LoggerFactory.getLogger(TagServiceImpl.class);
 
   private final TagMapper tagMapper;
 
   @Autowired
-  public TagServiceImpl(TagMapper tagMapper) {
+  public TagServiceImpl(TagMapper tagMapper, RedisTemplate redisTemplate) {
     this.tagMapper = tagMapper;
+    this.redisTemplate = redisTemplate;
   }
 
   @Override
@@ -36,19 +39,19 @@ public class TagServiceImpl implements TagService {
   /**
    * 实现标签分页
    *
-   * @param pageNum
-   * @param pageSize
-   * @return
+   * @param pageNum 页码
+   * @param pageSize 页大小
+   * @return 分页结果
    */
   @Override
-  public PageInfo<Tag> PageQueryTag(int pageNum, int pageSize) {
+  public PageInfo<Tag> pageQueryTag(int pageNum, int pageSize) {
     PageHelper.startPage(pageNum, pageSize);
     List<Tag> tagList = tagMapper.findAll();
-    return new PageInfo<Tag>(tagList);
+    return new PageInfo<>(tagList);
   }
 
   @Override
-  @Transactional
+  @Transactional(rollbackFor = Exception.class)
   public boolean deleteTag(Integer id) {
     try {
       return tagMapper.deleteTagAndArticleTagById(id) > 0;
@@ -58,12 +61,8 @@ public class TagServiceImpl implements TagService {
   }
 
   @Override
-  public Tag getTagById(Integer id) {
-    return null;
-  }
-
-  @Override
   public boolean addTag(String name) {
+    redisTemplate.delete("tagCount");
     try {
       int result = tagMapper.insert(name);
       return result == 1;
@@ -75,6 +74,7 @@ public class TagServiceImpl implements TagService {
 
   @Override
   public boolean updateTag(Tag tag) {
+    redisTemplate.delete("tagCount");
     return tagMapper.updateByPrimaryKeySelective(tag) == 1;
   }
 
@@ -83,9 +83,20 @@ public class TagServiceImpl implements TagService {
     return tagMapper.findAll();
   }
 
+  /**
+   * 根据每个标签统计文章数量
+   *
+   * @return 统计结果
+   */
   @Override
   public List<Tag> getTagCount() {
-    return tagMapper.selectAllByCount();
+    List<Tag> tagCount = (List<Tag>) redisTemplate.opsForValue().get("tagCount");
+    if (tagCount == null || StringUtils.isEmpty(tagCount)) {
+      List<Tag> tagList = tagMapper.selectAllByCount();
+      redisTemplate.opsForValue().set("tagCount", tagList);
+      return tagList;
+    }
+    return tagCount;
   }
 
   @Override

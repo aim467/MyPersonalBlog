@@ -37,7 +37,7 @@ public class AdminTagController {
   public Map<String, Object> getTagList(
       @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
       @RequestParam(value = "pageSize", defaultValue = "3", required = false) Integer pageSize) {
-    PageInfo<Tag> tagList = tagService.PageQueryTag(pageNum, pageSize);
+    PageInfo<Tag> tagList = tagService.pageQueryTag(pageNum, pageSize);
 
     Map<String, Object> result = new HashMap();
     result.put("total", tagList.getTotal());

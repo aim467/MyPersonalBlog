@@ -2,20 +2,23 @@ package com.root2z.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.root2z.dao.*;
-import com.root2z.model.entity.*;
+import com.root2z.dao.ArticleMapper;
+import com.root2z.dao.ArticleTagMapper;
+import com.root2z.dao.CategoryMapper;
+import com.root2z.dao.TagMapper;
+import com.root2z.model.entity.Article;
+import com.root2z.model.entity.ArticleTag;
+import com.root2z.model.entity.Tag;
 import com.root2z.model.vo.ArticleVO;
-import com.root2z.model.vo.FrontArticleVO;
 import com.root2z.model.vo.ResultVO;
 import com.root2z.service.ArticleService;
 import com.root2z.utils.AliyunOSSUtil;
 import com.root2z.utils.BlogUtils;
 import com.root2z.utils.ResultUtil;
 import com.youbenzi.mdtool.tool.MDTool;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -25,33 +28,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
+/** @author root2z */
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
   @Resource private AliyunOSSUtil aliyunOSSUtil;
 
+  @Autowired private RedisTemplate redisTemplate;
+
+  @Autowired private CategoryMapper categoryMapper;
+
+  @Autowired private TagMapper tagMapper;
+
   private final HttpServletRequest request;
 
   private final ArticleMapper articleMapper;
 
-  private final CategoryMapper categoryMapper;
-
-  private final TagMapper tagMapper;
-
   private final ArticleTagMapper articleTagMapper;
-
-  private final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
   @Autowired
   public ArticleServiceImpl(
-      ArticleMapper articleMapper,
-      CategoryMapper categoryMapper,
-      TagMapper tagMapper,
-      HttpServletRequest request,
-      ArticleTagMapper articleTagMapper) {
+      ArticleMapper articleMapper, HttpServletRequest request, ArticleTagMapper articleTagMapper) {
     this.articleMapper = articleMapper;
-    this.tagMapper = tagMapper;
-    this.categoryMapper = categoryMapper;
     this.request = request;
     this.articleTagMapper = articleTagMapper;
   }
@@ -70,6 +68,8 @@ public class ArticleServiceImpl implements ArticleService {
   @Override
   @Transactional
   public ResultVO addArticle(ArticleVO articleVO) {
+    // 清空Redis缓存
+    cleanCache();
 
     if (articleVO.getCategoryId() == null) {
       return ResultUtil.error("未选择分类，请至少选择一个分类!", null);
@@ -165,6 +165,8 @@ public class ArticleServiceImpl implements ArticleService {
   @Override
   @Transactional
   public boolean deleteArticle(Integer articleId) {
+    // 清空Redis缓存
+    cleanCache();
     // 删除文章表
     if (articleMapper.deleteByPrimaryKey(articleId) == 0) {
       return false;
@@ -197,6 +199,8 @@ public class ArticleServiceImpl implements ArticleService {
   @Override
   @Transactional
   public ResultVO editArticle(ArticleVO articleVO) {
+    // 清空Redis缓存
+    cleanCache();
     if (articleVO.getCategoryId() == null) {
       return ResultUtil.error("未选择分类，请至少选择一个分类!", null);
     }
@@ -300,7 +304,7 @@ public class ArticleServiceImpl implements ArticleService {
   public PageInfo<Article> pageQuery(Integer pageNum, Integer pageSize) {
     PageHelper.startPage(pageNum, pageSize);
     List<Article> articles = articleMapper.findAll();
-    return new PageInfo<Article>(articles);
+    return new PageInfo<>(articles);
   }
 
   /**
@@ -312,6 +316,9 @@ public class ArticleServiceImpl implements ArticleService {
    */
   @Override
   public boolean updateArticleStatus(Integer articleId, Integer status) {
+    // 清除缓存
+    cleanCache();
+    redisTemplate.delete("newsComment");
     return articleMapper.updateStatusByPrimaryKey(articleId, status) == 1;
   }
 
@@ -347,12 +354,24 @@ public class ArticleServiceImpl implements ArticleService {
       List<Tag> tags = tagMapper.selectAllByArticleId(article.getId());
       article.setTags(tags);
     }
-    return new PageInfo<Article>(articles);
+    return new PageInfo<>(articles);
   }
-
+  /**
+   * 获取指定的推荐文章数量
+   *
+   * @param recommendNumber 指定要显示的推荐文章数量
+   * @return 返回的结果集合
+   */
   @Override
   public List<Article> getRecommendArticle(Integer recommendNumber) {
-    return articleMapper.selectAllByRecommend(recommendNumber);
+    List<Article> recommendArticleCache =
+        (List<Article>) redisTemplate.opsForValue().get("recommendArticle");
+    if (recommendArticleCache == null || StringUtils.isEmpty(recommendArticleCache)) {
+      List<Article> articleList = articleMapper.selectAllByRecommend(recommendNumber);
+      redisTemplate.opsForValue().set("recommendArticle", articleList);
+      return articleList;
+    }
+    return recommendArticleCache;
   }
 
   @Override
@@ -382,15 +401,22 @@ public class ArticleServiceImpl implements ArticleService {
   /**
    * 根据对应的标签ID拿到对应的文章数据并且进行分页
    *
-   * @param tagId
-   * @param page
-   * @param size
-   * @return
+   * @param tagId 标签ID
+   * @param page 页码
+   * @param size 页面大小
+   * @return 分页结果集
    */
   @Override
   public PageInfo<Article> getAllByTagId(Integer tagId, Integer page, Integer size) {
     PageHelper.startPage(page, size);
     List<Article> articles = articleMapper.selectAllTagId(tagId);
-    return new PageInfo<Article>(articles);
+    return new PageInfo<>(articles);
+  }
+
+  /** 清除缓存 */
+  private void cleanCache() {
+    redisTemplate.delete("categoryCount");
+    redisTemplate.delete("tagCount");
+    redisTemplate.delete("recommendArticle");
   }
 }

@@ -2,24 +2,23 @@ package com.root2z.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.root2z.dao.AdminMapper;
 import com.root2z.dao.CategoryMapper;
 import com.root2z.model.entity.Category;
 import com.root2z.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+/** @author root2z */
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-  private final CategoryMapper categoryMapper;
+  @Autowired private CategoryMapper categoryMapper;
 
-  @Autowired
-  public CategoryServiceImpl(CategoryMapper categoryMapper) {
-    this.categoryMapper = categoryMapper;
-  }
+  @Autowired private RedisTemplate redisTemplate;
 
   @Override
   public int countCategory() {
@@ -37,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
   public PageInfo<Category> pageQueryCategory(int pageNum, int pageSize) {
     PageHelper.startPage(pageNum, pageSize);
     List<Category> categories = categoryMapper.findAll();
-    return new PageInfo<Category>(categories);
+    return new PageInfo<>(categories);
   }
 
   /**
@@ -48,6 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
    */
   @Override
   public boolean addCategory(Category category) {
+    redisTemplate.delete("categoryCount");
     return categoryMapper.insert(category) == 1;
   }
 
@@ -59,6 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
    */
   @Override
   public boolean deleteCategoryById(Integer id) {
+    redisTemplate.delete("categoryCount");
     return categoryMapper.deleteByPrimaryKey(id) == 1;
   }
 
@@ -70,6 +71,7 @@ public class CategoryServiceImpl implements CategoryService {
    */
   @Override
   public boolean updateCategoryById(Category category) {
+    redisTemplate.delete("categoryCount");
     return categoryMapper.updateByPrimaryKey(category) == 1;
   }
 
@@ -78,14 +80,16 @@ public class CategoryServiceImpl implements CategoryService {
     return categoryMapper.findAll();
   }
 
-  /**
-   * 根据博客统计分类数
-   *
-   * @return
-   */
+  /** 根据博客统计分类数 */
   @Override
   public List<Category> getCategoryCount() {
-    return categoryMapper.selectAllAndCount();
+    List<Category> categories = (List<Category>) redisTemplate.opsForValue().get("categoryCount");
+    // 如果没从缓存中读到
+    if (categories == null || StringUtils.isEmpty(categories)) {
+      List<Category> categoryList = categoryMapper.selectAllAndCount();
+      redisTemplate.opsForValue().set("categoryCount", categoryList);
+    }
+    return categories;
   }
 
   @Override

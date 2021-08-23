@@ -165,14 +165,11 @@
     </delete>
 
     <select id="selectAllBySorted" resultMap="BaseResultMap">
-        select id,
-               commentator,
-               content,
-               create_time,
-               article_id
+        select id, commentator, content, create_time
         from comment
-        where is_active = 1
-        order by id limit #{limit}
+        where comment.article_id in (select id from article where article.status = 1)
+          and is_active = 1
+        order by create_time desc limit #{limit};
     </select>
 
     <!--查询父级评论-->
