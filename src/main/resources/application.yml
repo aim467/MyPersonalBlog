@@ -9,3 +9,13 @@ aliyun:
   endpoint:
   accessKeyId:
   accessKeySecret:
+
+
+# 多环境日志配置
+logging:
+  config: classpath:log/logback-${spring.profiles.active}.xml
+
+# 自定义日志属性
+logback:
+  logdir: /root/blogLog
+  appname: blog
