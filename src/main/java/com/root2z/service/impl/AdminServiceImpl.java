@@ -13,6 +13,7 @@ import com.root2z.utils.MD5Utils;
 import com.root2z.utils.ResultUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -46,19 +48,16 @@ public class AdminServiceImpl implements AdminService {
       BindingResult result,
       HttpSession session,
       HttpServletRequest request) {
-    List<String> errorMessage = new ArrayList<>();
+
+    List<String> errorMessage;
 
     if (result.hasErrors()) {
-      result
-          .getFieldErrors()
-          .forEach(
-              error -> {
-                errorMessage.add(error.getDefaultMessage());
-              });
+      errorMessage = result
+              .getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
       return ResultUtil.error("", errorMessage);
     }
 
-    String verifyCode = session.getAttribute("verifyCode") + "";
+    String verifyCode = session.getAttribute("captcha") + "";
     if (!loginUserVO.getVerifyCode().equals(verifyCode)) {
       return ResultUtil.error(400, "验证码错误");
     }
@@ -118,7 +117,7 @@ public class AdminServiceImpl implements AdminService {
   /**
    * 更新当前管理员信息
    *
-   * @param adminVO
+   * @param adminVO 用户视图类
    * @return
    */
   @Override

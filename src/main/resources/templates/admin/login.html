@@ -125,7 +125,7 @@
                                style="color: white">
                     </div>
                     <div class="col-xs-5">
-                        <img th:src="@{/defaultKaptcha}" class="pull-right" id="captcha" style="cursor: pointer;"
+                        <img th:src="@{/captcha}" class="pull-right" id="captcha" style="cursor: pointer;"
                              title="点击刷新" alt="captcha">
                     </div>
                 </div>
@@ -179,8 +179,8 @@
                             message: "验证码不能为空"
                         },
                         stringLength: {
-                            min: 4,
-                            max: 4,
+                            min: 5,
+                            max: 5,
                             message: "长度在4位"
                         }
                     }
@@ -191,7 +191,7 @@
     });
 
     $("#captcha").click(function () {
-        this.src = contextPath + "/defaultKaptcha?d" + new Date() * 1;
+        this.src = contextPath + "/captcha?d" + new Date() * 1;
     });
 
     /**
