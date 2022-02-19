@@ -12,7 +12,7 @@
     <artifactId>MyPersonalBlog</artifactId>
     <version>0.1</version>
     <name>MyPersonalBlog</name>
-    <description>Demo project for Spring Boot</description>
+    <description>a personal blog by Spring Boot</description>
     <properties>
         <java.version>11</java.version>
         <skipTests>true</skipTests>
@@ -21,40 +21,47 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.1.10</version>
+            <version>1.2.8</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.1.4</version>
+            <version>2.2.2</version>
         </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.16</version>
+            <version>8.0.28</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.amqp</groupId>
             <artifactId>spring-rabbit-test</artifactId>
@@ -73,16 +80,19 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!-- 分页助手 -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>1.2.11</version>
+            <version>1.4.1</version>
         </dependency>
 
+        <!-- http请求 -->
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>4.9.0</version>
+            <version>4.9.3</version>
         </dependency>
 
         <dependency>
@@ -93,7 +103,7 @@
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
-            <version>3.10.2</version>
+            <version>3.14.0</version>
         </dependency>
         <dependency>
             <groupId>com.youbenzi</groupId>
@@ -101,15 +111,17 @@
             <version>1.2.4</version>
         </dependency>
 
+        <!-- 防止XSS攻击-->
         <dependency>
             <groupId>net.dreamlu</groupId>
             <artifactId>mica-core</artifactId>
-            <version>2.0.9-GA</version>
+            <version>2.6.3</version>
         </dependency>
+
         <dependency>
             <groupId>net.dreamlu</groupId>
             <artifactId>mica-xss</artifactId>
-            <version>2.0.9-GA</version>
+            <version>2.6.3</version>
         </dependency>
 
         <dependency>
@@ -121,7 +133,7 @@
         <dependency>
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
-            <version>1.20</version>
+            <version>1.21</version>
         </dependency>
     </dependencies>
 
